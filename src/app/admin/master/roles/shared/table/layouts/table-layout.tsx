@@ -34,7 +34,7 @@ export default function TableLayout({
             </Button>
           </Link>
 
-          <Button className="flex gap-3 bg-green-600 py-6">
+          <Button className="flex gap-3 bg-green-600 py-6 hover:bg-green-700">
             <TfiReload />
             Refresh Page
           </Button>
