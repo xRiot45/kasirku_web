@@ -21,7 +21,7 @@ export default function TableLayout({
 }: React.PropsWithChildren<TableLayoutProps>) {
   return (
     <div className="mt-6">
-      <PageHeader {...props} className="flex flex-col md:flex-row">
+      <PageHeader {...props} className="flex flex-col @md:flex-row">
         <Flex
           direction="col"
           justify="end"
