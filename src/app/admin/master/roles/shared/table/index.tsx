@@ -6,37 +6,53 @@ import { useTanStackTable } from '@/components/table/custom/use-TanStack-Table';
 import TablePagination from '@/components/table/pagination';
 import { TableClassNameProps } from '@/components/table/table-types';
 import cn from '@/utils/class-names';
-import { FaPlus } from 'react-icons/fa';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { TfiReload } from 'react-icons/tfi';
-import { Button, Flex, Input, Title } from 'rizzui';
-import { productsListColumns } from './partials/columns';
-import Link from 'next/link';
+import { Flex, Input, Title } from 'rizzui';
+import { RoleRespone } from '../../core/_models';
+import { roleListColumns } from './partials/columns';
 
-export default function RolesTable({
-  dataRole,
-  pageSize = 5,
-  classNames = {
-    container: 'border border-muted rounded-md',
-    rowClassName: 'last:border-0',
-  },
-  paginationClassName,
-}: {
-  dataRole: any[];
+interface TableProps {
+  dataRole: RoleRespone[];
   pageSize?: number;
+  totalItems?: number;
+  totalPages?: number;
+  hasNextPage?: boolean;
+  hasPreviousPage?: boolean;
+  nextPage?: number | null;
+  previousPage?: number | null;
+  currentPage?: number | undefined;
   hideFilters?: boolean;
   hidePagination?: boolean;
   hideFooter?: boolean;
   classNames?: TableClassNameProps;
   paginationClassName?: string;
-}) {
+}
+
+export default function RolesTable(props: TableProps) {
+  const {
+    dataRole,
+    pageSize,
+    totalItems,
+    totalPages,
+    currentPage,
+    hasNextPage,
+    hasPreviousPage,
+    nextPage,
+    previousPage,
+    classNames = {
+      container: 'border border-muted rounded-md',
+      rowClassName: 'last:border-0',
+    },
+    paginationClassName,
+  } = props;
+
   const { table, setData } = useTanStackTable<any>({
     tableData: dataRole,
-    columnConfig: productsListColumns,
+    columnConfig: roleListColumns,
     options: {
       initialState: {
         pagination: {
-          pageIndex: 0,
+          pageIndex: currentPage ? currentPage - 1 : 0,
           pageSize: pageSize,
         },
       },
@@ -76,6 +92,13 @@ export default function RolesTable({
         <Table table={table} variant="modern" classNames={classNames} />
         <TablePagination
           table={table}
+          totalItems={totalItems}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          hasNextPage={hasNextPage}
+          hasPreviousPage={hasPreviousPage}
+          nextPage={nextPage}
+          previousPage={previousPage}
           className={cn('py-4', paginationClassName)}
         />
       </WidgetCard>

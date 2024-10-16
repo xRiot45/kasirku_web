@@ -10,7 +10,7 @@ import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
 
 const columnHelper = createColumnHelper<any>();
 
-export const productsListColumns = [
+export const roleListColumns = [
   columnHelper.display({
     id: 'role_name',
     size: 150,

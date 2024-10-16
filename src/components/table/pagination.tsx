@@ -1,42 +1,68 @@
-import { type Table as ReactTableType } from "@tanstack/react-table";
-import { ActionIcon, Box, Flex, Grid, Select, SelectOption, Text } from "rizzui";
+import { type Table as ReactTableType } from '@tanstack/react-table';
+import {
+  ActionIcon,
+  Box,
+  Flex,
+  Grid,
+  Select,
+  SelectOption,
+  Text,
+} from 'rizzui';
 import {
   PiCaretLeftBold,
   PiCaretRightBold,
   PiCaretDoubleLeftBold,
   PiCaretDoubleRightBold,
-} from "react-icons/pi";
-import cn from "@/utils/class-names";
+} from 'react-icons/pi';
+import cn from '@/utils/class-names';
+import { RoleRespone } from '@/app/admin/master/roles/core/_models';
 
-const options = [
-  { value: 5, label: "5" },
-  { value: 10, label: "10" },
-  { value: 15, label: "15" },
-  { value: 20, label: "20" },
-  { value: 25, label: "25" },
-];
-
-export default function TablePagination<TData extends Record<string, any>>({
-  table,
-  showSelectedCount = false,
-  className,
-}: {
+interface PaginationProps<TData> {
   table: ReactTableType<TData>;
   showSelectedCount?: boolean;
   className?: string;
-}) {
+  totalItems?: number;
+  totalPages?: number;
+  currentPage?: number;
+  hasNextPage?: boolean;
+  hasPreviousPage?: boolean;
+  nextPage?: number | null;
+  previousPage?: number | null;
+}
+
+const options = [
+  { value: 5, label: '5' },
+  { value: 10, label: '10' },
+  { value: 15, label: '15' },
+  { value: 20, label: '20' },
+  { value: 25, label: '25' },
+];
+
+export default function TablePagination(props: PaginationProps<any>) {
+  const {
+    table,
+    showSelectedCount = false,
+    className,
+    totalItems,
+    totalPages,
+    currentPage,
+    hasNextPage,
+    hasPreviousPage,
+    nextPage,
+    previousPage,
+  } = props;
+
   return (
     <Flex
       gap="6"
       align="center"
       justify="between"
-      className={cn("@container", className)}
+      className={cn('@container', className)}
     >
-      <Flex
-        align="center"
-        className="w-auto shrink-0"
-      >
-        <Text className="hidden font-normal text-gray-600 @md:block">Rows per page</Text>
+      <Flex align="center" className="w-auto shrink-0">
+        <Text className="hidden font-normal text-gray-600 @md:block">
+          Rows per page
+        </Text>
         <Select
           size="sm"
           variant="flat"
@@ -51,66 +77,75 @@ export default function TablePagination<TData extends Record<string, any>>({
           optionClassName="font-medium text-xs px-2 justify-center"
         />
       </Flex>
+
+      <Flex align="center" className="w-auto shrink-0">
+        <Text className="hidden font-normal text-gray-600 @md:block">
+          Display {table.getRowCount()} of {totalItems}
+        </Text>
+      </Flex>
+
       {showSelectedCount && (
-        <Box className="hidden @2xl:block w-full">
+        <Box className="hidden w-full @2xl:block">
           <Text>
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredSelectedRowModel().rows.length} of{' '}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </Text>
         </Box>
       )}
-      <Flex
-        justify="end"
-        align="center"
-      >
+
+      <Flex justify="end" align="center">
         <Text className="hidden font-normal text-gray-600 @3xl:block">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount().toLocaleString()}
+          Page {currentPage} of {totalPages}{' '}
         </Text>
-        <Grid
-          gap="2"
-          columns="4"
-        >
+
+        <Grid gap="2" columns="4">
           <ActionIcon
             size="sm"
             rounded="lg"
             variant="outline"
             aria-label="Go to first page"
-            onClick={() => table.firstPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => table.setPageIndex(0)}
+            disabled={!hasPreviousPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
           >
             <PiCaretDoubleLeftBold className="size-3.5" />
           </ActionIcon>
+
           <ActionIcon
             size="sm"
             rounded="lg"
             variant="outline"
             aria-label="Go to previous page"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => table.setPageIndex(previousPage || 0)}
+            disabled={!hasPreviousPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
           >
             <PiCaretLeftBold className="size-3.5" />
           </ActionIcon>
+
           <ActionIcon
             size="sm"
             rounded="lg"
             variant="outline"
             aria-label="Go to next page"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() =>
+              table.setPageIndex((pageIndex: number) => nextPage || pageIndex)
+            }
+            disabled={!hasNextPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
           >
             <PiCaretRightBold className="size-3.5" />
           </ActionIcon>
+
           <ActionIcon
             size="sm"
             rounded="lg"
             variant="outline"
             aria-label="Go to last page"
-            onClick={() => table.lastPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() =>
+              table.setPageIndex(totalPages !== undefined ? totalPages - 1 : 0)
+            }
+            disabled={!hasNextPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
           >
             <PiCaretDoubleRightBold className="size-3.5" />
