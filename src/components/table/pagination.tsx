@@ -79,8 +79,8 @@ export default function TablePagination(props: PaginationProps<any>) {
       </Flex>
 
       <Flex align="center" className="w-auto shrink-0">
-        <Text className="hidden font-normal text-gray-600 @md:block">
-          Display {table.getRowCount()} of {totalItems}
+        <Text className="block font-normal text-gray-600">
+          Displaying {table.getRowCount()} of {totalItems} items
         </Text>
       </Flex>
 

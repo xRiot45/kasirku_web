@@ -21,20 +21,24 @@ export default function TableLayout({
 }: React.PropsWithChildren<TableLayoutProps>) {
   return (
     <div className="mt-6">
-      <PageHeader {...props}>
+      <PageHeader {...props} className="flex flex-col md:flex-row">
         <Flex
           direction="col"
           justify="end"
-          className="mb-4 w-auto xs:flex-row xs:items-center"
+          className="my-4 w-full xs:items-center md:w-auto md:flex-row"
         >
-          <Link href={'/admin/master/roles/add-role'} replace={true}>
-            <Button className="flex gap-3 py-6">
+          <Link
+            href={'/admin/master/roles/add-role'}
+            replace={true}
+            className="w-full md:w-auto"
+          >
+            <Button className="flex w-full gap-3 py-6 md:w-auto">
               <FaPlus />
               Add Role
             </Button>
           </Link>
 
-          <Button className="flex gap-3 bg-green-600 py-6 hover:bg-green-700">
+          <Button className="flex w-full gap-3 bg-green-600 py-6 hover:bg-green-700 md:w-auto">
             <TfiReload />
             Refresh Page
           </Button>
