@@ -42,6 +42,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.7",
     "@uploadthing/react": "^7.0.3",
+    "ahooks": "^3.8.1",
     "axios": "^1.7.7",
     "clsx": "^2.1.1",
     "core": "workspace:*",

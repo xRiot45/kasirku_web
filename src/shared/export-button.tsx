@@ -2,8 +2,8 @@
 
 import { PiArrowLineUpBold } from 'react-icons/pi';
 import { Button } from 'rizzui';
-import cn from '@core/utils/class-names';
-import { exportToCSV } from '@core/utils/export-to-csv';
+import cn from '@/utils/class-names';
+import { exportToCSV } from '@/utils/export-to-csv';
 
 type ExportButtonProps = {
   data: unknown[];
