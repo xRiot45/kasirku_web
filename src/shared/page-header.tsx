@@ -1,6 +1,6 @@
 import { Title } from 'rizzui';
 import cn from '@/utils/class-names';
-import Breadcrumb from '@/ui/breadcrumb';
+import Breadcrumb from '@/components/ui/breadcrumb';
 
 export type PageHeaderTypes = {
   title: string;
@@ -26,8 +26,8 @@ export default function PageHeader({
           </Title>
 
           <Breadcrumb
-            separator=""
-            separatorVariant="circle"
+            separator="/"
+            separatorVariant="default"
             className="flex-wrap"
           >
             {breadcrumb.map((item) => (
