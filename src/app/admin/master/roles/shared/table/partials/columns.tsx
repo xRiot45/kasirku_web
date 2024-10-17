@@ -32,7 +32,7 @@ export const roleListColumns = [
     }) => (
       <Flex align="center" justify="end" gap="3" className="pe-4">
         <Tooltip size="sm" content={'Edit Role'} placement="top" color="invert">
-          <Link href={routes.roles.roleDetail(row.original.id)}>
+          <Link href={routes.roles.editRole(row.original.id)}>
             <ActionIcon
               as="span"
               size="sm"
