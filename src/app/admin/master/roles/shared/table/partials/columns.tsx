@@ -7,8 +7,9 @@ import { routes } from '@/config/routes';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
+import { RoleType } from '../../../core/_models';
 
-const columnHelper = createColumnHelper<any>();
+const columnHelper = createColumnHelper<RoleType>();
 
 export const roleListColumns = [
   columnHelper.display({
