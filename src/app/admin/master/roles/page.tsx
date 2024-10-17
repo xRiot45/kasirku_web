@@ -3,7 +3,6 @@
 import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-layout';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { Text } from 'rizzui';
 import { deleteRole, getAllRoles } from './shared/core/_requests';
 import RolesTable from './shared/table';
 
@@ -51,9 +50,7 @@ export default function RolesPage() {
   const mutation = useMutation({
     mutationFn: (id: string) => deleteRole(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] }).then(() => {
-        queryClient.refetchQueries({ queryKey: ['roles'] });
-      });
+      queryClient.invalidateQueries({ queryKey: ['roles'] });
       toast.success('Role deleted successfully!');
     },
     onError: () => {

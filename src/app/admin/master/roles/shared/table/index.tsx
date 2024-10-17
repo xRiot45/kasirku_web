@@ -58,12 +58,7 @@ export default function RolesTable(props: TableProps) {
         },
       },
       meta: {
-        handleDeleteRow: (row) => {
-          props.onDeleteData(row);
-          if (row) {
-            setData(dataRole.filter((item) => item.id !== row));
-          }
-        },
+        handleDeleteRow: props.onDeleteData,
       },
       enableColumnResizing: false,
     },
