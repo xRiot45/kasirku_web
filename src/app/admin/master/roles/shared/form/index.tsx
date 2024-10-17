@@ -1,6 +1,13 @@
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Input } from 'rizzui';
+import { RoleRequest } from '../core/_models';
 
-export default function FormLayout(props: any) {
+interface FormProps {
+  register: UseFormRegister<RoleRequest>;
+  errors: FieldErrors<RoleRequest>;
+}
+
+export default function FormLayout(props: FormProps) {
   const { register, errors } = props;
   return (
     <>

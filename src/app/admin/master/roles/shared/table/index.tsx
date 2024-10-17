@@ -8,7 +8,7 @@ import { TableClassNameProps } from '@/components/table/table-types';
 import cn from '@/utils/class-names';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
-import { RoleRespone } from '../../core/_models';
+import { RoleRespone } from '../core/_models';
 import { roleListColumns } from './partials/columns';
 
 interface TableProps {
@@ -60,7 +60,9 @@ export default function RolesTable(props: TableProps) {
       meta: {
         handleDeleteRow: (row) => {
           props.onDeleteData(row);
-          setData(dataRole.filter((item) => item.id !== row));
+          if (row) {
+            setData(dataRole.filter((item) => item.id !== row));
+          }
         },
       },
       enableColumnResizing: false,

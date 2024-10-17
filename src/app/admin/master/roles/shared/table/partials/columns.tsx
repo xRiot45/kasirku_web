@@ -7,7 +7,7 @@ import { routes } from '@/config/routes';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
-import { RoleType } from '../../../core/_models';
+import { RoleType } from '../../core/_models';
 
 const columnHelper = createColumnHelper<RoleType>();
 
@@ -60,7 +60,7 @@ export const roleListColumns = [
           title={`Delete the role`}
           description={`Are you sure you want to delete this role?`}
           onDelete={() => {
-            meta?.handleDeleteRow && meta?.handleDeleteRow(row.original.id);
+            meta?.handleDeleteRow?.(row.original.id);
           }}
         />
       </Flex>

@@ -145,6 +145,6 @@ export const routes = {
     index: '/admin/master/roles',
     roleDetail: (id: string) => `/admin/master/roles/detail/${id}`,
     addRole: '/admin/master/roles/add-role',
-    editRole: (id: string) => `/admin/master/roles/edit/${id}`,
+    editRole: (id: string) => `/admin/master/roles/edit-role/${id}`,
   },
 };

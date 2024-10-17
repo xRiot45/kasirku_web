@@ -4,7 +4,7 @@ import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-lay
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { Text } from 'rizzui';
-import { deleteRole, getAllRoles } from './core/_requests';
+import { deleteRole, getAllRoles } from './shared/core/_requests';
 import RolesTable from './shared/table';
 
 const pageHeader = {
@@ -25,7 +25,11 @@ const pageHeader = {
 
 export default function RolesPage() {
   const queryClient = useQueryClient();
-  const { data: roleQueryResponse, isPending: isLoading } = useQuery({
+  const {
+    data: roleQueryResponse,
+    isPending: isLoading,
+    error,
+  } = useQuery({
     queryKey: ['roles'],
     queryFn: getAllRoles,
   });
@@ -47,7 +51,9 @@ export default function RolesPage() {
   const mutation = useMutation({
     mutationFn: (id: string) => deleteRole(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({ queryKey: ['roles'] }).then(() => {
+        queryClient.refetchQueries({ queryKey: ['roles'] });
+      });
       toast.success('Role deleted successfully!');
     },
     onError: () => {
@@ -59,31 +65,25 @@ export default function RolesPage() {
     mutation.mutate(id);
   };
 
+  if (isLoading) return 'Loading...';
+  if (error) return 'An error has occurred: ' + error.message;
+
   return (
     <>
-      {isLoading ? (
-        <Text className="mt-10 text-center text-2xl font-semibold">
-          Loading...
-        </Text>
-      ) : (
-        <TableLayout
-          title={pageHeader.title}
-          breadcrumb={pageHeader.breadcrumb}
-        >
-          <RolesTable
-            onDeleteData={handleDeleteData}
-            dataRole={rolesList}
-            pageSize={limit}
-            totalItems={totalItems}
-            totalPages={totalPages}
-            currentPage={currentPage}
-            hasNextPage={hasNextPage}
-            hasPreviousPage={hasPreviousPage}
-            nextPage={nextPage}
-            previousPage={previousPage}
-          />
-        </TableLayout>
-      )}
+      <TableLayout title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
+        <RolesTable
+          onDeleteData={handleDeleteData}
+          dataRole={rolesList}
+          pageSize={limit}
+          totalItems={totalItems}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          hasNextPage={hasNextPage}
+          hasPreviousPage={hasPreviousPage}
+          nextPage={nextPage}
+          previousPage={previousPage}
+        />
+      </TableLayout>
     </>
   );
 }

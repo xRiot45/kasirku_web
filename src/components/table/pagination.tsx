@@ -15,7 +15,7 @@ import {
   PiCaretDoubleRightBold,
 } from 'react-icons/pi';
 import cn from '@/utils/class-names';
-import { RoleRespone } from '@/app/admin/master/roles/core/_models';
+import { RoleRespone } from '@/app/admin/master/roles/shared/core/_models';
 
 interface PaginationProps<TData> {
   table: ReactTableType<TData>;
