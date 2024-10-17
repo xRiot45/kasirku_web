@@ -4,6 +4,8 @@ import { RoleRequest, RoleRespone } from './_models';
 
 const GET_ROLES_URL = `${process.env.API_URL}/role/all`;
 const CREATE_ROLE_URL = `${process.env.API_URL}/role/create`;
+const DELETE_ROLE_URL = `${process.env.API_URL}/role/delete`;
+
 const accessToken: string | undefined = Cookies.get('access_token');
 
 const getAllRoles = async () => {
@@ -30,4 +32,12 @@ const createRole = async (data: RoleRequest) => {
   return res.data.data;
 };
 
-export { getAllRoles, createRole };
+const deleteRole = async (id: string) => {
+  await axios.delete<WebResponse>(`${DELETE_ROLE_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+export { getAllRoles, createRole, deleteRole };

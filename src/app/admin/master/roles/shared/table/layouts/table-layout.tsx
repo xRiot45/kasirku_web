@@ -1,5 +1,6 @@
 'use client';
 
+import { routes } from '@/config/routes';
 import PageHeader, { PageHeaderTypes } from '@/shared/page-header';
 import Link from 'next/link';
 import { FaPlus } from 'react-icons/fa';
@@ -28,7 +29,7 @@ export default function TableLayout({
           className="my-4 w-full xs:items-center md:w-auto md:flex-row"
         >
           <Link
-            href={'/admin/master/roles/add-role'}
+            href={routes.roles.addRole}
             replace={true}
             className="w-full md:w-auto"
           >

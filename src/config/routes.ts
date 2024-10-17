@@ -143,7 +143,7 @@ export const routes = {
   signIn: '/signin',
   roles: {
     index: '/admin/master/roles',
-    roleDetail: (id: string) => `/admin/master/roles/${id}`,
+    roleDetail: (id: string) => `/admin/master/roles/detail/${id}`,
     addRole: '/admin/master/roles/add-role',
     editRole: (id: string) => `/admin/master/roles/edit/${id}`,
   },

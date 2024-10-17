@@ -58,9 +58,9 @@ export const roleListColumns = [
         <DeletePopover
           title={`Delete the role`}
           description={`Are you sure you want to delete this role?`}
-          onDelete={() =>
-            meta?.handleDeleteRow && meta?.handleDeleteRow(row.original)
-          }
+          onDelete={() => {
+            meta?.handleDeleteRow && meta?.handleDeleteRow(row.original.id);
+          }}
         />
       </Flex>
     ),

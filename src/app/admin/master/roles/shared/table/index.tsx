@@ -13,6 +13,7 @@ import { roleListColumns } from './partials/columns';
 
 interface TableProps {
   dataRole: RoleRespone[];
+  onDeleteData: (id: string) => void;
   pageSize?: number;
   totalItems?: number;
   totalPages?: number;
@@ -58,10 +59,8 @@ export default function RolesTable(props: TableProps) {
       },
       meta: {
         handleDeleteRow: (row) => {
-          setData((prev) => prev.filter((r) => r.id !== row.id));
-        },
-        handleMultipleDelete: (rows) => {
-          setData((prev) => prev.filter((r) => !rows.includes(r)));
+          props.onDeleteData(row);
+          setData(dataRole.filter((item) => item.id !== row));
         },
       },
       enableColumnResizing: false,
