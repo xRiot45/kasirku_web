@@ -6,18 +6,18 @@ import { routes } from '@/config/routes';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
-import { RoleType } from '../../core/_models';
+import { ProductCategoryType } from '../../core/_models';
 
-const columnHelper = createColumnHelper<RoleType>();
+const columnHelper = createColumnHelper<ProductCategoryType>();
 
-export const roleListColumns = [
+export const productCategoryListColumns = [
   columnHelper.display({
-    id: 'role_name',
+    id: 'product_category_name',
     size: 150,
-    header: 'Role Name',
+    header: 'Product Category Name',
     enableSorting: false,
     cell: ({ row }) => (
-      <Text className="text-sm">{row.original.role_name}</Text>
+      <Text className="text-sm">{row.original.product_category_name}</Text>
     ),
   }),
 
@@ -31,21 +31,28 @@ export const roleListColumns = [
       },
     }) => (
       <Flex align="center" justify="end" gap="3" className="pe-4">
-        <Tooltip size="sm" content={'Edit Role'} placement="top" color="invert">
-          <Link href={routes.roles.editRole(row.original.id)}>
+        <Tooltip
+          size="sm"
+          content={'Edit Product Category'}
+          placement="top"
+          color="invert"
+        >
+          <Link
+            href={routes.productCategory.editProductCategory(row.original.id)}
+          >
             <ActionIcon
               as="span"
               size="sm"
               variant="outline"
-              aria-label={'Edit Role'}
+              aria-label={'Edit Product Category'}
             >
               <PencilIcon className="h-4 w-4" />
             </ActionIcon>
           </Link>
         </Tooltip>
         <DeletePopover
-          title={`Delete the role`}
-          description={`Are you sure you want to delete this role?`}
+          title={`Delete the Product Category`}
+          description={`Are you sure you want to delete this Product Category?`}
           onDelete={() => {
             meta?.handleDeleteRow?.(row.original);
           }}

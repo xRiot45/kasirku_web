@@ -143,8 +143,13 @@ export const routes = {
   signIn: '/signin',
   roles: {
     index: '/admin/master/roles',
-    roleDetail: (id: string) => `/admin/master/roles/detail/${id}`,
     addRole: '/admin/master/roles/add-role',
     editRole: (id: string) => `/admin/master/roles/edit-role/${id}`,
+  },
+  productCategory: {
+    index: '/admin/master/product-category',
+    addProductCategory: '/admin/master/product-category/add-product-category',
+    editProductCategory: (id: string) =>
+      `/admin/master/product-category/edit-product-category/${id}`,
   },
 };

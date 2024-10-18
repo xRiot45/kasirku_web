@@ -1,4 +1,11 @@
+import cn from '@/utils/class-names';
 import { type Table as ReactTableType } from '@tanstack/react-table';
+import {
+  PiCaretDoubleLeftBold,
+  PiCaretDoubleRightBold,
+  PiCaretLeftBold,
+  PiCaretRightBold,
+} from 'react-icons/pi';
 import {
   ActionIcon,
   Box,
@@ -8,14 +15,6 @@ import {
   SelectOption,
   Text,
 } from 'rizzui';
-import {
-  PiCaretLeftBold,
-  PiCaretRightBold,
-  PiCaretDoubleLeftBold,
-  PiCaretDoubleRightBold,
-} from 'react-icons/pi';
-import cn from '@/utils/class-names';
-import { RoleRespone } from '@/app/admin/master/roles/shared/core/_models';
 
 interface PaginationProps<TData> {
   table: ReactTableType<TData>;
@@ -28,6 +27,7 @@ interface PaginationProps<TData> {
   hasPreviousPage?: boolean;
   nextPage?: number | null;
   previousPage?: number | null;
+  onPageChange: any;
 }
 
 const options = [
@@ -50,6 +50,7 @@ export default function TablePagination(props: PaginationProps<any>) {
     hasPreviousPage,
     nextPage,
     previousPage,
+    onPageChange,
   } = props;
 
   return (
@@ -104,7 +105,7 @@ export default function TablePagination(props: PaginationProps<any>) {
             rounded="lg"
             variant="outline"
             aria-label="Go to first page"
-            onClick={() => table.setPageIndex(0)}
+            onClick={() => onPageChange()}
             disabled={!hasPreviousPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
           >
@@ -116,7 +117,9 @@ export default function TablePagination(props: PaginationProps<any>) {
             rounded="lg"
             variant="outline"
             aria-label="Go to previous page"
-            onClick={() => table.setPageIndex(previousPage || 0)}
+            onClick={() =>
+              onPageChange(nextPage ?? table.getState().pagination.pageIndex)
+            }
             disabled={!hasPreviousPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
           >
@@ -129,7 +132,9 @@ export default function TablePagination(props: PaginationProps<any>) {
             variant="outline"
             aria-label="Go to next page"
             onClick={() =>
-              table.setPageIndex((pageIndex: number) => nextPage || pageIndex)
+              onPageChange(
+                nextPage ?? table.getState().pagination.pageIndex + 1
+              )
             }
             disabled={!hasNextPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
@@ -143,7 +148,7 @@ export default function TablePagination(props: PaginationProps<any>) {
             variant="outline"
             aria-label="Go to last page"
             onClick={() =>
-              table.setPageIndex(totalPages !== undefined ? totalPages - 1 : 0)
+              onPageChange(totalPages ?? table.getState().pagination.pageIndex)
             }
             disabled={!hasNextPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
