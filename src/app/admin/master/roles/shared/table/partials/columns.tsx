@@ -12,13 +12,6 @@ const columnHelper = createColumnHelper<RoleType>();
 
 export const roleListColumns = [
   columnHelper.display({
-    id: 'no',
-    size: 0,
-    header: 'No',
-    cell: ({ row }) => <Text className="text-sm">{row.index + 1}</Text>,
-  }),
-
-  columnHelper.display({
     id: 'role_name',
     header: 'Role Name',
     enableSorting: false,
