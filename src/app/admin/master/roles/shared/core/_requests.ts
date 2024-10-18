@@ -10,9 +10,10 @@ const DELETE_ROLE_URL = `${process.env.API_URL}/role/delete`;
 
 const accessToken: string | undefined = Cookies.get('access_token');
 
-const getAllRoles = async (page: number = 1) => {
+const getAllRoles = async (page: number = 1, limit?: number) => {
+  const actualLimit = limit ?? 10;
   const res = await axios.get<IBaseResponse<RoleRespone[]>>(
-    `${GET_ROLES_URL}?page=${page}`,
+    `${GET_ROLES_URL}?page=${page}?limit=${actualLimit}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

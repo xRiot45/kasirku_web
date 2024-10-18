@@ -31,6 +31,7 @@ interface TableProps {
   classNames?: TableClassNameProps;
   paginationClassName?: string;
   onPageChange: (page: number) => void;
+  onLimitChange: (limit: number) => void;
 }
 
 export default function ProductCategoryTables(props: TableProps) {
@@ -51,6 +52,7 @@ export default function ProductCategoryTables(props: TableProps) {
     },
     paginationClassName,
     onPageChange,
+    onLimitChange,
   } = props;
 
   const { table, setData } = useTanStackTable<any>({
@@ -125,6 +127,7 @@ export default function ProductCategoryTables(props: TableProps) {
           nextPage={nextPage}
           previousPage={previousPage}
           onPageChange={onPageChange}
+          onLimitChange={onLimitChange}
           className={cn('py-4', paginationClassName)}
         />
       </WidgetCard>

@@ -8,9 +8,10 @@ const DELETE_PRODUCT_CATEGORY = `${process.env.API_URL}/product-category/delete`
 
 const accessToken: string | undefined = Cookies.get('access_token');
 
-const getAllProductCategory = async (page: number = 1) => {
+const getAllProductCategory = async (page: number = 1, limit?: number) => {
+  const actualLimit = limit ?? 10;
   const res = await axios.get<IBaseResponse<ProductCategoryResponse[]>>(
-    `${GET_PRODUCT_CATEGORY_ALL}?page=${page}`,
+    `${GET_PRODUCT_CATEGORY_ALL}?page=${page}&limit=${actualLimit}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

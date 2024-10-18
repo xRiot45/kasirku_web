@@ -7,13 +7,13 @@ import TablePagination from '@/components/table/pagination';
 import { TableClassNameProps } from '@/components/table/table-types';
 import cn from '@/utils/class-names';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
 import { RoleRespone } from '../core/_models';
 import { deleteRole } from '../core/_requests';
 import { roleListColumns } from './partials/columns';
-import { useEffect } from 'react';
 
 interface TableProps {
   dataRole: RoleRespone[];
@@ -31,6 +31,7 @@ interface TableProps {
   classNames?: TableClassNameProps;
   paginationClassName?: string;
   onPageChange: (page: number) => void;
+  onLimitChange: (value: number) => void;
 }
 
 export default function RolesTable(props: TableProps) {
@@ -46,6 +47,7 @@ export default function RolesTable(props: TableProps) {
     nextPage,
     previousPage,
     onPageChange,
+    onLimitChange,
     classNames = {
       container: 'border border-muted rounded-md',
       rowClassName: 'last:border-0',
@@ -125,6 +127,7 @@ export default function RolesTable(props: TableProps) {
           nextPage={nextPage}
           previousPage={previousPage}
           onPageChange={onPageChange}
+          onLimitChange={onLimitChange}
           className={cn('py-4', paginationClassName)}
         />
       </WidgetCard>

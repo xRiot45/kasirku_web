@@ -6,15 +6,7 @@ import {
   PiCaretLeftBold,
   PiCaretRightBold,
 } from 'react-icons/pi';
-import {
-  ActionIcon,
-  Box,
-  Flex,
-  Grid,
-  Select,
-  SelectOption,
-  Text,
-} from 'rizzui';
+import { ActionIcon, Box, Flex, Grid, Select, Text } from 'rizzui';
 
 interface PaginationProps<TData> {
   table: ReactTableType<TData>;
@@ -28,6 +20,7 @@ interface PaginationProps<TData> {
   nextPage?: number | null;
   previousPage?: number | null;
   onPageChange: (page: number) => void;
+  onLimitChange: (limit: number) => void;
 }
 
 const options = [
@@ -51,7 +44,12 @@ export default function TablePagination(props: PaginationProps<any>) {
     nextPage,
     previousPage,
     onPageChange,
+    onLimitChange,
   } = props;
+
+  const handleLimitChange = (value: number) => {
+    onLimitChange(value);
+  };
 
   return (
     <Flex
@@ -70,12 +68,12 @@ export default function TablePagination(props: PaginationProps<any>) {
           options={options}
           className="w-12"
           value={table.getState().pagination.pageSize}
-          onChange={(v: SelectOption) => {
-            table.setPageSize(Number(v.value));
-          }}
           suffixClassName="[&>svg]:size-3"
           selectClassName="font-semibold text-xs ring-0 shadow-sm h-7"
           optionClassName="font-medium text-xs px-2 justify-center"
+          onChange={(option: { value: number }) =>
+            handleLimitChange(option.value)
+          }
         />
       </Flex>
 

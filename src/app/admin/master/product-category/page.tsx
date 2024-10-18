@@ -23,14 +23,15 @@ const pageHeader = {
 
 export default function ProductCategoryPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
 
   const {
     data: productCategoryQueryResponse,
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['product-category', currentPage],
-    queryFn: () => getAllProductCategory(currentPage),
+    queryKey: ['product-category', currentPage, limit],
+    queryFn: () => getAllProductCategory(currentPage, limit),
     retry: 2,
   });
 
@@ -38,7 +39,6 @@ export default function ProductCategoryPage() {
     data: productCategoryData,
     totalItems,
     totalPages,
-    limit,
     hasNextPage,
     hasPreviousPage,
     nextPage,
@@ -64,6 +64,7 @@ export default function ProductCategoryPage() {
           nextPage={nextPage}
           previousPage={previousPage}
           onPageChange={setCurrentPage}
+          onLimitChange={setLimit}
         />
       </TableLayout>
     </>

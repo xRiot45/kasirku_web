@@ -23,14 +23,15 @@ const pageHeader = {
 
 export default function RolesPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
 
   const {
     data: roleQueryResponse,
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['roles', currentPage],
-    queryFn: () => getAllRoles(currentPage),
+    queryKey: ['roles', currentPage, limit],
+    queryFn: () => getAllRoles(currentPage, limit),
     retry: 2,
   });
 
@@ -38,7 +39,6 @@ export default function RolesPage() {
     data: rolesData,
     totalItems,
     totalPages,
-    limit,
     hasNextPage,
     hasPreviousPage,
     nextPage,
@@ -64,6 +64,7 @@ export default function RolesPage() {
           nextPage={nextPage}
           onPageChange={setCurrentPage}
           previousPage={previousPage}
+          onLimitChange={setLimit}
         />
       </TableLayout>
     </>
