@@ -60,7 +60,7 @@ export const roleListColumns = [
           title={`Delete the role`}
           description={`Are you sure you want to delete this role?`}
           onDelete={() => {
-            meta?.handleDeleteRow?.(row.original.id);
+            meta?.handleDeleteRow?.(row.original);
           }}
         />
       </Flex>

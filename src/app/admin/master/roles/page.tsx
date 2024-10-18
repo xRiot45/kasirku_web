@@ -1,16 +1,14 @@
 'use client';
 
 import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-layout';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { deleteRole, getAllRoles } from './shared/core/_requests';
+import { useQuery } from '@tanstack/react-query';
+import { getAllRoles } from './shared/core/_requests';
 import RolesTable from './shared/table';
 
 const pageHeader = {
   title: 'Roles',
   breadcrumb: [
     {
-      href: '#',
       name: 'Admin',
     },
     {
@@ -23,7 +21,6 @@ const pageHeader = {
 };
 
 export default function RolesPage() {
-  const queryClient = useQueryClient();
   const {
     data: roleQueryResponse,
     isPending: isLoading,
@@ -47,21 +44,6 @@ export default function RolesPage() {
 
   const rolesList = rolesData || [];
 
-  const mutation = useMutation({
-    mutationFn: (id: string) => deleteRole(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
-      toast.success('Role deleted successfully!');
-    },
-    onError: () => {
-      toast.error('An error occurred while delete data, please try again!');
-    },
-  });
-
-  const handleDeleteData = (id: string) => {
-    mutation.mutate(id);
-  };
-
   if (isLoading) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
 
@@ -69,7 +51,6 @@ export default function RolesPage() {
     <>
       <TableLayout title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <RolesTable
-          onDeleteData={handleDeleteData}
           dataRole={rolesList}
           pageSize={limit}
           totalItems={totalItems}

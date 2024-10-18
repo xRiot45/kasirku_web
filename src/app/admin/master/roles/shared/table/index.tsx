@@ -10,10 +10,14 @@ import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
 import { RoleRespone } from '../core/_models';
 import { roleListColumns } from './partials/columns';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteRole } from '../core/_requests';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { set } from 'lodash';
 
 interface TableProps {
   dataRole: RoleRespone[];
-  onDeleteData: (id: string) => void;
   pageSize?: number;
   totalItems?: number;
   totalPages?: number;
@@ -30,6 +34,7 @@ interface TableProps {
 }
 
 export default function RolesTable(props: TableProps) {
+  const queryClient = useQueryClient();
   const {
     dataRole,
     pageSize,
@@ -58,11 +63,28 @@ export default function RolesTable(props: TableProps) {
         },
       },
       meta: {
-        handleDeleteRow: props.onDeleteData,
+        handleDeleteRow: (row) => {
+          handleDeleteData(row.id);
+        },
       },
       enableColumnResizing: false,
     },
   });
+
+  const mutation = useMutation({
+    mutationFn: (id: string) => deleteRole(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['roles'] });
+      toast.success('Role deleted successfully!');
+    },
+    onError: () => {
+      toast.error('An error occurred while deleting data, please try again!');
+    },
+  });
+
+  const handleDeleteData = (id: string) => {
+    mutation.mutate(id);
+  };
 
   return (
     <>

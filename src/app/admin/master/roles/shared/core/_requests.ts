@@ -48,11 +48,13 @@ const getRoleById = async (id: string | undefined) => {
 };
 
 const updateRole = async (id: string | undefined, data: RoleRequest) => {
-  await axios.put<WebResponse>(`${UPDATE_ROLE_URL}/${id}`, data, {
+  const res = await axios.put<WebResponse>(`${UPDATE_ROLE_URL}/${id}`, data, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+  return res.data;
 };
 
 const deleteRole = async (id: string) => {
@@ -61,6 +63,8 @@ const deleteRole = async (id: string) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+  // return res.data;
 };
 
 export { getAllRoles, getRoleById, createRole, updateRole, deleteRole };
