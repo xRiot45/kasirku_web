@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
-import { RoleRespone } from '../core/_models';
+import { RoleRespone, RoleType } from '../core/_models';
 import { deleteRole } from '../core/_requests';
 import { roleListColumns } from './partials/columns';
 
@@ -59,7 +59,7 @@ export default function RolesTable(props: TableProps) {
     },
   } = props;
 
-  const { table, setData } = useTanStackTable<any>({
+  const { table, setData } = useTanStackTable<RoleType>({
     tableData: dataRole,
     columnConfig: roleListColumns,
     options: {
