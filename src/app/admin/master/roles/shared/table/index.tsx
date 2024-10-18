@@ -6,15 +6,14 @@ import { useTanStackTable } from '@/components/table/custom/use-TanStack-Table';
 import TablePagination from '@/components/table/pagination';
 import { TableClassNameProps } from '@/components/table/table-types';
 import cn from '@/utils/class-names';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
 import { RoleRespone } from '../core/_models';
-import { roleListColumns } from './partials/columns';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteRole } from '../core/_requests';
-import toast from 'react-hot-toast';
-import { useState } from 'react';
-import { set } from 'lodash';
+import { roleListColumns } from './partials/columns';
+import { useEffect } from 'react';
 
 interface TableProps {
   dataRole: RoleRespone[];
@@ -31,6 +30,7 @@ interface TableProps {
   hideFooter?: boolean;
   classNames?: TableClassNameProps;
   paginationClassName?: string;
+  onPageChange: (page: number) => void;
 }
 
 export default function RolesTable(props: TableProps) {
@@ -45,6 +45,7 @@ export default function RolesTable(props: TableProps) {
     hasPreviousPage,
     nextPage,
     previousPage,
+    onPageChange,
     classNames = {
       container: 'border border-muted rounded-md',
       rowClassName: 'last:border-0',
@@ -70,6 +71,12 @@ export default function RolesTable(props: TableProps) {
       enableColumnResizing: false,
     },
   });
+
+  useEffect(() => {
+    if (dataRole) {
+      setData(dataRole);
+    }
+  }, [dataRole, setData]);
 
   const mutation = useMutation({
     mutationFn: (id: string) => deleteRole(id),
@@ -117,6 +124,7 @@ export default function RolesTable(props: TableProps) {
           hasPreviousPage={hasPreviousPage}
           nextPage={nextPage}
           previousPage={previousPage}
+          onPageChange={onPageChange}
           className={cn('py-4', paginationClassName)}
         />
       </WidgetCard>

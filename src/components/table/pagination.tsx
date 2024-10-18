@@ -27,7 +27,7 @@ interface PaginationProps<TData> {
   hasPreviousPage?: boolean;
   nextPage?: number | null;
   previousPage?: number | null;
-  onPageChange: any;
+  onPageChange: (page: number) => void;
 }
 
 const options = [
@@ -105,7 +105,7 @@ export default function TablePagination(props: PaginationProps<any>) {
             rounded="lg"
             variant="outline"
             aria-label="Go to first page"
-            onClick={() => onPageChange()}
+            onClick={() => onPageChange(1)}
             disabled={!hasPreviousPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"
           >
@@ -118,7 +118,9 @@ export default function TablePagination(props: PaginationProps<any>) {
             variant="outline"
             aria-label="Go to previous page"
             onClick={() =>
-              onPageChange(nextPage ?? table.getState().pagination.pageIndex)
+              onPageChange(
+                previousPage ?? table.getState().pagination.pageIndex
+              )
             }
             disabled={!hasPreviousPage}
             className="text-gray-900 shadow-sm disabled:text-gray-400 disabled:shadow-none"

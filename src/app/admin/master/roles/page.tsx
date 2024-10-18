@@ -2,6 +2,7 @@
 
 import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-layout';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { getAllRoles } from './shared/core/_requests';
 import RolesTable from './shared/table';
 
@@ -21,20 +22,22 @@ const pageHeader = {
 };
 
 export default function RolesPage() {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const {
     data: roleQueryResponse,
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['roles'],
-    queryFn: getAllRoles,
+    queryKey: ['roles', currentPage],
+    queryFn: () => getAllRoles(currentPage),
+    retry: 2,
   });
 
   const {
     data: rolesData,
     totalItems,
     totalPages,
-    currentPage,
     limit,
     hasNextPage,
     hasPreviousPage,
@@ -59,6 +62,7 @@ export default function RolesPage() {
           hasNextPage={hasNextPage}
           hasPreviousPage={hasPreviousPage}
           nextPage={nextPage}
+          onPageChange={setCurrentPage}
           previousPage={previousPage}
         />
       </TableLayout>

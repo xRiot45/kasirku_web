@@ -18,9 +18,6 @@ const getAllProductCategory = async (page: number = 1) => {
     }
   );
 
-  console.log(res.data);
-  console.log(`${GET_PRODUCT_CATEGORY_ALL}?page=${page}`);
-
   return res.data;
 };
 

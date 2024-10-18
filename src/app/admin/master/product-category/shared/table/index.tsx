@@ -7,13 +7,13 @@ import TablePagination from '@/components/table/pagination';
 import { TableClassNameProps } from '@/components/table/table-types';
 import cn from '@/utils/class-names';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
 import { ProductCategoryResponse } from '../core/_models';
 import { deleteProductCategory } from '../core/_requests';
 import { productCategoryListColumns } from './partials/columns';
-import { useEffect } from 'react';
 
 interface TableProps {
   dataProductCategory: ProductCategoryResponse[];
@@ -30,7 +30,7 @@ interface TableProps {
   hideFooter?: boolean;
   classNames?: TableClassNameProps;
   paginationClassName?: string;
-  onPageChange: any;
+  onPageChange: (page: number) => void;
 }
 
 export default function ProductCategoryTables(props: TableProps) {
@@ -74,7 +74,6 @@ export default function ProductCategoryTables(props: TableProps) {
 
   useEffect(() => {
     if (dataProductCategory) {
-      console.log('Received new data for pagination:', dataProductCategory);
       setData(dataProductCategory);
     }
   }, [dataProductCategory, setData]);
