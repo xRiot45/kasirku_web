@@ -65,8 +65,6 @@ const updateProductCategory = async (
     }
   );
 
-  console.log(res);
-
   return res.data;
 };
 

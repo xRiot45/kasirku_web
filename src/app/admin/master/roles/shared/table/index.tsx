@@ -32,6 +32,8 @@ interface TableProps {
   paginationClassName?: string;
   onPageChange: (page: number) => void;
   onLimitChange: (value: number) => void;
+  search: { role_name: string };
+  onSearchChange: (value: Partial<{ role_name: string }>) => void;
 }
 
 export default function RolesTable(props: TableProps) {
@@ -48,11 +50,13 @@ export default function RolesTable(props: TableProps) {
     previousPage,
     onPageChange,
     onLimitChange,
+    paginationClassName,
+    search,
+    onSearchChange,
     classNames = {
       container: 'border border-muted rounded-md',
       rowClassName: 'last:border-0',
     },
-    paginationClassName,
   } = props;
 
   const { table, setData } = useTanStackTable<any>({
@@ -109,10 +113,15 @@ export default function RolesTable(props: TableProps) {
             type="search"
             clearable={true}
             placeholder="Search role..."
-            onClear={() => table.setGlobalFilter('')}
-            value={table.getState().globalFilter ?? ''}
+            onClear={() => onSearchChange({ role_name: '' })}
+            value={search.role_name}
             prefix={<PiMagnifyingGlassBold className="size-4" />}
-            onChange={(e) => table.setGlobalFilter(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+
+              onSearchChange({ role_name: value });
+              table.setGlobalFilter(value);
+            }}
             className="w-full xs:max-w-60"
           />
         </Flex>

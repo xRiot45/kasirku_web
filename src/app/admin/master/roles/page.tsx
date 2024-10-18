@@ -1,9 +1,10 @@
 'use client';
 
 import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-layout';
+import { useDebounce } from '@/hooks/use-debounce';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { getAllRoles } from './shared/core/_requests';
+import { searchRole } from './shared/core/_requests';
 import RolesTable from './shared/table';
 
 const pageHeader = {
@@ -24,15 +25,21 @@ const pageHeader = {
 export default function RolesPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
+  const [search, setSearch] = useState({
+    role_name: '',
+  });
+
+  const debounceSearch = useDebounce(search.role_name, 1000);
 
   const {
     data: roleQueryResponse,
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['roles', currentPage, limit],
-    queryFn: () => getAllRoles(currentPage, limit),
+    queryKey: ['roles', debounceSearch, currentPage, limit],
+    queryFn: () => searchRole(debounceSearch, currentPage, limit),
     retry: 2,
+    refetchOnWindowFocus: false,
   });
 
   const {
@@ -64,6 +71,10 @@ export default function RolesPage() {
           nextPage={nextPage}
           onPageChange={setCurrentPage}
           previousPage={previousPage}
+          search={search}
+          onSearchChange={(value) =>
+            setSearch((prev) => ({ ...prev, ...value }))
+          }
           onLimitChange={setLimit}
         />
       </TableLayout>
