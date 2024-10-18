@@ -12,10 +12,15 @@ const columnHelper = createColumnHelper<ProductCategoryType>();
 
 export const productCategoryListColumns = [
   columnHelper.display({
+    id: 'no',
+    size: 0,
+    header: 'No',
+    cell: ({ row }) => <Text className="text-sm">{row.index + 1}</Text>,
+  }),
+
+  columnHelper.display({
     id: 'product_category_name',
-    size: 150,
     header: 'Product Category Name',
-    enableSorting: false,
     cell: ({ row }) => (
       <Text className="text-sm">{row.original.product_category_name}</Text>
     ),
@@ -23,7 +28,6 @@ export const productCategoryListColumns = [
 
   columnHelper.display({
     id: 'action',
-    size: 120,
     cell: ({
       row,
       table: {
