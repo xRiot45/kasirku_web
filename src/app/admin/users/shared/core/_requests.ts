@@ -2,6 +2,7 @@ import api from '@/config/api';
 import { UsersResponse } from './_models';
 
 const GET_USERS = `${process.env.API_URL}/users`;
+const DELETE_USER = `${process.env.API_URL}/users/delete`;
 
 export async function getAllUsers(
   search: {
@@ -27,5 +28,5 @@ export async function getAllUsers(
 }
 
 export async function deleteUser(id: string) {
-  await api.delete<IBaseResponse<UsersResponse>>(`${GET_USERS}/${id}`);
+  await api.delete<IBaseResponse<UsersResponse>>(`${DELETE_USER}/${id}`);
 }
