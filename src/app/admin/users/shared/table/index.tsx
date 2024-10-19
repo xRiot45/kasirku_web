@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTanStackTable } from '@/components/table/custom/use-TanStack-Table';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { deleteUser } from '../core/_requests';
+import { deleteUser, resetPassword } from '../core/_requests';
 import WidgetCard from '@/components/cards/widget-card';
 import { Flex, Title } from 'rizzui';
 import Table from '@/components/table';
@@ -84,6 +84,10 @@ export default function UsersTable(props: TableProps) {
         handleDeleteRow: (row) => {
           handleDeleteData(row.id);
         },
+
+        handleResetPasswordRow: (row) => {
+          handleResetPassword(row.id);
+        },
       },
       enableColumnResizing: false,
     },
@@ -95,7 +99,7 @@ export default function UsersTable(props: TableProps) {
     }
   }, [dataUsers, setData]);
 
-  const mutation = useMutation({
+  const mutationDeleteData = useMutation({
     mutationFn: (id: string) => deleteUser(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -106,8 +110,24 @@ export default function UsersTable(props: TableProps) {
     },
   });
 
+  const mutationResetPassword = useMutation({
+    mutationFn: (id: string) => resetPassword(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast.success('Reset password successfully!');
+    },
+
+    onError: () => {
+      toast.error('An error occurred while deleting data, please try again!');
+    },
+  });
+
   const handleDeleteData = (id: string) => {
-    mutation.mutate(id);
+    mutationDeleteData.mutate(id);
+  };
+
+  const handleResetPassword = (id: string) => {
+    mutationResetPassword.mutate(id);
   };
 
   return (

@@ -8,6 +8,7 @@ import {
 const GET_USERS = `${process.env.API_URL}/api/users`;
 const REGISTER_USER = `${process.env.API_URL}/api/auth/register`;
 const DELETE_USER = `${process.env.API_URL}/api/users/delete`;
+const RESET_PASSWORD = `${process.env.API_URL}/api/users/reset-password`;
 
 export async function getAllUsers(
   search: {
@@ -39,6 +40,10 @@ export async function registerUser(data: RegisterUserRequest) {
   );
 
   return res.data.data;
+}
+
+export async function resetPassword(id: string) {
+  await api.put<WebResponse>(`${RESET_PASSWORD}/${id}`);
 }
 
 export async function deleteUser(id: string) {

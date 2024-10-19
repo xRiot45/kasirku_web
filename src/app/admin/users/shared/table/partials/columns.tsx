@@ -2,6 +2,7 @@
 
 import DeletePopover from '@/components/delete-popover';
 import PencilIcon from '@/components/icons/pencil';
+import ResetPasswordPopover from '@/components/reset-password-popover';
 import AvatarCard from '@/components/ui/avatar-card';
 import { routes } from '@/config/routes';
 import { createColumnHelper } from '@tanstack/react-table';
@@ -130,21 +131,28 @@ export const usersListColumns = [
       },
     }) => (
       <Flex align="center" justify="end" gap="3" className="pe-4">
-        <Tooltip size="sm" content={'Edit Role'} placement="top" color="invert">
-          <Link href={routes.roles.editRole(row.original.id)}>
+        <Tooltip size="sm" content={'Edit User'} placement="top" color="invert">
+          <Link href={routes.users.editUser(row.original.id)}>
             <ActionIcon
               as="span"
               size="sm"
               variant="outline"
-              aria-label={'Edit Role'}
+              aria-label={'Edit User'}
             >
               <PencilIcon className="h-4 w-4" />
             </ActionIcon>
           </Link>
         </Tooltip>
+        <ResetPasswordPopover
+          title={`Reset Password the user`}
+          description={`Are you sure you want to reset password this user?`}
+          onResetPassword={() => {
+            meta?.handleResetPasswordRow?.(row.original);
+          }}
+        />
         <DeletePopover
-          title={`Delete the role`}
-          description={`Are you sure you want to delete this role?`}
+          title={`Delete the user`}
+          description={`Are you sure you want to delete this user?`}
           onDelete={() => {
             meta?.handleDeleteRow?.(row.original);
           }}
