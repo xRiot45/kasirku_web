@@ -1,14 +1,26 @@
-"use client";
+'use client';
 
-import { Fragment, useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { ActionIcon, Empty, SearchNotFoundIcon, Button, Title, Input, cn } from "rizzui";
-import { PiFileTextDuotone, PiMagnifyingGlassBold, PiXBold } from "react-icons/pi";
-import { pageLinks } from "./page-links.data";
+import { Fragment, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import {
+  ActionIcon,
+  Empty,
+  SearchNotFoundIcon,
+  Button,
+  Title,
+  Input,
+  cn,
+} from 'rizzui';
+import {
+  PiFileTextDuotone,
+  PiMagnifyingGlassBold,
+  PiXBold,
+} from 'react-icons/pi';
+import { pageLinks } from './page-links.data';
 
 export default function SearchList({ onClose }: { onClose?: () => void }) {
   const inputRef = useRef(null);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
 
   let menuItemsFiltered = pageLinks;
   if (searchText.length > 0) {
@@ -42,7 +54,9 @@ export default function SearchList({ onClose }: { onClose?: () => void }) {
           onChange={(e) => setSearchText(() => e.target.value)}
           placeholder="Search pages here"
           className="flex-1"
-          prefix={<PiMagnifyingGlassBold className="h-[18px] w-[18px] text-gray-600" />}
+          prefix={
+            <PiMagnifyingGlassBold className="h-[18px] w-[18px] text-gray-600" />
+          }
           suffix={
             searchText && (
               <Button
@@ -51,7 +65,7 @@ export default function SearchList({ onClose }: { onClose?: () => void }) {
                 className="h-auto w-auto px-0"
                 onClick={(e) => {
                   e.preventDefault();
-                  setSearchText(() => "");
+                  setSearchText(() => '');
                 }}
               >
                 Clear
@@ -88,9 +102,9 @@ export default function SearchList({ onClose }: { onClose?: () => void }) {
           )}
         </>
 
-        {menuItemsFiltered.map((item, index) => {
+        {menuItemsFiltered.map((item: any, index: number) => {
           return (
-            <Fragment key={item.name + "-" + index}>
+            <Fragment key={item.name + '-' + index}>
               {item?.href ? (
                 <Link
                   href={item?.href as string}
@@ -104,15 +118,17 @@ export default function SearchList({ onClose }: { onClose?: () => void }) {
                     <span className="font-medium capitalize text-gray-900 dark:text-gray-700">
                       {item.name}
                     </span>
-                    <span className="text-gray-500">{item?.href as string}</span>
+                    <span className="text-gray-500">
+                      {item?.href as string}
+                    </span>
                   </span>
                 </Link>
               ) : (
                 <Title
                   as="h6"
                   className={cn(
-                    "mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-500",
-                    index !== 0 && "mt-6 4xl:mt-7"
+                    'mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-500',
+                    index !== 0 && 'mt-6 4xl:mt-7'
                   )}
                 >
                   {item.name}
