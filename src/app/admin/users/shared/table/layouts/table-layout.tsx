@@ -29,7 +29,7 @@ export default function TableLayout({
           className="my-4 w-full xs:items-center md:w-auto md:flex-row"
         >
           <Link
-            href={routes.users.addUser}
+            href={routes.users.registerUser}
             replace={true}
             className="w-full md:w-auto"
           >
