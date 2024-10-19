@@ -1,10 +1,11 @@
 'use client';
 
+import { useDebounce } from '@/hooks/use-debounce';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { getAllProductCategory } from './shared/core/_requests';
 import ProductCategoryTables from './shared/table';
 import TableLayout from './shared/table/layouts/table-layout';
-import { useState } from 'react';
 
 const pageHeader = {
   title: 'Product Category',
@@ -24,15 +25,21 @@ const pageHeader = {
 export default function ProductCategoryPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
+  const [search, setSearch] = useState({
+    product_category_name: '',
+  });
+
+  const debourceSearch = useDebounce(search.product_category_name, 1000);
 
   const {
     data: productCategoryQueryResponse,
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['product-category', currentPage, limit],
-    queryFn: () => getAllProductCategory(currentPage, limit),
+    queryKey: ['product-category', debourceSearch, currentPage, limit],
+    queryFn: () => getAllProductCategory(debourceSearch, currentPage, limit),
     retry: 2,
+    refetchOnWindowFocus: false,
   });
 
   const {
@@ -65,6 +72,10 @@ export default function ProductCategoryPage() {
           previousPage={previousPage}
           onPageChange={setCurrentPage}
           onLimitChange={setLimit}
+          search={search}
+          onSearchChange={(value) =>
+            setSearch((prev) => ({ ...prev, ...value }))
+          }
         />
       </TableLayout>
     </>

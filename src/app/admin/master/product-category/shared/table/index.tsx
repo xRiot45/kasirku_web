@@ -32,6 +32,8 @@ interface TableProps {
   paginationClassName?: string;
   onPageChange: (page: number) => void;
   onLimitChange: (limit: number) => void;
+  search: { product_category_name: string };
+  onSearchChange: (value: Partial<{ product_category_name: string }>) => void;
 }
 
 export default function ProductCategoryTables(props: TableProps) {
@@ -53,6 +55,8 @@ export default function ProductCategoryTables(props: TableProps) {
     paginationClassName,
     onPageChange,
     onLimitChange,
+    search,
+    onSearchChange,
   } = props;
 
   const { table, setData } = useTanStackTable<any>({
@@ -109,10 +113,15 @@ export default function ProductCategoryTables(props: TableProps) {
             type="search"
             clearable={true}
             placeholder="Search product category..."
-            onClear={() => table.setGlobalFilter('')}
-            value={table.getState().globalFilter ?? ''}
+            onClear={() => onSearchChange({ product_category_name: '' })}
+            value={search.product_category_name}
             prefix={<PiMagnifyingGlassBold className="size-4" />}
-            onChange={(e) => table.setGlobalFilter(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+
+              onSearchChange({ product_category_name: value });
+              table.setGlobalFilter(value);
+            }}
             className="w-full xs:max-w-60"
           />
         </Flex>
