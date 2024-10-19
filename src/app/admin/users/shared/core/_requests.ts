@@ -1,7 +1,12 @@
 import api from '@/config/api';
-import { UsersResponse } from './_models';
+import {
+  RegisterUserRequest,
+  RegisterUserResponse,
+  UsersResponse,
+} from './_models';
 
 const GET_USERS = `${process.env.API_URL}/users`;
+const REGISTER_USER = `${process.env.API_URL}/auth/register`;
 const DELETE_USER = `${process.env.API_URL}/users/delete`;
 
 export async function getAllUsers(
@@ -25,6 +30,15 @@ export async function getAllUsers(
   });
 
   return res.data;
+}
+
+export async function registerUser(data: RegisterUserRequest) {
+  const res = await api.post<IBaseResponse<RegisterUserResponse>>(
+    REGISTER_USER,
+    data
+  );
+
+  return res.data.data;
 }
 
 export async function deleteUser(id: string) {

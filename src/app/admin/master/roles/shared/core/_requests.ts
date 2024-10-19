@@ -8,9 +8,9 @@ const UPDATE_ROLE = `${process.env.API_URL}/role/update`;
 const DELETE_ROLE = `${process.env.API_URL}/role/delete`;
 
 export async function getAllRoles(
-  role_name: string,
   page: number = 1,
-  limit?: number
+  limit?: number,
+  role_name?: string
 ) {
   const actualLimit = limit ?? 10;
   const res = await api.get<IBaseResponse<RoleRespone[]>>(GET_ROLES, {

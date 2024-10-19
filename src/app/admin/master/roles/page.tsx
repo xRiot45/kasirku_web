@@ -36,8 +36,8 @@ export default function RolesPage() {
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['roles', debounceSearch, currentPage, limit],
-    queryFn: () => getAllRoles(debounceSearch, currentPage, limit),
+    queryKey: ['roles', currentPage, limit, debounceSearch],
+    queryFn: () => getAllRoles(currentPage, limit, debounceSearch),
     retry: 2,
     refetchOnWindowFocus: false,
   });

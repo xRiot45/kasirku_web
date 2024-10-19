@@ -1,3 +1,19 @@
+export interface RegisterUserRequest {
+  email: string;
+  full_name: string;
+  roleId: string;
+}
+
+export interface RegisterUserResponse {
+  id: string;
+  email: string;
+  full_name: string;
+  role: {
+    id: string;
+    role_name: string;
+  };
+}
+
 export interface UsersType {
   id: string;
   full_name: string;
