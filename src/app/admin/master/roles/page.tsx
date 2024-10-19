@@ -4,7 +4,7 @@ import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-lay
 import { useDebounce } from '@/hooks/use-debounce';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { searchRole } from './shared/core/_requests';
+import { getAllRoles } from './shared/core/_requests';
 import RolesTable from './shared/table';
 
 const pageHeader = {
@@ -37,7 +37,7 @@ export default function RolesPage() {
     error,
   } = useQuery({
     queryKey: ['roles', debounceSearch, currentPage, limit],
-    queryFn: () => searchRole(debounceSearch, currentPage, limit),
+    queryFn: () => getAllRoles(debounceSearch, currentPage, limit),
     retry: 2,
     refetchOnWindowFocus: false,
   });
