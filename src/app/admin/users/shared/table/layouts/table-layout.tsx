@@ -1,0 +1,52 @@
+'use client';
+
+import { routes } from '@/config/routes';
+import PageHeader, { PageHeaderTypes } from '@/shared/page-header';
+import Link from 'next/link';
+import { FaPlus } from 'react-icons/fa';
+import { TfiReload } from 'react-icons/tfi';
+import { Button, Flex } from 'rizzui';
+
+type TableLayoutProps = {
+  data?: unknown[];
+  header?: string;
+  fileName?: string;
+} & PageHeaderTypes;
+
+export default function TableLayout({
+  data,
+  header,
+  fileName,
+  children,
+  ...props
+}: React.PropsWithChildren<TableLayoutProps>) {
+  return (
+    <div className="mt-6">
+      <PageHeader {...props} className="flex flex-col @md:flex-row">
+        <Flex
+          direction="col"
+          justify="end"
+          className="my-4 w-full xs:items-center md:w-auto md:flex-row"
+        >
+          <Link
+            href={routes.users.addUser}
+            replace={true}
+            className="w-full md:w-auto"
+          >
+            <Button className="flex w-full gap-3 py-6 md:w-auto">
+              <FaPlus />
+              Register User
+            </Button>
+          </Link>
+
+          <Button className="flex w-full gap-3 bg-green-600 py-6 hover:bg-green-700 md:w-auto">
+            <TfiReload />
+            Refresh Page
+          </Button>
+        </Flex>
+      </PageHeader>
+
+      {children}
+    </div>
+  );
+}

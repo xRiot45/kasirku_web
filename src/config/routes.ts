@@ -152,4 +152,10 @@ export const routes = {
     editProductCategory: (id: string) =>
       `/admin/master/product-category/edit-product-category/${id}`,
   },
+
+  users: {
+    index: '/admin/users',
+    addUser: '/admin/users/add-user',
+    editUser: (id: string) => `/admin/users/edit-user/${id}`,
+  },
 };
