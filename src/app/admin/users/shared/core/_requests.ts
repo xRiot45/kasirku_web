@@ -5,9 +5,9 @@ import {
   UsersResponse,
 } from './_models';
 
-const GET_USERS = `${process.env.API_URL}/users`;
-const REGISTER_USER = `${process.env.API_URL}/auth/register`;
-const DELETE_USER = `${process.env.API_URL}/users/delete`;
+const GET_USERS = `${process.env.API_URL}/api/users`;
+const REGISTER_USER = `${process.env.API_URL}/api/auth/register`;
+const DELETE_USER = `${process.env.API_URL}/api/users/delete`;
 
 export async function getAllUsers(
   search: {

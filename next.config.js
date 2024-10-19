@@ -4,17 +4,17 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "isomorphic-furyroad.s3.amazonaws.com",
+        protocol: 'https',
+        hostname: 'isomorphic-furyroad.s3.amazonaws.com',
       },
       {
-        protocol: "https",
-        hostname: "randomuser.me",
+        protocol: 'https',
+        hostname: 'randomuser.me',
       },
     ],
   },
   env: {
     API_URL: process.env.API_URL,
   },
-  transpilePackages: ["core"],
+  transpilePackages: ['core'],
 };

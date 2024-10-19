@@ -1,11 +1,11 @@
 import api from '@/config/api';
 import { ProductCategoryRequest, ProductCategoryResponse } from './_models';
 
-const GET_PRODUCT_CATEGORY = `${process.env.API_URL}/product-category`;
-const CREATE_PRODUCT_CATEGORY = `${process.env.API_URL}/product-category/create`;
-const DELETE_PRODUCT_CATEGORY = `${process.env.API_URL}/product-category/delete`;
-const GET_PRODUCT_CATEGORY_BY_ID = `${process.env.API_URL}/product-category/show`;
-const UPDATE_PRODUCT_CATEGORY = `${process.env.API_URL}/product-category/update`;
+const GET_PRODUCT_CATEGORY = `${process.env.API_URL}/api/product-category`;
+const CREATE_PRODUCT_CATEGORY = `${process.env.API_URL}/api/product-category/create`;
+const DELETE_PRODUCT_CATEGORY = `${process.env.API_URL}/api/product-category/delete`;
+const GET_PRODUCT_CATEGORY_BY_ID = `${process.env.API_URL}/api/product-category/show`;
+const UPDATE_PRODUCT_CATEGORY = `${process.env.API_URL}/api/product-category/update`;
 
 export async function getAllProductCategory(
   product_category_name: string,

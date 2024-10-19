@@ -28,7 +28,7 @@ export const usersListColumns = [
     enableSorting: false,
     cell: ({ row }) => (
       <AvatarCard
-        src={row.original.photo}
+        src={`${process.env.API_URL}/${row.original.photo}`}
         name={row.original.full_name}
         description={row.original.email}
         avatarProps={{
