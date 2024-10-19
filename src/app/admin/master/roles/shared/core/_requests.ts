@@ -1,6 +1,4 @@
 import api from '@/config/api';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import { RoleRequest, RoleRespone } from './_models';
 
 const GET_ROLES = `${process.env.API_URL}/role`;
@@ -8,8 +6,6 @@ const CREATE_ROLE = `${process.env.API_URL}/role/create`;
 const GET_ROLE_BY_ID = `${process.env.API_URL}/role/show`;
 const UPDATE_ROLE = `${process.env.API_URL}/role/update`;
 const DELETE_ROLE = `${process.env.API_URL}/role/delete`;
-
-const accessToken: string | undefined = Cookies.get('access_token');
 
 export async function getAllRoles(
   role_name: string,
@@ -40,18 +36,26 @@ export async function getRoleById(id: string | undefined) {
   return res.data.data;
 }
 
-export async function updateRole(id: string | undefined, data: RoleRequest) {
-  const res = await axios.put<IBaseResponse<RoleRespone>>(
-    `${UPDATE_ROLE}/${id}`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+// export async function updateRole(id: string | undefined, data: RoleRequest) {
+//   const res = await axios.put<IBaseResponse<RoleRespone>>(
+//     `${UPDATE_ROLE}/${id}`,
+//     data,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     }
+//   );
 
-  return res.data;
+//   return res.data;
+// }
+
+export async function updateRole(id: string | undefined, data: RoleRequest) {
+  const res = await api.put<IBaseResponse<RoleRespone>>(
+    `${UPDATE_ROLE}/${id}`,
+    data
+  );
+  return res.data.data;
 }
 
 export async function deleteRole(id: string) {
