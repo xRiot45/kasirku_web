@@ -26,4 +26,23 @@ api.interceptors.request.use((config: AxiosRequestConfig) => {
   return config as InternalAxiosRequestConfig<any>;
 });
 
+export const uploadData = (url: string, formData: any) => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+
+  return api.post(url, formData, config);
+};
+
+export const updateData = (url: string, formData: any) => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  return api.put(url, formData, config);
+};
+
 export default api;

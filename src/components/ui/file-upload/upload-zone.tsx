@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 import isEmpty from 'lodash/isEmpty';
 import prettyBytes from 'pretty-bytes';
 import { useCallback, useState } from 'react';
-import { useDropzone } from '@uploadthing/react/hooks';
 import { PiCheckBold, PiTrashBold, PiUploadSimpleBold } from 'react-icons/pi';
 import { generateClientDropzoneAccept } from 'uploadthing/client';
 import { useUploadThing } from '@/utils/uploadthing';
@@ -15,12 +14,14 @@ import UploadIcon from '@/components/shape/upload';
 import { endsWith } from 'lodash';
 import { FileWithPath } from 'react-dropzone';
 import { ClientUploadedFileData } from 'uploadthing/types';
+import { useDropzone } from '@uploadthing/react';
+// import { useDropzone } from '@uploadthing/react';
 
 interface UploadZoneProps {
   label?: string;
   name: string;
-  getValues: any;
-  setValue: any;
+  getValues?: any;
+  setValue?: any;
   className?: string;
   error?: string;
 }

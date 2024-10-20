@@ -47,3 +47,13 @@ export interface UsersResponse {
     role_name: string;
   };
 }
+
+export interface UpdateProfileRequest {
+  full_name: string;
+  birthday_date: string | null;
+  place_of_birth: string;
+  phone_number: string;
+  gender: string;
+  address: string;
+  photo: string;
+}

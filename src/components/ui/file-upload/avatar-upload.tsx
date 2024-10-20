@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useCallback, useState } from 'react';
-import { useDropzone } from '@uploadthing/react/hooks';
 import { generateClientDropzoneAccept } from 'uploadthing/client';
 import { useUploadThing } from '@/utils/uploadthing';
 import UploadIcon from '@/components/shape/upload';
@@ -13,6 +12,7 @@ import { PiPencilSimple } from 'react-icons/pi';
 import { LoadingSpinner } from '@/components/ui/file-upload/upload-zone';
 import { FileWithPath } from 'react-dropzone';
 import { ClientUploadedFileData } from 'uploadthing/types';
+import { useDropzone } from '@uploadthing/react';
 
 interface UploadZoneProps {
   name: string;

@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
 import { RegisterUserRequest } from '../shared/core/_models';
 import { registerUser } from '../shared/core/_requests';
-import FormLayout from './form/form';
+import FormLayout from './form';
 import { validationSchema, ValidationSchema } from './form/validationSchema';
 
 const pageHeader = {
