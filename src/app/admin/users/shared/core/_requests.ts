@@ -17,9 +17,7 @@ export async function getAllUsers(
   search: {
     full_name?: string;
     email?: string;
-    role_name?: string;
     employee_number?: string;
-    gender?: string;
   },
   page: number = 1,
   limit?: number

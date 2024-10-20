@@ -25,16 +25,23 @@ export default function UsersPage() {
   const [search, setSearch] = useState({
     full_name: '',
     email: '',
-    role_name: '',
     employee_number: '',
-    gender: '',
   });
 
-  const debounceSearch = useDebounce(search, 1000);
-
+  const debounceSearch = useDebounce(search, 1500);
   const filteredSearch = Object.fromEntries(
     Object.entries(debounceSearch).filter(([_, value]) => value !== '')
   );
+
+  const handleSearchChange = (
+    partialSearch: Partial<{
+      full_name: string;
+      email: string;
+      employee_number: string;
+    }>
+  ) => {
+    setSearch((prevSearch) => ({ ...prevSearch, ...partialSearch }));
+  };
 
   const {
     data: usersQueryResponse,
@@ -76,10 +83,8 @@ export default function UsersPage() {
           nextPage={nextPage}
           onPageChange={setCurrentPage}
           previousPage={previousPage}
-          // search={search}
-          // onSearchChange={(value) =>
-          //   setSearch((prev) => ({ ...prev, ...value }))
-          // }
+          search={search}
+          onSearchChange={handleSearchChange}
           onLimitChange={setLimit}
         />
       </TableLayout>

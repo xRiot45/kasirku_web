@@ -11,6 +11,7 @@ import Table from '@/components/table';
 import TablePagination from '@/components/table/pagination';
 import cn from '@/utils/class-names';
 import { usersListColumns } from './partials/columns';
+import Filters from './partials/filters';
 
 interface TableProps {
   dataUsers: UsersResponse[];
@@ -32,17 +33,13 @@ interface TableProps {
   search?: {
     full_name: string;
     email: string;
-    role_name: string;
     employee_number: string;
-    gender: string;
   };
   onSearchChange?: (
     value: Partial<{
       full_name: string;
       email: string;
-      role_name: string;
       employee_number: string;
-      gender: string;
     }>
   ) => void;
 }
@@ -133,13 +130,13 @@ export default function UsersTable(props: TableProps) {
   return (
     <>
       <WidgetCard>
-        {/* <Filters table={table} /> */}
-        <Flex
-          direction="col"
-          justify="between"
-          className="mb-4 xs:flex-row xs:items-center"
-        >
+        <Flex justify="between" className="mb-6">
           <Title className="text-lg font-semibold">Data Users</Title>
+          <Filters
+            table={table}
+            search={search}
+            onSearchChange={onSearchChange}
+          />
         </Flex>
         <Table table={table} variant="modern" classNames={classNames} />
         <TablePagination

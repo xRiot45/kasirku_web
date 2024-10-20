@@ -5,11 +5,11 @@ import { Select } from 'rizzui';
 
 interface PropTypes {
   control: any;
-  error: any;
+  errors: any;
 }
 
 export default function SelectGender(props: PropTypes) {
-  const { control, error } = props;
+  const { control, errors } = props;
   const genderOptions = [
     {
       value: 'Laki-laki',
@@ -32,7 +32,7 @@ export default function SelectGender(props: PropTypes) {
               size="lg"
               label="Gender"
               value={value}
-              error={error}
+              error={errors}
               placeholder="--- Select Gender ---"
               dropdownClassName="!z-0"
               options={genderOptions}

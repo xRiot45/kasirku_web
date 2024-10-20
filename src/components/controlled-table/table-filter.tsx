@@ -49,13 +49,13 @@ export function FilterDrawerView({
             {children}
           </div>
         </div>
-        <Button
+        {/* <Button
           size="lg"
           onClick={() => setOpenDrawer(false)}
           className="mt-5 h-11 w-full text-sm"
         >
           Show Results
-        </Button>
+        </Button> */}
       </div>
     </Drawer>
   );
