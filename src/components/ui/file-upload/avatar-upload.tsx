@@ -1,18 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import toast from 'react-hot-toast';
 import { useCallback, useState } from 'react';
-import { generateClientDropzoneAccept } from 'uploadthing/client';
-import { useUploadThing } from '@/utils/uploadthing';
+import toast from 'react-hot-toast';
+
 import UploadIcon from '@/components/shape/upload';
-import { FieldError, Loader, Text } from 'rizzui';
-import cn from '@/utils/class-names';
-import { PiPencilSimple } from 'react-icons/pi';
 import { LoadingSpinner } from '@/components/ui/file-upload/upload-zone';
-import { FileWithPath } from 'react-dropzone';
-import { ClientUploadedFileData } from 'uploadthing/types';
+import cn from '@/utils/class-names';
+import { useUploadThing } from '@/utils/uploadthing';
 import { useDropzone } from '@uploadthing/react';
+import { FileWithPath } from 'react-dropzone';
+import { PiPencilSimple } from 'react-icons/pi';
+import { FieldError, Loader, Text } from 'rizzui';
+import { generateClientDropzoneAccept } from 'uploadthing/client';
+import { ClientUploadedFileData } from 'uploadthing/types';
 
 interface UploadZoneProps {
   name: string;

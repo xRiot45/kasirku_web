@@ -13,6 +13,7 @@ import { getUserById, updateProfileByAdmin } from '../../shared/core/_requests';
 import FormLayout from './form';
 import { validationSchema, ValidationSchema } from './form/validationSchema';
 import { UpdateProfileRequest } from '../../shared/core/_models';
+import { useState } from 'react';
 
 const pageHeader = {
   title: 'Edit User',
@@ -34,6 +35,7 @@ export default function EditUserPage() {
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const id: string | undefined = pathname.split('/').pop();
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   const { data } = useQuery({
     queryKey: ['role', id],
@@ -51,7 +53,6 @@ export default function EditUserPage() {
       router.push(routes.users.index);
     },
     onError: (error: any) => {
-      console.log(error);
       if (error.response.status === 409) {
         toast.error('Full name Already Used!');
       } else {
@@ -59,6 +60,14 @@ export default function EditUserPage() {
       }
     },
   });
+
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedPhoto(imageUrl);
+    }
+  };
 
   const onSubmit: SubmitHandler<ValidationSchema> = (
     formData: ValidationSchema
@@ -99,7 +108,13 @@ export default function EditUserPage() {
       >
         {({ register, control, formState: { errors } }) => (
           <div className="space-y-3">
-            <FormLayout register={register} errors={errors} control={control} />
+            <FormLayout
+              register={register}
+              errors={errors}
+              control={control}
+              selectedPhoto={selectedPhoto}
+              handlePhotoChange={handlePhotoChange}
+            />
 
             <div className="flex items-center justify-end gap-3">
               <Button type="submit" size="lg">

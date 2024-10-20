@@ -1,11 +1,26 @@
 import SelectGender from '@/components/select/SelectGender';
 import SelectRole from '@/components/select/SelectRole';
 import { DatePicker } from '@/ui/datepicker';
-import { Controller } from 'react-hook-form';
+import Image from 'next/image';
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+} from 'react-hook-form';
 import { FileInput, Input } from 'rizzui';
+import { ValidationSchema } from './validationSchema';
 
-export default function FormLayout(props: any) {
-  const { register, errors, control } = props;
+interface PropTypes {
+  register: UseFormRegister<ValidationSchema>;
+  errors: FieldErrors<ValidationSchema>;
+  control: Control<ValidationSchema>;
+  selectedPhoto: string | null;
+  handlePhotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export default function FormLayout(props: PropTypes) {
+  const { register, errors, control, selectedPhoto, handlePhotoChange } = props;
 
   return (
     <>
@@ -76,12 +91,26 @@ export default function FormLayout(props: any) {
         label="Photo"
         multiple={false}
         {...register('photo')}
-        error={errors.photo?.message}
-        onChange={(e) => {
-          const file = e.target.files ? e.target.files[0] : null;
-          register('photo').onChange({ target: { value: file } });
-        }}
+        error={
+          typeof errors.address?.message === 'string'
+            ? errors.address?.message
+            : undefined
+        }
+        onChange={handlePhotoChange}
       />
+
+      {selectedPhoto && (
+        <div className="mt-4">
+          <Image
+            src={selectedPhoto}
+            alt={'User photo'}
+            width={1000}
+            height={1000}
+            className="h-auto w-auto"
+            priority
+          />
+        </div>
+      )}
     </>
   );
 }
