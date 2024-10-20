@@ -13,6 +13,12 @@ import cn from '@/utils/class-names';
 import { usersListColumns } from './partials/columns';
 import Filters from './partials/filters';
 
+type SearchProps = {
+  employee_number: string;
+  full_name: string;
+  email: string;
+};
+
 interface TableProps {
   dataUsers: UsersResponse[];
   pageSize?: number;
@@ -30,18 +36,8 @@ interface TableProps {
   paginationClassName?: string;
   onPageChange: (page: number) => void;
   onLimitChange: (value: number) => void;
-  search?: {
-    full_name: string;
-    email: string;
-    employee_number: string;
-  };
-  onSearchChange?: (
-    value: Partial<{
-      full_name: string;
-      email: string;
-      employee_number: string;
-    }>
-  ) => void;
+  search?: SearchProps;
+  onSearchChange?: (value: Partial<SearchProps>) => void;
 }
 
 export default function UsersTable(props: TableProps) {
@@ -134,8 +130,8 @@ export default function UsersTable(props: TableProps) {
           <Title className="text-lg font-semibold">Data Users</Title>
           <Filters
             table={table}
-            search={search}
-            onSearchChange={onSearchChange}
+            search={search || { employee_number: '', full_name: '', email: '' }}
+            onSearchChange={onSearchChange ?? (() => {})}
           />
         </Flex>
         <Table table={table} variant="modern" classNames={classNames} />
