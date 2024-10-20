@@ -156,6 +156,7 @@ export const routes = {
   users: {
     index: '/admin/users',
     registerUser: '/admin/users/register-user',
+    viewUser: (id: string) => `/admin/users/view-user/${id}`,
     editUser: (id: string) => `/admin/users/edit-user/${id}`,
   },
 };

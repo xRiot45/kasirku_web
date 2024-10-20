@@ -9,6 +9,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
 import { UsersType } from '../../core/_models';
+import EyeIcon from '@/components/icons/eye';
 
 const columnHelper = createColumnHelper<UsersType>();
 
@@ -140,6 +141,18 @@ export const usersListColumns = [
               aria-label={'Edit User'}
             >
               <PencilIcon className="h-4 w-4" />
+            </ActionIcon>
+          </Link>
+        </Tooltip>
+        <Tooltip size="sm" content={'View User'} placement="top" color="invert">
+          <Link href={routes.users.viewUser(row.original.id)}>
+            <ActionIcon
+              as="span"
+              size="sm"
+              variant="outline"
+              aria-label={'View User'}
+            >
+              <EyeIcon className="h-4 w-4" />
             </ActionIcon>
           </Link>
         </Tooltip>
