@@ -18,6 +18,20 @@ export interface ProductsType {
   };
 }
 
+export interface ProductsRequest {
+  product_name: string;
+  product_stock: string;
+  product_price: string;
+  product_description: string;
+  product_variants: {
+    variant: string;
+  }[];
+  // product_photos: {
+  //   filename: string;
+  // }[];
+  productCategoryId: string;
+}
+
 export interface ProductsResponse {
   id: string;
   product_name: string;

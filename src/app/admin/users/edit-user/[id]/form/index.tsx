@@ -92,8 +92,8 @@ export default function FormLayout(props: PropTypes) {
         multiple={false}
         {...register('photo')}
         error={
-          typeof errors.address?.message === 'string'
-            ? errors.address?.message
+          typeof errors.photo?.message === 'string'
+            ? errors.photo?.message
             : undefined
         }
         onChange={handlePhotoChange}

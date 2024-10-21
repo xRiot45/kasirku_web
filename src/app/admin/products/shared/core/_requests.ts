@@ -1,7 +1,8 @@
-import api from '@/config/api';
-import { ProductsResponse } from './_models';
+import api, { updateData, uploadData } from '@/config/api';
+import { ProductsRequest, ProductsResponse } from './_models';
 
 const GET_PRODUCTS = `${process.env.API_URL}/api/products`;
+const CREATE_PRODUCT = `${process.env.API_URL}/api/products/create`;
 const DELETE_PRODUCT = `${process.env.API_URL}/api/products/delete`;
 
 export async function getAllProducts(
@@ -24,6 +25,11 @@ export async function getAllProducts(
   });
 
   return res.data;
+}
+
+export async function createProduct(data: ProductsRequest) {
+  const res = await uploadData(CREATE_PRODUCT, data);
+  return res.data.data;
 }
 
 export async function deleteProduct(id: string) {

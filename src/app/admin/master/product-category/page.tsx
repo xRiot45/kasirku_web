@@ -36,8 +36,8 @@ export default function ProductCategoryPage() {
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['product-category', debourceSearch, currentPage, limit],
-    queryFn: () => getAllProductCategory(debourceSearch, currentPage, limit),
+    queryKey: ['product-category', currentPage, limit, debourceSearch],
+    queryFn: () => getAllProductCategory(currentPage, limit, debourceSearch),
     retry: 2,
     refetchOnWindowFocus: false,
   });

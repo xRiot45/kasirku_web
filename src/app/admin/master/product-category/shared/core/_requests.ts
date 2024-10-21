@@ -8,9 +8,9 @@ const GET_PRODUCT_CATEGORY_BY_ID = `${process.env.API_URL}/api/product-category/
 const UPDATE_PRODUCT_CATEGORY = `${process.env.API_URL}/api/product-category/update`;
 
 export async function getAllProductCategory(
-  product_category_name: string,
   page: number = 1,
-  limit?: number
+  limit?: number,
+  product_category_name?: string
 ) {
   const actualLimit = limit ?? 10;
   const res = await api.get<IBaseResponse<ProductCategoryResponse[]>>(
