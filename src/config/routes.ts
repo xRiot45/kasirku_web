@@ -159,4 +159,10 @@ export const routes = {
     viewUser: (id: string) => `/admin/users/view-user/${id}`,
     editUser: (id: string) => `/admin/users/edit-user/${id}`,
   },
+  products: {
+    index: '/admin/products',
+    addProduct: '/admin/products/add-product',
+    editProduct: (id: string) => `/admin/products/edit-product/${id}`,
+    viewProduct: (id: string) => `/admin/products/view-product/${id}`,
+  },
 };
