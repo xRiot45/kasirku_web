@@ -8,9 +8,7 @@ export interface ProductsType {
   product_variants: {
     variant: string;
   }[];
-  product_photo: {
-    filename: string;
-  }[];
+  product_photo: string;
   product_status: string;
   product_category: {
     id: string;

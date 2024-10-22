@@ -32,42 +32,29 @@ export default function Filters<TData extends Record<string, any>>(
         drawerTitle="Products Filters"
         setOpenDrawer={setOpenDrawer}
       >
-        {/* <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           <Input
             type="text"
             size="lg"
-            label="Employee Number"
-            placeholder="Search employee number..."
+            label="Product Code"
+            placeholder="Search product code..."
             className="w-full [&>label>span]:font-medium"
             inputClassName="text-sm"
-            value={search.employee_number}
-            onChange={(e) =>
-              onSearchChange({ employee_number: e.target.value })
-            }
+            value={search.product_code}
+            onChange={(e) => onSearchChange({ product_code: e.target.value })}
           />
 
           <Input
             type="text"
             size="lg"
-            label="Full Name"
-            placeholder="Search full name..."
+            label="Product Name"
+            placeholder="Search product name..."
             className="w-full [&>label>span]:font-medium"
             inputClassName="text-sm"
-            value={search.full_name}
-            onChange={(e) => onSearchChange({ full_name: e.target.value })}
+            value={search.product_name}
+            onChange={(e) => onSearchChange({ product_name: e.target.value })}
           />
-
-          <Input
-            type="email"
-            size="lg"
-            label="Email"
-            placeholder="Search email..."
-            className="w-full [&>label>span]:font-medium"
-            inputClassName="text-sm"
-            value={search.email}
-            onChange={(e) => onSearchChange({ email: e.target.value })}
-          />
-        </div> */}
+        </div>
       </FilterDrawerView>
 
       <Flex align="center" gap="3" className="w-auto">
