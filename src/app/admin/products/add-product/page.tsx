@@ -36,7 +36,7 @@ const pageHeader = {
 export default function AddProductPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [selectedPhoto, setSelectedPhoto] = useState<string[] | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   // Inisialisasi useForm dari react-hook-form
   const {
@@ -52,7 +52,7 @@ export default function AddProductPage() {
       product_price: '',
       product_description: '',
       product_variants: [],
-      // product_photos: [{ filename: '' }],
+      // product_photo: [{ filename: '' }],
       productCategoryId: '',
     },
     // resolver: zodResolver(validationSchema),
@@ -79,32 +79,26 @@ export default function AddProductPage() {
   });
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const fileArray = Array.from(files);
-      const previewArray = fileArray.map((file) => URL.createObjectURL(file));
-      setSelectedPhoto(previewArray);
-
-      const photoData = fileArray.map((file) => ({ filename: file.name }));
-      console.log('Data photo yang diset:', photoData); // Tambahkan ini
-      setValue('product_photos', photoData);
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedPhoto(imageUrl);
     }
   };
 
-  // Fungsi submit form
-  const onSubmit: SubmitHandler<ValidationSchema> = (formData) => {
-    const createProduct: ProductsRequest = {
+  const onSubmit: SubmitHandler<ValidationSchema> = (
+    formData: ValidationSchema
+  ) => {
+    const updateProfileRequest: ProductsRequest = {
       ...formData,
-      // product_photos:
-      //   formData.product_photos && formData.product_photos.length > 0
-      //     ? formData.product_photos.map((file) => ({ filename: file.filename }))
-      //     : [],
+      product_photo:
+        formData.product_photo && formData.product_photo.length > 0
+          ? formData.product_photo[0]
+          : null,
     };
 
-    console.log('Data yang akan dikirim:', createProduct); // Tambahkan ini
-    mutation.mutate(createProduct);
+    mutation.mutate(updateProfileRequest);
   };
-  // Fungsi untuk menangani perubahan input file
 
   return (
     <>

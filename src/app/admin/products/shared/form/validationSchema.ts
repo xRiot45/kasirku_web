@@ -13,11 +13,7 @@ export const validationSchema = z.object({
     )
     .nonempty('At least one product variant is required!'),
 
-  product_photos: z.array(
-    z.object({
-      filename: z.string().min(1, 'Product photo is required!'),
-    })
-  ),
+  product_photo: z.any(),
   productCategoryId: z.string().min(1, 'Product category is required!'),
 });
 

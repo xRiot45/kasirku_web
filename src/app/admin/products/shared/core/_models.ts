@@ -8,7 +8,7 @@ export interface ProductsType {
   product_variants: {
     variant: string;
   }[];
-  product_photos: {
+  product_photo: {
     filename: string;
   }[];
   product_status: string;
@@ -26,9 +26,7 @@ export interface ProductsRequest {
   product_variants: {
     variant: string;
   }[];
-  // product_photos: {
-  //   filename: string;
-  // }[];
+  product_photo: string;
   productCategoryId: string;
 }
 
@@ -42,7 +40,7 @@ export interface ProductsResponse {
   product_variants: {
     variant: string;
   }[];
-  product_photos: {
+  product_photo: {
     filename: string;
   }[];
   product_status: string;

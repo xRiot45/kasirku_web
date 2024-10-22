@@ -100,31 +100,27 @@ export default function FormLayout(props: any) {
         error={errors.productCategoryId?.message}
       />
 
-      {/* <FileInput
-        label="Product Photos"
-        multiple={true}
+      <FileInput
+        label="Product Photo"
+        {...register('product_photo')}
         onChange={handlePhotoChange}
         error={
-          typeof errors.product_photos?.message === 'string'
-            ? errors.product_photos?.message
+          typeof errors.product_photo?.message === 'string'
+            ? errors.product_photo?.message
             : undefined
         }
-      /> */}
+      />
 
-      {selectedPhoto && selectedPhoto.length > 0 && (
-        <div className="mt-4 grid grid-cols-2 gap-4">
-          {selectedPhoto.map((photo: any, index: number) => (
-            <div key={index} className="relative">
-              <Image
-                src={photo}
-                alt={`Product photo ${index + 1}`}
-                width={1000}
-                height={1000}
-                className="h-auto w-auto"
-                priority
-              />
-            </div>
-          ))}
+      {selectedPhoto && (
+        <div className="mt-4">
+          <Image
+            src={selectedPhoto}
+            alt={'Product photo'}
+            width={1000}
+            height={1000}
+            className="h-auto w-auto"
+            priority
+          />
         </div>
       )}
     </>

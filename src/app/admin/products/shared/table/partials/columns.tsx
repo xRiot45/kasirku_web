@@ -23,14 +23,14 @@ export const productsListColumns = [
     ),
   }),
 
-  columnHelper.accessor('product_photos', {
-    id: 'product_photos',
+  columnHelper.accessor('product_photo', {
+    id: 'product_photo',
     size: 300,
     header: 'Product',
     enableSorting: false,
     cell: ({ row }) => (
       <AvatarCard
-        src={`${process.env.API_URL}/${row.original.product_photos[0]?.filename}`}
+        src={`${process.env.API_URL}/${row.original.product_photo}`}
         name={row.original.product_name}
         description={row.original.product_category.product_category_name}
         avatarProps={{
