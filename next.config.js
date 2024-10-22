@@ -12,6 +12,7 @@ module.exports = {
         hostname: 'randomuser.me',
       },
     ],
+    domains: ['localhost'],
   },
   env: {
     API_URL: process.env.API_URL,

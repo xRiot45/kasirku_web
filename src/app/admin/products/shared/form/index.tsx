@@ -2,19 +2,34 @@ import TrashIcon from '@/components/icons/trash';
 import SelectProductCategory from '@/components/select/SelectProductCategory';
 import Image from 'next/image';
 import { useCallback } from 'react';
-import { Controller, useFieldArray } from 'react-hook-form';
+import {
+  Control,
+  FieldErrors,
+  useFieldArray,
+  UseFormRegister,
+} from 'react-hook-form';
 import { PiPlusBold } from 'react-icons/pi';
 import { ActionIcon, Button, FileInput, Input, Textarea } from 'rizzui';
+import { ValidationSchema } from './validationSchema';
+import { ProductsResponse } from '../core/_models';
 
-export default function FormLayout(props: any) {
-  const { register, errors, control, selectedPhoto, handlePhotoChange } = props;
+interface PropTypes {
+  register: UseFormRegister<ValidationSchema>;
+  control: Control<ValidationSchema>;
+  errors: FieldErrors<ValidationSchema>;
+  selectedPhoto: string | null;
+  handlePhotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  data?: ProductsResponse;
+}
 
+export default function FormLayout(props: PropTypes) {
+  const { register, errors, control, selectedPhoto, handlePhotoChange, data } =
+    props;
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'product_variants',
   });
 
-  // Fungsi untuk menambahkan varian baru
   const addVariant = useCallback(() => append(''), [append]);
 
   return (
@@ -64,7 +79,9 @@ export default function FormLayout(props: any) {
             className="w-full [&>label>span]:font-medium"
             inputClassName="text-sm"
             {...register(`product_variants.${index}`)}
-            error={errors.product_variants?.[index]?.message}
+            error={
+              errors.product_variants?.[index]?.message as string | undefined
+            }
           />
 
           {fields.length > 1 && (
@@ -111,18 +128,29 @@ export default function FormLayout(props: any) {
         }
       />
 
-      {selectedPhoto && (
+      {selectedPhoto ? (
         <div className="mt-4">
           <Image
             src={selectedPhoto}
             alt={'Product photo'}
             width={1000}
             height={1000}
-            className="h-auto w-auto"
+            className="h-96 w-96"
             priority
           />
         </div>
-      )}
+      ) : data?.product_photo ? (
+        <div className="mt-4">
+          <Image
+            src={`${process.env.API_URL}/${data.product_photo}`}
+            alt={'Existing product photo'}
+            width={1000}
+            height={1000}
+            className="h-96 w-96"
+            priority
+          />
+        </div>
+      ) : null}
     </>
   );
 }

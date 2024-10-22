@@ -38,7 +38,7 @@ export default function EditUserPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   const { data } = useQuery({
-    queryKey: ['role', id],
+    queryKey: ['user', id],
     queryFn: () => getUserById(id),
     enabled: !!id,
   });

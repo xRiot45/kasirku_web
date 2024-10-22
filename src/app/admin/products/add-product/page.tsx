@@ -1,12 +1,13 @@
 'use client';
 
+import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
 import PageHeader from '@/shared/page-header';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
 import { ProductsRequest } from '../shared/core/_models';
@@ -16,7 +17,6 @@ import {
   validationSchema,
   ValidationSchema,
 } from '../shared/form/validationSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 const pageHeader = {
   title: 'Add Product',
@@ -37,27 +37,6 @@ export default function AddProductPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
-
-  // Inisialisasi useForm dari react-hook-form
-  const {
-    register,
-    control,
-    formState: { errors },
-    setValue,
-    handleSubmit,
-  } = useForm<ValidationSchema>({
-    defaultValues: {
-      product_name: '',
-      product_stock: '',
-      product_price: '',
-      product_description: '',
-      product_variants: [],
-      // product_photo: [{ filename: '' }],
-      productCategoryId: '',
-    },
-    // resolver: zodResolver(validationSchema),
-    mode: 'onChange',
-  });
 
   const mutation = useMutation({
     mutationFn: (data: ProductsRequest) => createProduct(data),
@@ -89,43 +68,63 @@ export default function AddProductPage() {
   const onSubmit: SubmitHandler<ValidationSchema> = (
     formData: ValidationSchema
   ) => {
-    const updateProfileRequest: ProductsRequest = {
+    const addProductRequest: ProductsRequest = {
       ...formData,
       product_photo:
         formData.product_photo && formData.product_photo.length > 0
           ? formData.product_photo[0]
           : null,
+      product_variants: formData.product_variants || [],
     };
 
-    mutation.mutate(updateProfileRequest);
+    mutation.mutate(addProductRequest);
   };
 
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <FormLayout
-          register={register}
-          errors={errors}
-          control={control}
-          selectedPhoto={selectedPhoto}
-          handlePhotoChange={handlePhotoChange}
-        />
+      <Form<ValidationSchema>
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+        useFormProps={{
+          values: {
+            product_name: '',
+            product_stock: '',
+            product_price: '',
+            product_description: '',
+            product_variants: [],
+            product_photo: '',
+            productCategoryId: '',
+          },
+          mode: 'onChange',
+        }}
+      >
+        {({ register, control, formState: { errors } }) => (
+          <div className="space-y-3">
+            <FormLayout
+              register={register}
+              errors={errors}
+              control={control}
+              selectedPhoto={selectedPhoto}
+              handlePhotoChange={handlePhotoChange}
+            />
 
-        <div className="flex items-center justify-end gap-3">
-          <Button type="submit" size="lg">
-            Add Product
-          </Button>
-          <Link href={routes.products.index}>
-            <Button
-              size="lg"
-              className="cursor-pointer bg-red-500 hover:bg-red-700"
-            >
-              Cancel
-            </Button>
-          </Link>
-        </div>
-      </form>
+            <div className="flex items-center justify-end gap-3">
+              <Button type="submit" size="lg">
+                Add Product
+              </Button>
+              <Link href={routes.users.index}>
+                <Button
+                  size="lg"
+                  className="cursor-pointer bg-red-500 hover:bg-red-700"
+                >
+                  Cancel
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </Form>
     </>
   );
 }

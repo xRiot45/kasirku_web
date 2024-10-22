@@ -23,9 +23,7 @@ export interface ProductsRequest {
   product_stock: string;
   product_price: string;
   product_description: string;
-  product_variants: {
-    variant: string;
-  }[];
+  product_variants: {}[];
   product_photo: string;
   productCategoryId: string;
 }
@@ -40,9 +38,7 @@ export interface ProductsResponse {
   product_variants: {
     variant: string;
   }[];
-  product_photo: {
-    filename: string;
-  }[];
+  product_photo: string;
   product_status: string;
   product_category: {
     id: string;
