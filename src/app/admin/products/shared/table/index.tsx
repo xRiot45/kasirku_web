@@ -18,8 +18,6 @@ import Filters from './partials/filters';
 type SearchProps = {
   product_name: string;
   product_code: string;
-  product_status: string;
-  product_category_name: string;
 };
 
 interface TableProps {
@@ -117,8 +115,6 @@ export default function ProductsTable(props: TableProps) {
               search || {
                 product_code: '',
                 product_name: '',
-                product_status: '',
-                product_category_name: '',
               }
             }
             onSearchChange={onSearchChange ?? (() => {})}

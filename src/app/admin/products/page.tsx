@@ -1,7 +1,7 @@
 'use client';
 
 import { useDebounce } from '@/hooks/use-debounce';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getAllProducts } from './shared/core/_requests';
 import TableLayout from './shared/table/layouts/table-layout';
@@ -20,13 +20,12 @@ const pageHeader = {
 };
 
 export default function ProductsPage() {
+  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [search, setSearch] = useState({
     product_name: '',
     product_code: '',
-    product_status: '',
-    product_category_name: '',
   });
 
   const debounceSearch = useDebounce(search, 1500);
@@ -38,8 +37,6 @@ export default function ProductsPage() {
     partialSearch: Partial<{
       product_name: string;
       product_code: string;
-      product_status: string;
-      product_category_name: string;
     }>
   ) => {
     setSearch((prevSearch) => ({ ...prevSearch, ...partialSearch }));
@@ -71,9 +68,21 @@ export default function ProductsPage() {
   if (isLoading) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
 
+  const handleRefresh = () => {
+    setSearch({ product_name: '', product_code: '' });
+    setCurrentPage(1);
+    setLimit(10);
+
+    queryClient.invalidateQueries({ queryKey: ['products'] });
+  };
+
   return (
     <>
-      <TableLayout title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
+      <TableLayout
+        title={pageHeader.title}
+        breadcrumb={pageHeader.breadcrumb}
+        refresh={handleRefresh}
+      >
         <ProductsTable
           dataProducts={productsList}
           pageSize={limit}

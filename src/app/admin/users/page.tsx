@@ -1,7 +1,7 @@
 'use client';
 
 import { useDebounce } from '@/hooks/use-debounce';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getAllUsers } from './shared/core/_requests';
 import UsersTable from './shared/table';
@@ -20,6 +20,7 @@ const pageHeader = {
 };
 
 export default function UsersPage() {
+  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [search, setSearch] = useState({
@@ -69,9 +70,21 @@ export default function UsersPage() {
   if (isLoading) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
 
+  const handleRefresh = () => {
+    setSearch({ full_name: '', email: '', employee_number: '' });
+    setCurrentPage(1);
+    setLimit(10);
+
+    queryClient.invalidateQueries({ queryKey: ['users'] });
+  };
+
   return (
     <>
-      <TableLayout title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
+      <TableLayout
+        title={pageHeader.title}
+        breadcrumb={pageHeader.breadcrumb}
+        refresh={handleRefresh}
+      >
         <UsersTable
           dataUsers={usersList}
           pageSize={limit}

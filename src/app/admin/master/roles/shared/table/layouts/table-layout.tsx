@@ -11,6 +11,7 @@ type TableLayoutProps = {
   data?: unknown[];
   header?: string;
   fileName?: string;
+  refresh?: () => void;
 } & PageHeaderTypes;
 
 export default function TableLayout({
@@ -18,6 +19,7 @@ export default function TableLayout({
   header,
   fileName,
   children,
+  refresh,
   ...props
 }: React.PropsWithChildren<TableLayoutProps>) {
   return (
@@ -39,7 +41,10 @@ export default function TableLayout({
             </Button>
           </Link>
 
-          <Button className="flex w-full gap-3 bg-green-600 py-6 hover:bg-green-700 md:w-auto">
+          <Button
+            onClick={refresh}
+            className="flex w-full gap-3 bg-green-600 py-6 hover:bg-green-700 md:w-auto"
+          >
             <TfiReload />
             Refresh Page
           </Button>

@@ -9,8 +9,6 @@ import { Button, Flex, Input } from 'rizzui';
 type SearchProps = {
   product_name: string;
   product_code: string;
-  product_status: string;
-  product_category_name: string;
 };
 
 type TableToolbarProps<T extends Record<string, any>> = {

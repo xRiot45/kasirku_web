@@ -1,7 +1,7 @@
 'use client';
 
 import { useDebounce } from '@/hooks/use-debounce';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getAllProductCategory } from './shared/core/_requests';
 import ProductCategoryTables from './shared/table';
@@ -23,6 +23,7 @@ const pageHeader = {
 };
 
 export default function ProductCategoryPage() {
+  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [search, setSearch] = useState({
@@ -57,9 +58,21 @@ export default function ProductCategoryPage() {
   if (isLoading) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
 
+  const handleRefresh = () => {
+    setSearch({ product_category_name: '' });
+    setCurrentPage(1);
+    setLimit(10);
+
+    queryClient.invalidateQueries({ queryKey: ['product-category'] });
+  };
+
   return (
     <>
-      <TableLayout title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
+      <TableLayout
+        title={pageHeader.title}
+        breadcrumb={pageHeader.breadcrumb}
+        refresh={handleRefresh}
+      >
         <ProductCategoryTables
           dataProductCategory={productCategoryList}
           pageSize={limit}

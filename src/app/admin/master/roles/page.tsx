@@ -2,7 +2,7 @@
 
 import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-layout';
 import { useDebounce } from '@/hooks/use-debounce';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getAllRoles } from './shared/core/_requests';
 import RolesTable from './shared/table';
@@ -23,6 +23,7 @@ const pageHeader = {
 };
 
 export default function RolesPage() {
+  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [search, setSearch] = useState({
@@ -57,9 +58,21 @@ export default function RolesPage() {
   if (isLoading) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
 
+  const handleRefresh = () => {
+    setSearch({ role_name: '' });
+    setCurrentPage(1);
+    setLimit(10);
+
+    queryClient.invalidateQueries({ queryKey: ['roles'] });
+  };
+
   return (
     <>
-      <TableLayout title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
+      <TableLayout
+        title={pageHeader.title}
+        breadcrumb={pageHeader.breadcrumb}
+        refresh={handleRefresh}
+      >
         <RolesTable
           dataRole={rolesList}
           pageSize={limit}
