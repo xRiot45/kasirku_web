@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { PiCaretDownBold } from 'react-icons/pi';
-import cn from '@core/utils/class-names';
+import cn from '@/utils/class-names';
 import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import BulletIcon from '@/layouts/lithium/bullet-icon';
 import { AiFillCaretRight } from 'react-icons/ai';
-import NavMenu from '@/layouts/nav-menu/nav-menu';
+import NavMenu from '../nav-menu/nav-menu'
 import {
   DropdownItemType,
   LithiumMenuItemsKeys,
@@ -16,7 +16,7 @@ import {
 import { usePathname } from 'next/navigation';
 import { LithiumMenuIconType, lithiumMenuIcons } from './lithium-menu-icons';
 import { useActivePathname } from './use-pathname-active';
-import { useDirection } from '@core/hooks/use-direction';
+import { useDirection } from '@/hooks/use-direction';
 import { NavMenuDirection } from '../nav-menu/nav-menu-types';
 
 function EnhancedMenuItems({

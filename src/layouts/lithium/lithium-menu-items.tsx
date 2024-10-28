@@ -42,16 +42,16 @@ export const lithiumMenuItems: LithiumMenuItem = {
         href: routes.executive.dashboard,
         icon: 'BusinessIcon',
       },
-      {
-        name: 'Project',
-        href: routes.project.dashboard,
-        icon: 'ProjectDashIcon',
-      },
-      {
-        name: 'Social Media',
-        href: routes.socialMedia.dashboard,
-        icon: 'SocialMediaDashIcon',
-      },
+      // {
+      //   name: 'Project',
+      //   href: routes.project.dashboard,
+      //   icon: 'ProjectDashIcon',
+      // },
+      // {
+      //   name: 'Social Media',
+      //   href: routes.socialMedia.dashboard,
+      //   icon: 'SocialMediaDashIcon',
+      // },
       {
         name: 'Job Board',
         href: routes.jobBoard.dashboard,
@@ -62,16 +62,16 @@ export const lithiumMenuItems: LithiumMenuItem = {
         href: routes.financial.dashboard,
         icon: 'FinancialStatisticsIcon',
       },
-      {
-        name: 'CRM',
-        href: routes.crm.dashboard,
-        icon: 'CrmDashTwoIcon',
-      },
-      {
-        name: 'Affiliate',
-        href: routes.affiliate.dashboard,
-        icon: 'AffiliateColoredIcon',
-      },
+      // {
+      //   name: 'CRM',
+      //   href: routes.crm.dashboard,
+      //   icon: 'CrmDashTwoIcon',
+      // },
+      // {
+      //   name: 'Affiliate',
+      //   href: routes.affiliate.dashboard,
+      //   icon: 'AffiliateColoredIcon',
+      // },
       {
         name: 'Logistics',
         href: routes.logistics.dashboard,
@@ -285,11 +285,11 @@ export const lithiumMenuItems: LithiumMenuItem = {
         href: routes.widgets.maps,
         icon: 'MapMarkerWithPathIcon',
       },
-      {
-        name: 'Image Viewer',
-        href: routes.imageViewer,
-        icon: 'NftIcon',
-      },
+      // {
+      //   name: 'Image Viewer',
+      //   href: routes.imageViewer,
+      //   icon: 'NftIcon',
+      // },
     ],
   },
   forms: {
@@ -361,18 +361,18 @@ export const lithiumMenuItems: LithiumMenuItem = {
             name: 'Search',
             href: routes.tables.search,
           },
-          {
-            name: 'Resizable',
-            href: routes.tables.resizable,
-          },
-          {
-            name: 'Pinning',
-            href: routes.tables.pinning,
-          },
-          {
-            name: 'Drag & Drop',
-            href: routes.tables.dnd,
-          },
+          // {
+          //   name: 'Resizable',
+          //   href: routes.tables.resizable,
+          // },
+          // {
+          //   name: 'Pinning',
+          //   href: routes.tables.pinning,
+          // },
+          // {
+          //   name: 'Drag & Drop',
+          //   href: routes.tables.dnd,
+          // },
         ],
       },
     ],
