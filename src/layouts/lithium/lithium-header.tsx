@@ -1,6 +1,6 @@
 'use client';
 
-import Logo from '@/components/logo';
+import LogoIcon from '@public/images/logo-icon.png';
 import ProfileMenu from '@/layouts/profile-menu';
 import SettingsButton from '@/layouts/settings-button';
 import StickyHeader from '@/layouts/sticky-header';
@@ -56,7 +56,14 @@ export default function Header() {
             href={'/'}
             className="me-4 w-9 shrink-0 text-gray-800 hover:text-gray-900 lg:me-5 xl:hidden"
           >
-            <Logo iconOnly={true} />
+            <Image
+              src={LogoIcon}
+              alt="Kasirku"
+              width={180}
+              height={180}
+              priority
+              className=""
+            />
           </Link>
         </div>
         <HeaderMenuRight />
