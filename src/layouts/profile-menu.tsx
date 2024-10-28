@@ -1,12 +1,14 @@
-"use client";
+'use client';
 
-import { Title, Text, Avatar, Button, Popover } from "rizzui";
-import cn from "@/utils/class-names";
-import { routes } from "@/config/routes";
-import { signOut } from "next-auth/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { logoutRequest } from '@/app/auth/signin/core/_requests';
+import { routes } from '@/config/routes';
+import cn from '@/utils/class-names';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Avatar, Button, Popover, Text, Title } from 'rizzui';
 
 export default function ProfileMenu({
   buttonClassName,
@@ -22,14 +24,14 @@ export default function ProfileMenu({
       <Popover.Trigger>
         <button
           className={cn(
-            "w-9 shrink-0 rounded-full outline-none focus-visible:ring-[1.5px] focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:translate-y-px sm:w-10",
+            'w-9 shrink-0 rounded-full outline-none focus-visible:ring-[1.5px] focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:translate-y-px sm:w-10',
             buttonClassName
           )}
         >
           <Avatar
             src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
             name="John Doe"
-            className={cn("!h-9 w-9 sm:!h-10 sm:!w-10", avatarClassName)}
+            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
           />
           {!!username && (
             <span className="username hidden text-gray-200 dark:text-gray-700 md:inline-flex">
@@ -68,20 +70,40 @@ function ProfileMenuPopover({ children }: React.PropsWithChildren<{}>) {
 
 const menuItems = [
   {
-    name: "My Profile",
+    name: 'My Profile',
     href: routes.profile,
   },
   {
-    name: "Account Settings",
+    name: 'Account Settings',
     href: routes.forms.profileSettings,
   },
   {
-    name: "Activity Log",
-    href: "#",
+    name: 'Activity Log',
+    href: '#',
   },
 ];
 
 function DropdownMenu() {
+  const router = useRouter();
+  const useLogout = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: logoutRequest,
+      onSuccess: () => {
+        // Membersihkan cache dan state setelah logout
+        queryClient.clear();
+        toast.success('Sign Out Successfully!');
+        router.push('/auth/signin');
+      },
+      onError: (error) => {
+        toast.error('Sign Out Failed!');
+      },
+    });
+  };
+
+  const { mutate: logout } = useLogout();
+
   return (
     <div className="w-64 text-left rtl:text-right">
       <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
@@ -90,10 +112,7 @@ function DropdownMenu() {
           name="Albert Flores"
         />
         <div className="ms-3">
-          <Title
-            as="h6"
-            className="font-semibold"
-          >
+          <Title as="h6" className="font-semibold">
             Albert Flores
           </Title>
           <Text className="text-gray-600">flores@doe.io</Text>
@@ -114,7 +133,7 @@ function DropdownMenu() {
         <Button
           className="h-auto w-full justify-start p-0 font-medium text-gray-700 outline-none focus-within:text-gray-600 hover:text-gray-900 focus-visible:ring-0"
           variant="text"
-          onClick={() => signOut()}
+          onClick={() => logout()}
         >
           Sign Out
         </Button>

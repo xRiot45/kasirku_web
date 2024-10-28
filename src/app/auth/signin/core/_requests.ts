@@ -12,6 +12,8 @@ const loginRequest = async (payload: LoginRequest) => {
 const logoutRequest = async () => {
   Cookies.remove('access_token');
   Cookies.remove('refresh_token');
+
+  return new Promise((resolve) => setTimeout(resolve, 500));
 };
 
 export { loginRequest, logoutRequest };
