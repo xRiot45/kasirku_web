@@ -3,13 +3,12 @@
 import Pagination from '@/components/ui/pagination';
 import { useDebounce } from '@/hooks/use-debounce';
 import PageHeader from '@/shared/page-header';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Button, Empty, Input, SearchNotFoundIcon } from 'rizzui';
+import { Empty, Input, SearchNotFoundIcon } from 'rizzui';
 import { getAllProducts } from './shared/core/_requests';
 import CardProducts from './shared/partials/card-products';
-import { TfiReload } from 'react-icons/tfi';
 
 const pageHeader = {
   title: 'Kasirku',
@@ -21,7 +20,6 @@ const pageHeader = {
 };
 
 export default function KasirPage() {
-  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [search, setSearch] = useState({
@@ -92,7 +90,7 @@ export default function KasirPage() {
         <CardProducts data={productsList} />
       )}
 
-      <div className="mt-20 flex items-center justify-end">
+      <div className="mt-20 flex items-center justify-center">
         <Pagination
           total={totalItems}
           current={currentPage}

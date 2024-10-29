@@ -3,6 +3,7 @@ import { toCurrency } from '@/utils/to-currency';
 import Image from 'next/image';
 import { Button, Text, Title } from 'rizzui';
 import { ProductsResponse } from '../core/_models';
+import Link from 'next/link';
 
 interface PropTypes {
   data: ProductsResponse[];
@@ -41,9 +42,11 @@ export default function CardProducts(props: PropTypes) {
               {toCurrency(Number(product.product_price))}
             </div>
             <div className="mt-3">
-              <Button onClick={() => null} className="w-full" variant="outline">
-                View Product
-              </Button>
+              <Link href={`/kasir/product/${product.id}`}>
+                <Button className="w-full" variant="outline">
+                  View Product
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
