@@ -1,7 +1,8 @@
 import api from '@/config/api';
-import { ProductsRequest, ProductsResponse } from './_models';
+import { ProductsResponse } from './_models';
 
 const GET_PRODUCTS = `${process.env.API_URL}/api/products`;
+const GET_PRODUCT_BY_ID = `${process.env.API_URL}/api/products/show`;
 
 export async function getAllProducts(
   search: {
@@ -20,4 +21,12 @@ export async function getAllProducts(
   });
 
   return res.data;
+}
+
+export async function getProductById(id: string | undefined) {
+  const res = await api.get<IBaseResponse<ProductsResponse>>(
+    `${GET_PRODUCT_BY_ID}/${id}`
+  );
+
+  return res.data.data;
 }

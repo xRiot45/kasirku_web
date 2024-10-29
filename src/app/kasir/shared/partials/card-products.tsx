@@ -1,9 +1,9 @@
 import cn from '@/utils/class-names';
-import { toCurrency } from '@/utils/to-currency';
+import { formatToRupiah } from '@/utils/formatRupiah';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button, Text, Title } from 'rizzui';
 import { ProductsResponse } from '../core/_models';
-import Link from 'next/link';
 
 interface PropTypes {
   data: ProductsResponse[];
@@ -39,7 +39,7 @@ export default function CardProducts(props: PropTypes) {
               {product.product_category.product_category_name}
             </Text>
             <div className="mt-2 flex items-center font-semibold text-gray-900">
-              {toCurrency(Number(product.product_price))}
+              {formatToRupiah(Number(product.product_price))}
             </div>
             <div className="mt-3">
               <Link href={`/kasir/product/${product.id}`}>
