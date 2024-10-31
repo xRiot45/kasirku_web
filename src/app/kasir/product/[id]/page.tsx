@@ -10,6 +10,7 @@ import { PiMinus, PiPlus, PiShoppingCartSimple } from 'react-icons/pi';
 import { Button, Radio, Text, Title } from 'rizzui';
 import { AddProductToCartRequest } from '../../shared/core/_models';
 import { addProductToCart, getProductById } from '../../shared/core/_requests';
+import { FaAnglesLeft } from 'react-icons/fa6';
 
 export default function ProductDetail() {
   const pathname = usePathname();
@@ -59,7 +60,8 @@ export default function ProductDetail() {
 
   return (
     <div className="mt-10">
-      <Button className="mb-6 h-11 w-64" onClick={() => router.back()}>
+      <Button className="mb-6 h-11 w-64 gap-3" onClick={() => router.back()}>
+        <FaAnglesLeft />
         Back to previous page
       </Button>
       <div className="gap-6 3xl:grid 3xl:grid-cols-12">

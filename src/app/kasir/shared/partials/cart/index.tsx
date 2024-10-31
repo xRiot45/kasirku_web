@@ -9,9 +9,7 @@ import { formatToRupiah } from '@/utils/formatRupiah';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { PiMinus, PiPlus } from 'react-icons/pi';
 import { ActionIcon, Button, EmptyBoxIcon, Flex, Title } from 'rizzui';
 import {
   deleteAllCarts,
@@ -29,15 +27,6 @@ export default function Carts(props: CartsProps) {
 
   const queryClient = useQueryClient();
   const { openDrawer, closeDrawer } = useDrawer();
-  const [quantity, setQuantity] = useState<number>(1);
-
-  const incrementQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
-
-  const decrementQuantity = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
-  };
 
   const { data: cartsQueryResponse, isPending } = useQuery({
     queryKey: ['cart'],
@@ -83,6 +72,12 @@ export default function Carts(props: CartsProps) {
     await deleteAllCartItemsMutation.mutateAsync();
   };
 
+  const totalPriceItems = cartsList.map((item) => {
+    return item.product?.product_price || 0;
+  });
+
+  const total = totalPriceItems.reduce((acc, curr) => acc + curr, 0);
+
   return (
     <ActionIcon
       aria-label="Carts"
@@ -112,7 +107,7 @@ export default function Carts(props: CartsProps) {
                       {cartsList.map((item) => (
                         <div key={item.id} className="group py-6">
                           <div className="flex items-start pe-2">
-                            <figure className="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                            <figure className="relative aspect-square h-full w-20 shrink-0 overflow-hidden rounded-lg bg-gray-100">
                               <Image
                                 alt={item.product?.product_name}
                                 src={`${process.env.API_URL}/${item.product?.product_photo}`}
@@ -123,21 +118,30 @@ export default function Carts(props: CartsProps) {
                               />
                             </figure>
                             <div className="w-full truncate ps-3">
-                              <Title
-                                as="h3"
-                                className="mb-1 flex items-center justify-between truncate font-inter text-sm font-semibold text-gray-900"
-                              >
-                                <Link
-                                  href={`/kasir/product/${item?.product.id}`}
-                                >
-                                  {item.product?.product_name}
-                                </Link>
+                              <div className="flex items-center justify-between">
+                                <div className="mb-3 block">
+                                  <Title
+                                    as="h3"
+                                    className="mb-1 truncate font-inter text-sm font-semibold text-gray-900"
+                                  >
+                                    <Link
+                                      href={`/kasir/product/${item?.product.id}`}
+                                    >
+                                      {item.product?.product_name}
+                                    </Link>
+                                  </Title>
+
+                                  <span className="italic">
+                                    {item?.selected_variant}
+                                  </span>
+                                </div>
+
                                 <DeletePopover
                                   title="Delete the product"
                                   description="Are you sure you want to delete this product in cart?"
                                   onDelete={() => onDeleteCartById(item.id)}
                                 />
-                              </Title>
+                              </div>
                               <div className="flex items-end justify-between">
                                 <div className="flex flex-col gap-1">
                                   <div className="text-xs font-medium text-gray-500">
@@ -153,25 +157,6 @@ export default function Carts(props: CartsProps) {
                                     )}
                                   </div>
                                 </div>
-                                <div className="inline-flex items-center gap-2.5 text-xs">
-                                  <button
-                                    title="Decrement"
-                                    className="grid h-7 w-7 place-content-center rounded-full bg-gray-50"
-                                    onClick={decrementQuantity}
-                                  >
-                                    <PiMinus className="h-3 w-3 text-gray-600" />
-                                  </button>
-                                  <span className="font-medium text-gray-900">
-                                    {item.quantity}
-                                  </span>
-                                  <button
-                                    title="Increment"
-                                    className="grid h-7 w-7 place-content-center rounded-full bg-gray-50"
-                                    onClick={incrementQuantity}
-                                  >
-                                    <PiPlus className="h-3 w-3 text-gray-600" />
-                                  </button>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -186,7 +171,7 @@ export default function Carts(props: CartsProps) {
                       <p className="flex items-center justify-between">
                         <span className="text-gray-500">Subtotal</span>
                         <span className="font-medium text-gray-900">
-                          Rp.10000
+                          {formatToRupiah(total)}
                         </span>
                       </p>
                       <p className="flex items-center justify-between">
@@ -195,7 +180,9 @@ export default function Carts(props: CartsProps) {
                       </p>
                       <p className="flex items-center justify-between border-t border-gray-300 pt-3.5 text-base font-semibold">
                         <span className="text-gray-900">Total:</span>
-                        <span className="text-gray-900">Rp.10000</span>
+                        <span className="text-gray-900">
+                          {formatToRupiah(total)}
+                        </span>
                       </p>
                     </div>
 
