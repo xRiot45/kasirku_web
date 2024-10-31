@@ -18,8 +18,8 @@ function HeaderMenuRight() {
       <SettingsButton className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
         <PiGearDuotone className="h-[22px] w-auto animate-spin-slow" />
       </SettingsButton>
-      <Carts className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
-        <IoCartOutline className="h-[22px] w-auto" />
+      <Carts>
+        <IoCartOutline className="h-[22px] w-auto bg-transparent" />
       </Carts>
       <ProfileMenu
         buttonClassName="w-auto sm:w-auto p-1 border border-gray-300"

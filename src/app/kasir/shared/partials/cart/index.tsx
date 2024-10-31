@@ -2,98 +2,198 @@
 
 import DeletePopover from '@/components/delete-popover';
 import CogSolidIcon from '@/components/icons/cog-solid';
+import SimpleBar from '@/components/ui/simplebar';
 import { useDrawer } from '@/shared/drawer-views/use-drawer';
 import cn from '@/utils/class-names';
 import { formatToRupiah } from '@/utils/formatRupiah';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ActionIcon, Title } from 'rizzui';
-import { getAllCarts } from '../../core/_requests';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { PiMinus, PiPlus } from 'react-icons/pi';
+import { ActionIcon, Button, EmptyBoxIcon, Flex, Title } from 'rizzui';
+import { deleteCartById, getAllCarts } from '../../core/_requests';
 import CartHeader from './cart-header';
 
-export default function Carts({
-  className,
-  children,
-}: {
-  className?: string;
+interface CartsProps {
   children?: React.ReactNode;
-}) {
-  const { openDrawer, closeDrawer } = useDrawer();
+}
 
-  const {
-    data: cartsQueryResponse,
-    isPending: isLoading,
-    error,
-  } = useQuery({
+export default function Carts(props: CartsProps) {
+  const { children } = props;
+
+  const queryClient = useQueryClient();
+  const { openDrawer, closeDrawer } = useDrawer();
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
+
+  const { data: cartsQueryResponse, isPending } = useQuery({
     queryKey: ['cart'],
     queryFn: () => getAllCarts(),
     retry: 2,
     refetchOnWindowFocus: false,
   });
 
-  const { data: cartsData, totalItems } = cartsQueryResponse || {};
+  const { data: cartsData } = cartsQueryResponse || {};
   const cartsList = cartsData || [];
+
+  const deleteCartByIdMutation = useMutation({
+    mutationFn: (id: string) => deleteCartById(id),
+    onSuccess: () => {
+      toast.success('Delete product in cart successfully!');
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      closeDrawer();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error('An error occurred while deleting data, please try again!');
+    },
+  });
+
+  const onDeleteCartById = (id: string) => {
+    deleteCartByIdMutation.mutateAsync(id);
+  };
 
   return (
     <ActionIcon
-      aria-label="Settings"
+      aria-label="Carts"
       variant="text"
       className={cn(
-        'relative h-[34px] w-[34px] shadow backdrop-blur-md dark:bg-gray-100 md:h-9 md:w-9',
-        className
+        'relative h-[34px] w-[34px] shadow backdrop-blur-md dark:bg-gray-100 md:h-9 md:w-9'
       )}
       onClick={() =>
         openDrawer({
           view: (
             <>
               <CartHeader onClose={closeDrawer} />
-              <div className="divide-y divide-gray-100 px-6">
-                {cartsList.map((item) => (
-                  <div key={item.id} className={cn('group py-5')}>
-                    <div className="flex items-start pe-2">
-                      <figure className="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                        <Image
-                          alt={item.product?.product_name}
-                          src={`${process.env.API_URL}/${item.product?.product_photo}`}
-                          fill
-                          priority
-                          sizes="(max-width: 768px) 100vw"
-                          className="h-full w-full object-cover"
-                        />
-                      </figure>
-                      <div className="w-full truncate ps-3">
-                        <Title
-                          as="h3"
-                          className="mb-1 flex items-center justify-between truncate font-inter text-sm font-semibold text-gray-900"
-                        >
-                          <Link href={`/kasir/product/${item?.product.id}`}>
-                            {item.product?.product_name}
-                          </Link>
-                          <DeletePopover
-                            title={`Delete the product`}
-                            description={`Are you sure you want to delete this product in cart?`}
-                          />
-                        </Title>
-                        <div className="flex items-end justify-between">
-                          <div className="flex flex-col gap-1">
-                            <div className="text-xs font-medium text-gray-500">
-                              {formatToRupiah(item?.product?.product_price)} x{' '}
-                              {item.quantity}
-                            </div>
-                            <div className="flex items-center gap-3 whitespace-nowrap font-semibold text-gray-900">
-                              {formatToRupiah(
-                                item?.product?.product_price * item.quantity
-                              )}
+
+              {cartsList.length === 0 ? (
+                <div className="flex h-screen items-center justify-center">
+                  <div className="flex flex-col items-center text-center">
+                    <EmptyBoxIcon className="mt-10 h-32 w-32" />
+                    <Title as="h6" className="font-medium text-gray-400">
+                      Cart is empty
+                    </Title>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <SimpleBar className="h-[calc(100vh-138px)] overflow-y-auto px-6">
+                    <div className="flex-grow">
+                      {cartsList.map((item) => (
+                        <div key={item.id} className="group py-6">
+                          <div className="flex items-start pe-2">
+                            <figure className="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                              <Image
+                                alt={item.product?.product_name}
+                                src={`${process.env.API_URL}/${item.product?.product_photo}`}
+                                fill
+                                priority
+                                sizes="(max-width: 768px) 100vw"
+                                className="h-full w-full object-cover"
+                              />
+                            </figure>
+                            <div className="w-full truncate ps-3">
+                              <Title
+                                as="h3"
+                                className="mb-1 flex items-center justify-between truncate font-inter text-sm font-semibold text-gray-900"
+                              >
+                                <Link
+                                  href={`/kasir/product/${item?.product.id}`}
+                                >
+                                  {item.product?.product_name}
+                                </Link>
+                                <DeletePopover
+                                  title="Delete the product"
+                                  description="Are you sure you want to delete this product in cart?"
+                                  onDelete={() => onDeleteCartById(item.id)}
+                                />
+                              </Title>
+                              <div className="flex items-end justify-between">
+                                <div className="flex flex-col gap-1">
+                                  <div className="text-xs font-medium text-gray-500">
+                                    {formatToRupiah(
+                                      item?.product?.product_price
+                                    )}{' '}
+                                    x {item.quantity}
+                                  </div>
+                                  <div className="flex items-center gap-3 whitespace-nowrap font-semibold text-gray-900">
+                                    {formatToRupiah(
+                                      item?.product?.product_price *
+                                        item.quantity
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="inline-flex items-center gap-2.5 text-xs">
+                                  <button
+                                    title="Decrement"
+                                    className="grid h-7 w-7 place-content-center rounded-full bg-gray-50"
+                                    onClick={decrementQuantity}
+                                  >
+                                    <PiMinus className="h-3 w-3 text-gray-600" />
+                                  </button>
+                                  <span className="font-medium text-gray-900">
+                                    {item.quantity}
+                                  </span>
+                                  <button
+                                    title="Increment"
+                                    className="grid h-7 w-7 place-content-center rounded-full bg-gray-50"
+                                    onClick={incrementQuantity}
+                                  >
+                                    <PiPlus className="h-3 w-3 text-gray-600" />
+                                  </button>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          {/* <QuantityControl item={item} /> */}
                         </div>
-                      </div>
+                      ))}
                     </div>
+                  </SimpleBar>
+
+                  {/* Button Section */}
+                  <div className="sticky bottom-3 border-t border-gray-300 bg-white px-6 pt-4">
+                    <div className="mb-7 space-y-3.5">
+                      <p className="flex items-center justify-between">
+                        <span className="text-gray-500">Subtotal</span>
+                        <span className="font-medium text-gray-900">
+                          Rp.10000
+                        </span>
+                      </p>
+                      <p className="flex items-center justify-between">
+                        <span className="text-gray-500">Delivery</span>
+                        <span className="font-medium text-gray-900">Free</span>
+                      </p>
+                      <p className="flex items-center justify-between border-t border-gray-300 pt-3.5 text-base font-semibold">
+                        <span className="text-gray-900">Total:</span>
+                        <span className="text-gray-900">Rp.10000</span>
+                      </p>
+                    </div>
+
+                    <Flex justify="between" align="center">
+                      <Button className="h-11 w-full" isLoading={isPending}>
+                        Order Now
+                      </Button>
+                      <Button
+                        className="h-11 w-full bg-red-500"
+                        isLoading={isPending}
+                      >
+                        Clear All Cart
+                      </Button>
+                    </Flex>
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
+
+              {/* Cart items list */}
             </>
           ),
           placement: 'right',
