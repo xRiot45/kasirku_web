@@ -12,11 +12,13 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { ActionIcon, Button, EmptyBoxIcon, Flex, Title } from 'rizzui';
 import {
+  createOrders,
   deleteAllCarts,
   deleteCartById,
   getAllCarts,
 } from '../../core/_requests';
 import CartHeader from './cart-header';
+import { useRouter } from 'next/navigation';
 
 interface CartsProps {
   children?: React.ReactNode;
@@ -24,8 +26,8 @@ interface CartsProps {
 
 export default function Carts(props: CartsProps) {
   const { children } = props;
-
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { openDrawer, closeDrawer } = useDrawer();
 
   const { data: cartsQueryResponse, isPending } = useQuery({
@@ -46,7 +48,6 @@ export default function Carts(props: CartsProps) {
       closeDrawer();
     },
     onError: (error) => {
-      console.log(error);
       toast.error('An error occurred while deleting data, please try again!');
     },
   });
@@ -59,8 +60,21 @@ export default function Carts(props: CartsProps) {
       closeDrawer();
     },
     onError: (error) => {
-      console.log(error);
       toast.error('An error occurred while deleting data, please try again!');
+    },
+  });
+
+  const createOdersMutation = useMutation({
+    mutationFn: () => createOrders(),
+    onSuccess: () => {
+      toast.success('Create orders successfully!');
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      closeDrawer();
+      router.push('/kasir/orders');
+    },
+    onError: (error) => {
+      toast.error('An error occurred while create orders, please try again!');
     },
   });
 
@@ -70,6 +84,10 @@ export default function Carts(props: CartsProps) {
 
   const onDeleteCartItems = async () => {
     await deleteAllCartItemsMutation.mutateAsync();
+  };
+
+  const onCreateOrders = async () => {
+    await createOdersMutation.mutateAsync();
   };
 
   const totalPriceItems = cartsList.map((item) => {
@@ -83,7 +101,7 @@ export default function Carts(props: CartsProps) {
       aria-label="Carts"
       variant="text"
       className={cn(
-        'relative h-[34px] w-[34px] shadow backdrop-blur-md dark:bg-gray-100 md:h-9 md:w-9'
+        'relative h-[34px] w-[34px] backdrop-blur-md md:h-9 md:w-9'
       )}
       onClick={() =>
         openDrawer({
@@ -166,7 +184,7 @@ export default function Carts(props: CartsProps) {
                   </SimpleBar>
 
                   {/* Button Section */}
-                  <div className="sticky bottom-3 border-t border-gray-300 bg-white px-6 pt-4">
+                  <div className="sticky bottom-5 border-t border-gray-300 px-6 pt-4">
                     <div className="mb-7 space-y-3.5">
                       <p className="flex items-center justify-between">
                         <span className="text-gray-500">Subtotal</span>
@@ -187,7 +205,11 @@ export default function Carts(props: CartsProps) {
                     </div>
 
                     <Flex justify="between" align="center">
-                      <Button className="h-11 w-full" isLoading={isPending}>
+                      <Button
+                        className="h-11 w-full"
+                        isLoading={isPending}
+                        onClick={onCreateOrders}
+                      >
                         Order Now
                       </Button>
                       <Button

@@ -1,26 +1,29 @@
 'use client';
 
-import LogoIcon from '@public/images/logo-icon.png';
+import Carts from '@/app/kasir/shared/partials/cart';
 import ProfileMenu from '@/layouts/profile-menu';
 import SettingsButton from '@/layouts/settings-button';
 import StickyHeader from '@/layouts/sticky-header';
-import Link from 'next/link';
-import { PiGearDuotone } from 'react-icons/pi';
+import LogoIcon from '@public/images/logo-icon.png';
 import LogoImg from '@public/images/logo.png';
 import Image from 'next/image';
-import { IoCartOutline } from 'react-icons/io5';
-import Carts from '@/app/kasir/shared/partials/cart';
+import Link from 'next/link';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { IoBagHandleOutline } from 'react-icons/io5';
+import { PiGearDuotone } from 'react-icons/pi';
 
 function HeaderMenuRight() {
   return (
     <div className="ms-auto flex shrink-0 items-center gap-2 text-gray-700 xs:gap-3 xl:gap-4">
-      {' '}
       <SettingsButton className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
         <PiGearDuotone className="h-[22px] w-auto animate-spin-slow" />
       </SettingsButton>
       <Carts>
-        <IoCartOutline className="h-[22px] w-auto bg-transparent" />
+        <AiOutlineShoppingCart className="h-[22px] w-auto bg-transparent" />
       </Carts>
+      <Link href="/kasir/orders">
+        <IoBagHandleOutline className="h-[22px] w-auto bg-transparent" />
+      </Link>
       <ProfileMenu
         buttonClassName="w-auto sm:w-auto p-1 border border-gray-300"
         avatarClassName="!w-7 !h-7 sm:!h-8 sm:!w-8"
