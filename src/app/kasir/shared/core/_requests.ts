@@ -10,7 +10,8 @@ const GET_PRODUCTS = `${process.env.API_URL}/api/products`;
 const GET_PRODUCT_BY_ID = `${process.env.API_URL}/api/products/show`;
 const ADD_PRODUCT_TO_CART = `${process.env.API_URL}/api/carts/add-product-to-cart`;
 const GET_ALL_CARTS = `${process.env.API_URL}/api/carts/all`;
-const DELETE_CART_BY_ID = `${process.env.API_URL}/api/carts/delete`;
+const DELETE_CART_ITEM_BY_ID = `${process.env.API_URL}/api/carts/delete`;
+const DELETE_ALL_CART_ITEMS = `${process.env.API_URL}/api/carts/delete/all`;
 
 export async function getAllProducts(
   search: {
@@ -53,10 +54,13 @@ export async function getAllCarts() {
   return res.data;
 }
 
-
 export async function deleteCartById(id: string) {
   const res = await api.delete<IBaseResponse<CartsResponse>>(
-    `${DELETE_CART_BY_ID}/${id}`
+    `${DELETE_CART_ITEM_BY_ID}/${id}`
   );
   return res.data;
+}
+
+export async function deleteAllCarts() {
+  await api.delete<IBaseResponse<CartsResponse>>(DELETE_ALL_CART_ITEMS);
 }

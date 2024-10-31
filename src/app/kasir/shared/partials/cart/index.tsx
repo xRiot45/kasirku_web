@@ -13,7 +13,11 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { PiMinus, PiPlus } from 'react-icons/pi';
 import { ActionIcon, Button, EmptyBoxIcon, Flex, Title } from 'rizzui';
-import { deleteCartById, getAllCarts } from '../../core/_requests';
+import {
+  deleteAllCarts,
+  deleteCartById,
+  getAllCarts,
+} from '../../core/_requests';
 import CartHeader from './cart-header';
 
 interface CartsProps {
@@ -58,8 +62,25 @@ export default function Carts(props: CartsProps) {
     },
   });
 
-  const onDeleteCartById = (id: string) => {
-    deleteCartByIdMutation.mutateAsync(id);
+  const deleteAllCartItemsMutation = useMutation({
+    mutationFn: () => deleteAllCarts(),
+    onSuccess: () => {
+      toast.success('Delete all product in cart successfully!');
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      closeDrawer();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error('An error occurred while deleting data, please try again!');
+    },
+  });
+
+  const onDeleteCartById = async (id: string) => {
+    await deleteCartByIdMutation.mutateAsync(id);
+  };
+
+  const onDeleteCartItems = async () => {
+    await deleteAllCartItemsMutation.mutateAsync();
   };
 
   return (
@@ -185,6 +206,7 @@ export default function Carts(props: CartsProps) {
                       <Button
                         className="h-11 w-full bg-red-500"
                         isLoading={isPending}
+                        onClick={onDeleteCartItems}
                       >
                         Clear All Cart
                       </Button>
