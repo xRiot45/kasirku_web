@@ -1,23 +1,62 @@
 'use client';
 
 import { formatToRupiah } from '@/utils/formatRupiah';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { PiShoppingCartSimple } from 'react-icons/pi';
+import { FormEventHandler, useState } from 'react';
+import toast from 'react-hot-toast';
+import { PiMinus, PiPlus, PiShoppingCartSimple } from 'react-icons/pi';
 import { Button, Radio, Text, Title } from 'rizzui';
-import { getProductById } from '../../shared/core/_requests';
+import { AddProductToCartRequest } from '../../shared/core/_models';
+import { addProductToCart, getProductById } from '../../shared/core/_requests';
 
 export default function ProductDetail() {
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const id: string | undefined = pathname.split('/').pop();
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
 
   const { data } = useQuery({
     queryKey: ['product', id],
     queryFn: () => getProductById(id),
     enabled: !!id,
   });
+
+  const mutation = useMutation({
+    mutationFn: (data: AddProductToCartRequest) => addProductToCart(data),
+    onSuccess: () => {
+      toast.success('Add product to cart successfully!');
+      queryClient.invalidateQueries({ queryKey: ['cart'] }).then(() => {
+        queryClient.refetchQueries({ queryKey: ['cart'] });
+      });
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast.error('An error occurred while adding data, please try again!');
+    },
+  });
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data: AddProductToCartRequest = {
+      productId: id ?? '',
+      selected_variant: formData.get('selected_variant') as string,
+      quantity: quantity,
+    };
+
+    // Memulai mutasi untuk menambah produk ke keranjang hanya ketika tombol diklik
+    mutation.mutate(data);
+  };
 
   return (
     <div className="gap-6 3xl:grid 3xl:grid-cols-12">
@@ -55,7 +94,7 @@ export default function ProductDetail() {
           </Text>
         </div>
 
-        <form className="pb-8 pt-5">
+        <form className="pb-8 pt-5" onSubmit={onSubmit}>
           <div className="mb-1.5 mt-2 font-lexend text-base">
             <div className="-mb-0.5 text-2xl font-semibold text-gray-900 lg:text-3xl">
               {formatToRupiah(data?.product_price as number)}
@@ -76,7 +115,7 @@ export default function ProductDetail() {
                 <Radio
                   key={index}
                   label={variant?.variant}
-                  name="product_variant"
+                  name="selected_variant"
                   value={variant?.variant}
                 />
               ))}
@@ -93,6 +132,28 @@ export default function ProductDetail() {
             </div>
           </div>
 
+          <div className="flex h-10 w-full items-center justify-between rounded-md border border-gray-300 px-1 duration-200 hover:border-gray-900">
+            <button
+              title="Decrement"
+              onClick={decrementQuantity}
+              type="button"
+              className="flex items-center justify-center rounded p-2 duration-200 hover:bg-gray-100 hover:text-gray-900"
+            >
+              <PiMinus className="h-3.5 w-3.5" />
+            </button>
+            <span className="grid w-8 place-content-center font-medium">
+              {quantity}
+            </span>
+            <button
+              title="Increment"
+              onClick={incrementQuantity}
+              type="button"
+              className="flex items-center justify-center rounded p-2 duration-200 hover:bg-gray-100 hover:text-gray-900"
+            >
+              <PiPlus className="h-3.5 w-3.5" />
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 gap-4 pt-7 @md:grid-cols-2 @xl:gap-6">
             <Button
               size="xl"
@@ -104,68 +165,6 @@ export default function ProductDetail() {
             </Button>
           </div>
         </form>
-
-        {/* <Collapse
-          className="border-t last-of-type:border-t-0"
-          defaultOpen={true}
-          header={({ open, toggle }) => (
-            <div
-              role="button"
-              onClick={toggle}
-              className="flex w-full cursor-pointer items-center justify-between py-6 font-lexend text-lg font-semibold text-gray-900"
-            >
-              Product Details
-              <div className="flex shrink-0 items-center justify-center">
-                <PiCaretDownBold
-                  className={cn(
-                    'h-[18px] w-[18px] transform transition-transform duration-300',
-                    open && 'rotate-180'
-                  )}
-                />
-              </div>
-            </div>
-          )}
-        >
-          <div className="-mt-2 pb-7">
-            <Text as="p" className="pb-2 leading-relaxed">
-              Monochrome elegance. Made with a relaxed wide-leg, these trousers
-              are made from a sustainable soft organic cotton with a mechanical
-              stretch making the garment easily recycled.
-            </Text>
-            <ul className="space-y-2.5">
-              <li>Synthetic leather upper</li>
-              <li>Cushioned footbed</li>
-              <li>Textured and patterned outsole</li>
-              <li>Warranty: 1 month</li>
-            </ul>
-            <Title as="h6" className="mt-6 font-inter text-sm font-semibold">
-              Material & Care
-            </Title>
-            <ul className="space-y-2.5 pt-3.5">
-              <li>Synthetic Leather</li>
-              <li>EASY WIPE CLEAN</li>
-            </ul>
-            <div className="mt-6 flex items-start">
-              <div className="me-3 mt-1 flex shrink-0 items-center font-medium text-gray-900">
-                <PiTagLight className="me-1.5 h-[18px] w-[18px]" /> Tags:
-              </div>
-              <ul className="-m-1 text-gray-900">
-                <li className="m-1 inline-flex rounded bg-gray-100 px-2.5 py-1">
-                  Shoe
-                </li>
-                <li className="m-1 inline-flex rounded bg-gray-100 px-2.5 py-1">
-                  Fashion
-                </li>
-                <li className="m-1 inline-flex rounded bg-gray-100 px-2.5 py-1">
-                  Men
-                </li>
-                <li className="m-1 inline-flex rounded bg-gray-100 px-2.5 py-1">
-                  Nike
-                </li>
-              </ul>
-            </div>
-          </div>
-        </Collapse> */}
       </div>
     </div>
   );
