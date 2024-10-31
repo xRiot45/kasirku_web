@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { PiGearDuotone } from 'react-icons/pi';
 import LogoImg from '@public/images/logo.png';
 import Image from 'next/image';
+import { IoCartOutline } from 'react-icons/io5';
+import Carts from '@/app/kasir/shared/partials/cart';
 
 function HeaderMenuRight() {
   return (
@@ -16,6 +18,9 @@ function HeaderMenuRight() {
       <SettingsButton className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
         <PiGearDuotone className="h-[22px] w-auto animate-spin-slow" />
       </SettingsButton>
+      <Carts className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
+        <IoCartOutline className="h-[22px] w-auto" />
+      </Carts>
       <ProfileMenu
         buttonClassName="w-auto sm:w-auto p-1 border border-gray-300"
         avatarClassName="!w-7 !h-7 sm:!h-8 sm:!w-8"

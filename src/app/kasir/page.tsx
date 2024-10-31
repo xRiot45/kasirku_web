@@ -9,6 +9,7 @@ import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Empty, Input, SearchNotFoundIcon } from 'rizzui';
 import { getAllProducts } from './shared/core/_requests';
 import CardProducts from './shared/partials/card-products';
+import Carts from './shared/partials/cart';
 
 const pageHeader = {
   title: 'Kasirku',

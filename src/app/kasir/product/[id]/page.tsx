@@ -40,7 +40,6 @@ export default function ProductDetail() {
       });
     },
     onError: (error: any) => {
-      console.log(error);
       toast.error('An error occurred while adding data, please try again!');
     },
   });
@@ -54,7 +53,6 @@ export default function ProductDetail() {
       quantity: quantity,
     };
 
-    // Memulai mutasi untuk menambah produk ke keranjang hanya ketika tombol diklik
     mutation.mutate(data);
   };
 
