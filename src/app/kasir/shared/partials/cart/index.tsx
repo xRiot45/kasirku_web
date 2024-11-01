@@ -91,7 +91,7 @@ export default function Carts(props: CartsProps) {
   };
 
   const totalPriceItems = cartsList.map((item) => {
-    return item.product?.product_price || 0;
+    return item.product?.product_price * item.quantity || 0;
   });
 
   const total = totalPriceItems.reduce((acc, curr) => acc + curr, 0);

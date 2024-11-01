@@ -1,23 +1,24 @@
 'use client';
 
+import { Form } from '@/components/ui/form';
 import PageHeader from '@/shared/page-header';
 import { formatToRupiah } from '@/utils/formatRupiah';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { IoMdClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import { ActionIcon, Button, Input, Modal, Title } from 'rizzui';
-
+import { CheckoutOrdersRequest, OrdersType } from './shared/core/_models';
+import { checkout, getAllOrders } from './shared/core/_requests';
 import TableOrders from './shared/partials/table';
-import { Form } from '@/components/ui/form';
 import {
   validationSchema,
   ValidationSchema,
 } from './shared/partials/validationSchema';
-import { getAllOrders } from './shared/core/_requests';
-import { OrdersType } from './shared/core/_models';
 
 const pageHeader = {
   title: 'Kasirku',
@@ -33,6 +34,7 @@ const pageHeader = {
 
 export default function Orders() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [modalState, setModalState] = useState<boolean>(false);
 
   const {
@@ -49,9 +51,6 @@ export default function Orders() {
   const { data: ordersData } = ordersQueryResponse || {};
   const ordersList = ordersData || [];
 
-  if (isLoading) return 'Loading...';
-  if (error) return 'An error has occurred: ' + error.message;
-
   const totalPriceItems = ordersList.map((item: OrdersType) => {
     return item?.total_price || 0;
   });
@@ -61,9 +60,32 @@ export default function Orders() {
     0
   );
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const mutation = useMutation({
+    mutationFn: (data: CheckoutOrdersRequest) => checkout(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] }).then(() => {
+        queryClient.refetchQueries({ queryKey: ['orders'] });
+      });
+      toast.success('Checkout orders successfully!');
+      setModalState(false);
+    },
+    onError: (error: any) => {
+      if (error.response.status === 400) {
+        toast.error('Payment amount is less than total order price');
+      } else {
+        toast.error(
+          'An error occurred while checkout orders, please try again!'
+        );
+      }
+    },
+  });
+
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
+    mutation.mutate(data);
   };
+
+  if (isLoading) return 'Loading...';
+  if (error) return 'An error has occurred: ' + error.message;
 
   return (
     <>
@@ -107,71 +129,61 @@ export default function Orders() {
                 </div>
               </div>
 
-              {/* <ModalCheckouts
-                modalState={modalState}
-                setModalState={setModalState}
-              /> */}
-              <Form<ValidationSchema>
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-              >
-                {({ register, formState: { errors } }) => (
-                  <div className="mt-4 space-y-3">
-                    <Modal
-                      isOpen={modalState}
-                      onClose={() => setModalState(false)}
-                    >
-                      <div className="m-auto px-7 pb-8 pt-6">
-                        <div className="mb-7 flex items-center justify-between">
-                          <Title as="h5" className="font-semibold">
-                            Checkout Orders
-                          </Title>
-                          <ActionIcon
-                            size="sm"
-                            variant="text"
-                            onClick={() => setModalState(false)}
-                          >
-                            <IoMdClose
-                              className="h-auto w-6"
-                              strokeWidth={1.8}
-                            />
-                          </ActionIcon>
-                        </div>
-                        <div className="">
-                          <Input
-                            label="Payment Amount *"
-                            inputClassName="border-2"
-                            placeholder="Input payment amount..."
-                            size="lg"
-                            type="number"
-                            {...register('payment_amount')}
-                            error={errors.payment_amount?.message}
-                          />
-
-                          <Input
-                            label="Seat Number *"
-                            inputClassName="border-2 "
-                            placeholder="Input seat number..."
-                            size="lg"
-                            className="mt-3"
-                            {...register('seat_number')}
-                            error={errors.seat_number?.message}
-                          />
-
-                          <Button
-                            type="submit"
-                            size="lg"
-                            className="col-span-2 mt-5 w-full"
-                            onClick={() => setModalState(false)}
-                          >
-                            Checkout Orders
-                          </Button>
-                        </div>
+              {/* Pindahkan Form ke dalam Modal untuk memastikan konteks yang benar */}
+              <Modal isOpen={modalState} onClose={() => setModalState(false)}>
+                <Form
+                  onSubmit={onSubmit}
+                  validationSchema={validationSchema as any}
+                >
+                  {({ register, formState: { errors } }) => (
+                    <div className="m-auto px-7 pb-8 pt-6">
+                      <div className="mb-7 flex items-center justify-between">
+                        <Title as="h5" className="font-semibold">
+                          Checkout Orders
+                        </Title>
+                        <ActionIcon
+                          size="sm"
+                          variant="text"
+                          onClick={() => setModalState(false)}
+                        >
+                          <IoMdClose className="h-auto w-6" strokeWidth={1.8} />
+                        </ActionIcon>
                       </div>
-                    </Modal>
-                  </div>
-                )}
-              </Form>
+                      <div>
+                        <Input
+                          type="number"
+                          size="lg"
+                          label="Payment Amount *"
+                          placeholder="Input payment amount..."
+                          className="[&>label>span]:font-medium"
+                          inputClassName="text-sm"
+                          {...register('payment_amount')}
+                          error={errors.payment_amount?.message}
+                        />
+
+                        <Input
+                          type="text"
+                          size="lg"
+                          label="Seat Number *"
+                          placeholder="Input seat number..."
+                          className="mt-3 [&>label>span]:font-medium"
+                          inputClassName="text-sm"
+                          {...register('seat_number')}
+                          error={errors.seat_number?.message}
+                        />
+
+                        <Button
+                          type="submit"
+                          size="lg"
+                          className="col-span-2 mt-5 w-full"
+                        >
+                          Checkout Orders
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </Form>
+              </Modal>
             </div>
           </div>
         </div>
@@ -179,58 +191,3 @@ export default function Orders() {
     </>
   );
 }
-
-// function ModalCheckouts({
-//   modalState,
-//   setModalState,
-// }: {
-//   modalState: boolean;
-//   setModalState: React.Dispatch<React.SetStateAction<boolean>>;
-// }) {
-//   return (
-//     <>
-//       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
-//         <div className="m-auto px-7 pb-8 pt-6">
-//           <div className="mb-7 flex items-center justify-between">
-//             <Title as="h5" className="font-semibold">
-//               Checkout Orders
-//             </Title>
-//             <ActionIcon
-//               size="sm"
-//               variant="text"
-//               onClick={() => setModalState(false)}
-//             >
-//               <IoMdClose className="h-auto w-6" strokeWidth={1.8} />
-//             </ActionIcon>
-//           </div>
-//           <div className="">
-//             <Input
-//               label="Payment Amount *"
-//               inputClassName="border-2"
-//               placeholder="Input payment amount..."
-//               size="lg"
-//               type="number"
-//             />
-
-//             <Input
-//               label="Seat Number *"
-//               inputClassName="border-2 "
-//               placeholder="Input seat number..."
-//               size="lg"
-//               className="mt-3"
-//             />
-
-//             <Button
-//               type="submit"
-//               size="lg"
-//               className="col-span-2 mt-5 w-full"
-//               onClick={() => setModalState(false)}
-//             >
-//               Checkout Orders
-//             </Button>
-//           </div>
-//         </div>
-//       </Modal>
-//     </>
-//   );
-// }

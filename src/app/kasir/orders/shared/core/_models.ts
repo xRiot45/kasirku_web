@@ -15,3 +15,8 @@ export interface OrdersType {
   quantity: number;
   total_price: number;
 }
+
+export interface CheckoutOrdersRequest {
+  payment_amount: number;
+  seat_number: string;
+}
