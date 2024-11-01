@@ -11,7 +11,7 @@ import { getAllProducts } from './shared/core/_requests';
 import CardProducts from './shared/partials/card-products';
 
 const pageHeader = {
-  title: 'Kasirku',
+  title: 'Kasir',
   breadcrumb: [
     {
       name: 'Home',

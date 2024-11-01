@@ -11,18 +11,25 @@ import Link from 'next/link';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { IoBagHandleOutline } from 'react-icons/io5';
 import { PiGearDuotone } from 'react-icons/pi';
+import { CgCheckO } from 'react-icons/cg';
 
 function HeaderMenuRight() {
   return (
-    <div className="ms-auto flex shrink-0 items-center gap-2 text-gray-700 xs:gap-3 xl:gap-4">
+    <div className="ms-auto flex shrink-0 items-center gap-5 text-gray-700 xs:gap-3 xl:gap-4">
       <SettingsButton className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
         <PiGearDuotone className="h-[22px] w-auto animate-spin-slow" />
       </SettingsButton>
+
       <Carts>
         <AiOutlineShoppingCart className="h-[22px] w-auto bg-transparent" />
       </Carts>
-      <Link href="/kasir/orders">
+
+      <Link href="/kasir/orders" className="p-2">
         <IoBagHandleOutline className="h-[22px] w-auto bg-transparent hover:text-amber-600" />
+      </Link>
+
+      <Link href="/kasir/checkouts" className="p-2">
+        <CgCheckO className="h-[22px] w-auto bg-transparent hover:text-amber-600" />
       </Link>
       <ProfileMenu
         buttonClassName="w-auto sm:w-auto p-1 border border-gray-300"

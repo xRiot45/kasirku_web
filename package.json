@@ -66,6 +66,7 @@
     "prop-types": "^15.8.1",
     "qrcode.react": "^4.0.1",
     "rc-pagination": "^4.3.0",
+    "react-to-print": "^3.0.1",
     "rc-rate": "^2.13.0",
     "rc-slider": "^11.1.7",
     "rc-table": "7.48.0",
