@@ -22,7 +22,7 @@ function HeaderMenuRight() {
         <AiOutlineShoppingCart className="h-[22px] w-auto bg-transparent" />
       </Carts>
       <Link href="/kasir/orders">
-        <IoBagHandleOutline className="h-[22px] w-auto bg-transparent" />
+        <IoBagHandleOutline className="h-[22px] w-auto bg-transparent hover:text-amber-600" />
       </Link>
       <ProfileMenu
         buttonClassName="w-auto sm:w-auto p-1 border border-gray-300"

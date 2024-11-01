@@ -16,10 +16,6 @@ const GET_ALL_CARTS = `${process.env.API_URL}/api/carts/all`;
 const DELETE_CART_ITEM_BY_ID = `${process.env.API_URL}/api/carts/delete`;
 const DELETE_ALL_CART_ITEMS = `${process.env.API_URL}/api/carts/delete/all`;
 
-// Orders API
-const CREATE_ORDERS = `${process.env.API_URL}/api/orders/create`;
-const GET_ORDERS = `${process.env.API_URL}/api/orders/all`;
-
 export async function getAllProducts(
   search: {
     product_name?: string;
@@ -70,14 +66,4 @@ export async function deleteCartById(id: string) {
 
 export async function deleteAllCarts() {
   await api.delete<IBaseResponse<CartsResponse>>(DELETE_ALL_CART_ITEMS);
-}
-
-export async function createOrders() {
-  const res = await api.post(CREATE_ORDERS);
-  return res.data.data;
-}
-
-export async function getAllOrders() {
-  const res = await api.get(GET_ORDERS);
-  return res.data;
 }

@@ -2,7 +2,6 @@ import { HeaderCell } from '@/components/legacy-table';
 import { formatToRupiah } from '@/utils/formatRupiah';
 import Image from 'next/image';
 import { Text, Title } from 'rizzui';
-import { OrdersType } from '../../shared/core/_models';
 import { DefaultRecordType } from 'rc-table/lib/interface';
 
 export const columns = [
