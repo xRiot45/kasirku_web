@@ -5,6 +5,10 @@ declare module '@tanstack/react-table' {
     handleDeleteRow?: (row: Row<TData>) => void;
     handleMultipleDelete?: (row: Row<TData>) => void;
     handleResetPasswordRow?: (row: Row<TData>) => void;
+    handleConfirmedRow?: (row: Row<TData>) => void;
+    handleProcessedRow?: (row: Row<TData>) => void;
+    handleCompletedRow?: (row: Row<TData>) => void;
+    handleCancelledRow?: (row: Row<TData>) => void;
   }
   interface ColumnMeta<TData extends RowData, TValue> {
     isColumnDraggable?: boolean;
