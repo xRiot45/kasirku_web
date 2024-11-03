@@ -5,6 +5,7 @@ import Table from '@/components/table';
 import { useTanStackTable } from '@/components/table/custom/use-TanStack-Table';
 import TablePagination from '@/components/table/pagination';
 import { TableClassNameProps } from '@/components/table/table-types';
+import { useMutationHooks } from '@/hooks/use-mutation';
 import { ICheckout } from '@/services/checkouts/_models';
 import {
   cancelledCheckout,
@@ -13,9 +14,8 @@ import {
   processedCheckout,
 } from '@/services/checkouts/_requests';
 import cn from '@/utils/class-names';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { checkoutListColumns } from './partials/columns';
 
 interface TableProps {
@@ -99,59 +99,29 @@ export default function CheckoutsTable(props: TableProps) {
     }
   }, [dataCheckouts, setData]);
 
-  const mutationConfirmCheckout = useMutation({
-    mutationFn: (id: string) => confirmedCheckout(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['checkouts'] });
-      toast.success('Confirmed checkout successfully!');
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error(
-        'An error occurred while confirming checkout, please try again!'
-      );
-    },
-  });
+  const mutationConfirmCheckout = useMutationHooks(
+    confirmedCheckout,
+    'Confirmed checkout successfully!',
+    'An error occurred while confirming checkout, please try again!'
+  );
 
-  const mutationProcessCheckout = useMutation({
-    mutationFn: (id: string) => processedCheckout(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['checkouts'] });
-      toast.success('Process checkout successfully!');
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error(
-        'An error occurred while process checkout, please try again!'
-      );
-    },
-  });
+  const mutationProcessCheckout = useMutationHooks(
+    processedCheckout,
+    'Processed checkout successfully!',
+    'An error occurred while processing checkout, please try again!'
+  );
 
-  const mutationCompleteCheckout = useMutation({
-    mutationFn: (id: string) => completedCheckout(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['checkouts'] });
-      toast.success('Complete checkout successfully!');
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error(
-        'An error occurred while complete checkout, please try again!'
-      );
-    },
-  });
+  const mutationCompleteCheckout = useMutationHooks(
+    completedCheckout,
+    'Completed checkout successfully!',
+    'An error occurred while completing checkout, please try again!'
+  );
 
-  const mutationCancelCheckout = useMutation({
-    mutationFn: (id: string) => cancelledCheckout(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['checkouts'] });
-      toast.success('Cancel checkout successfully!');
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error('An error occurred while cancel checkout, please try again!');
-    },
-  });
+  const mutationCancelCheckout = useMutationHooks(
+    cancelledCheckout,
+    'Cancelled checkout successfully!',
+    'An error occurred while cancelling checkout, please try again!'
+  );
 
   const handleConfirmCheckout = (id: string) => {
     mutationConfirmCheckout.mutate(id);
