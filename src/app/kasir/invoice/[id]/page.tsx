@@ -93,7 +93,7 @@ export default function Invoice() {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
-          <PrintButton onClick={() => handlePrint()} />
+          <PrintButton onClick={() => handlePrint()} title="Print Invoice" />
         </div>
       </PageHeader>
 
