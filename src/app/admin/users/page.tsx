@@ -3,9 +3,9 @@
 import { useDebounce } from '@/hooks/use-debounce';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { getAllUsers } from './shared/core/_requests';
 import UsersTable from './shared/table';
 import TableLayout from './shared/table/layouts/table-layout';
+import { getAllUsers } from '@/services/users/_requests';
 
 const pageHeader = {
   title: 'Users',

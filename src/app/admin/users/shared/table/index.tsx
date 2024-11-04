@@ -1,15 +1,15 @@
-import { TableClassNameProps } from '@/components/table/table-types';
-import { UsersResponse, UsersType } from '../core/_models';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import WidgetCard from '@/components/cards/widget-card';
+import Table from '@/components/table';
 import { useTanStackTable } from '@/components/table/custom/use-TanStack-Table';
+import TablePagination from '@/components/table/pagination';
+import { TableClassNameProps } from '@/components/table/table-types';
+import { IUsers } from '@/services/users/_models';
+import { deleteUser, resetPassword } from '@/services/users/_requests';
+import cn from '@/utils/class-names';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { deleteUser, resetPassword } from '../core/_requests';
-import WidgetCard from '@/components/cards/widget-card';
 import { Flex, Title } from 'rizzui';
-import Table from '@/components/table';
-import TablePagination from '@/components/table/pagination';
-import cn from '@/utils/class-names';
 import { usersListColumns } from './partials/columns';
 import Filters from './partials/filters';
 
@@ -20,7 +20,7 @@ type SearchProps = {
 };
 
 interface TableProps {
-  dataUsers: UsersResponse[];
+  dataUsers: IUsers[];
   pageSize?: number;
   totalItems?: number;
   totalPages?: number;
@@ -63,7 +63,7 @@ export default function UsersTable(props: TableProps) {
     },
   } = props;
 
-  const { table, setData } = useTanStackTable<UsersType>({
+  const { table, setData } = useTanStackTable<IUsers>({
     tableData: dataUsers,
     columnConfig: usersListColumns,
     options: {

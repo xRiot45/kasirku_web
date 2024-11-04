@@ -1,10 +1,10 @@
-import api, { updateData } from '@/config/api';
 import {
-  RegisterUserRequest,
-  RegisterUserResponse,
-  UpdateProfileRequest,
-  UsersResponse,
+  IRegisterRequest,
+  IRegisterResponse,
+  IUpdateProfileRequest,
+  IUsers,
 } from './_models';
+import api, { updateData } from '@/config/api';
 
 const GET_USERS = `${process.env.API_URL}/api/users`;
 const GET_USER_BY_ID = `${process.env.API_URL}/api/users/show`;
@@ -23,7 +23,7 @@ export async function getAllUsers(
   limit?: number
 ) {
   const actualLimit = limit ?? 10;
-  const res = await api.get<IBaseResponse<UsersResponse[]>>(GET_USERS, {
+  const res = await api.get<IBaseResponse<IUsers[]>>(GET_USERS, {
     params: {
       ...search,
       page,
@@ -35,15 +35,12 @@ export async function getAllUsers(
 }
 
 export async function getUserById(id: string | undefined) {
-  const res = await api.get<IBaseResponse<UsersResponse>>(
-    `${GET_USER_BY_ID}/${id}`
-  );
-
+  const res = await api.get<IBaseResponse<IUsers>>(`${GET_USER_BY_ID}/${id}`);
   return res.data.data;
 }
 
-export async function registerUser(data: RegisterUserRequest) {
-  const res = await api.post<IBaseResponse<RegisterUserResponse>>(
+export async function registerUser(data: IRegisterRequest) {
+  const res = await api.post<IBaseResponse<IRegisterResponse>>(
     REGISTER_USER,
     data
   );
@@ -56,12 +53,12 @@ export async function resetPassword(id: string) {
 }
 
 export async function deleteUser(id: string) {
-  await api.delete<IBaseResponse<UsersResponse>>(`${DELETE_USER}/${id}`);
+  await api.delete<IBaseResponse<IUsers>>(`${DELETE_USER}/${id}`);
 }
 
 export async function updateProfileByAdmin(
   id: string | undefined,
-  data: UpdateProfileRequest
+  data: IUpdateProfileRequest
 ) {
   const res = await updateData(`${UPDATE_USER_BY_ADMIN}/${id}`, data);
   return res.data.data;

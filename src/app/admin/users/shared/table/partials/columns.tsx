@@ -1,17 +1,17 @@
 'use client';
 
 import DeletePopover from '@/components/delete-popover';
+import EyeIcon from '@/components/icons/eye';
 import PencilIcon from '@/components/icons/pencil';
 import ResetPasswordPopover from '@/components/reset-password-popover';
 import AvatarCard from '@/components/ui/avatar-card';
 import { routes } from '@/config/routes';
+import { IUsers } from '@/services/users/_models';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
-import { UsersType } from '../../core/_models';
-import EyeIcon from '@/components/icons/eye';
 
-const columnHelper = createColumnHelper<UsersType>();
+const columnHelper = createColumnHelper<IUsers>();
 
 export const usersListColumns = [
   columnHelper.display({
@@ -99,7 +99,7 @@ export const usersListColumns = [
 
   columnHelper.display({
     id: 'role',
-    header: 'Role Name',
+    header: 'Role',
     enableSorting: false,
     cell: ({ row }) => {
       const roleName = row.original.role.role_name;
@@ -144,7 +144,7 @@ export const usersListColumns = [
             </ActionIcon>
           </Link>
         </Tooltip>
-        <Tooltip size="sm" content={'View User'} placement="top" color="invert">
+        {/* <Tooltip size="sm" content={'View User'} placement="top" color="invert">
           <Link href={routes.users.viewUser(row.original.id)}>
             <ActionIcon
               as="span"
@@ -155,7 +155,7 @@ export const usersListColumns = [
               <EyeIcon className="h-4 w-4" />
             </ActionIcon>
           </Link>
-        </Tooltip>
+        </Tooltip> */}
         <ResetPasswordPopover
           title={`Reset Password the user`}
           description={`Are you sure you want to reset password this user?`}

@@ -9,11 +9,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { getUserById, updateProfileByAdmin } from '../../shared/core/_requests';
 import FormLayout from './form';
 import { validationSchema, ValidationSchema } from './form/validationSchema';
-import { UpdateProfileRequest } from '../../shared/core/_models';
 import { useState } from 'react';
+import { IUpdateProfileRequest } from '@/services/users/_models';
+import { getUserById, updateProfileByAdmin } from '@/services/users/_requests';
 
 const pageHeader = {
   title: 'Edit User',
@@ -44,11 +44,9 @@ export default function EditUserPage() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: UpdateProfileRequest) => updateProfileByAdmin(id, data),
+    mutationFn: (data: IUpdateProfileRequest) => updateProfileByAdmin(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] }).then(() => {
-        queryClient.refetchQueries({ queryKey: ['users'] });
-      });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success('Edit user successfully!');
       router.push(routes.users.index);
     },
@@ -72,7 +70,7 @@ export default function EditUserPage() {
   const onSubmit: SubmitHandler<ValidationSchema> = (
     formData: ValidationSchema
   ) => {
-    const updateProfileRequest: UpdateProfileRequest = {
+    const updateProfileRequest: IUpdateProfileRequest = {
       ...formData,
       birthday_date: formData.birthday_date
         ? new Date(formData.birthday_date).toISOString().split('T')[0]

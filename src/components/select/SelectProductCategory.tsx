@@ -1,5 +1,5 @@
-import { ProductCategoryType } from '@/app/admin/master/product-category/shared/core/_models';
-import { getAllProductCategory } from '@/app/admin/master/product-category/shared/core/_requests';
+import { IProductCategory } from '@/services/product-category/_models';
+import { getAllProductCategory } from '@/services/product-category/_requests';
 import { useQuery } from '@tanstack/react-query';
 import { Controller } from 'react-hook-form';
 import { Select } from 'rizzui';
@@ -20,7 +20,7 @@ export default function SelectProductCategory(props: any) {
   const productCategoryList = productCategoryData || [];
 
   const optionProductCategory = productCategoryList.map(
-    (item: ProductCategoryType) => ({
+    (item: IProductCategory) => ({
       value: item.id,
       label: item.product_category_name,
     })

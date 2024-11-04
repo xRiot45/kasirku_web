@@ -2,6 +2,8 @@
 
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
+import { IRegisterRequest } from '@/services/users/_models';
+import { registerUser } from '@/services/users/_requests';
 import PageHeader from '@/shared/page-header';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -9,8 +11,6 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { RegisterUserRequest } from '../shared/core/_models';
-import { registerUser } from '../shared/core/_requests';
 import FormLayout from './form';
 import { validationSchema, ValidationSchema } from './form/validationSchema';
 
@@ -34,11 +34,9 @@ export default function RegisterUserPage() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (data: RegisterUserRequest) => registerUser(data),
+    mutationFn: (data: IRegisterRequest) => registerUser(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] }).then(() => {
-        queryClient.refetchQueries({ queryKey: ['users'] });
-      });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success('Register user successfully!');
       router.push(routes.users.index);
     },

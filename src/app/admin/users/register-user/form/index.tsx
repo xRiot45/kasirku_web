@@ -1,12 +1,12 @@
 import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Flex, Input } from 'rizzui';
-import { RegisterUserRequest } from '../../shared/core/_models';
 import SelectRole from '@/components/select/SelectRole';
+import { IRegisterRequest } from '@/services/users/_models';
 
 interface FormProps {
-  register: UseFormRegister<RegisterUserRequest>;
-  errors: FieldErrors<RegisterUserRequest>;
-  control: Control<RegisterUserRequest>;
+  register: UseFormRegister<IRegisterRequest>;
+  errors: FieldErrors<IRegisterRequest>;
+  control: Control<IRegisterRequest>;
 }
 
 export default function FormLayout(props: FormProps) {

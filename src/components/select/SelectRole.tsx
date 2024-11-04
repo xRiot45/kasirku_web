@@ -1,5 +1,5 @@
-import { RoleType } from '@/app/admin/master/roles/shared/core/_models';
-import { getAllRoles } from '@/app/admin/master/roles/shared/core/_requests';
+import { IRole } from '@/services/roles/_models';
+import { getAllRoles } from '@/services/roles/_requests';
 import { useQuery } from '@tanstack/react-query';
 import { Controller } from 'react-hook-form';
 import { Select } from 'rizzui';
@@ -19,7 +19,7 @@ export default function SelectRole(props: any) {
   const { data: rolesData } = roleQueryResponse || {};
   const rolesList = rolesData || [];
 
-  const optionRole = rolesList.map((item: RoleType) => ({
+  const optionRole = rolesList.map((item: IRole) => ({
     value: item.id,
     label: item.role_name,
   }));
