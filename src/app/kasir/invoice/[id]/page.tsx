@@ -139,7 +139,7 @@ export default function Invoice() {
         />
 
         <div className="flex flex-col-reverse items-start justify-end border-t border-muted pb-4 pt-8 xs:w-full xs:flex-row">
-          <div className="w-full max-w-lg xs:w-full">
+          <div className="w-full max-w-md xs:w-full">
             <Text className="flex w-full items-center justify-between border-b border-muted py-3.5 lg:py-5">
               Checkout Date{' '}
               <Text as="span" className="font-semibold">
