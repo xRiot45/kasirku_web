@@ -134,14 +134,14 @@ export const checkoutListColumns = [
     }) => (
       <Flex align="center" justify="start" gap="3" className="pe-4">
         <Dropdown>
-          <Dropdown.Trigger>
+          <Dropdown.Trigger as="button">
             <Tooltip
               size="sm"
               content={'Action'}
               placement="top"
               color="invert"
             >
-              <ActionIcon variant="outline" rounded="full">
+              <ActionIcon variant="outline" rounded="full" as="span">
                 <CiSliderHorizontal className="h-5 w-5" />
               </ActionIcon>
             </Tooltip>
