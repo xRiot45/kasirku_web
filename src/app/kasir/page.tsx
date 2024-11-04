@@ -7,8 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Empty, Input, SearchNotFoundIcon } from 'rizzui';
-import { getAllProducts } from './shared/core/_requests';
 import CardProducts from './shared/partials/card-products';
+import { getAllProducts } from '@/services/products/_requests';
 
 const pageHeader = {
   title: 'Kasir',
@@ -51,7 +51,6 @@ export default function KasirPage() {
   });
 
   const { data: productsData, totalItems } = productsQueryResponse || {};
-
   const productsList = productsData || [];
 
   if (isLoading) return 'Loading...';

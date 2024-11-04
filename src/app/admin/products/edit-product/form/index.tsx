@@ -11,7 +11,8 @@ import {
 import { PiPlusBold } from 'react-icons/pi';
 import { ActionIcon, Button, FileInput, Input, Textarea } from 'rizzui';
 import { ValidationSchema } from './validationSchema';
-import { ProductsResponse } from '../core/_models';
+import { IProducts } from '@/services/products/_models';
+import SelectProductStatus from '@/components/select/SelectProductStatus';
 
 interface PropTypes {
   register: UseFormRegister<ValidationSchema>;
@@ -19,7 +20,7 @@ interface PropTypes {
   errors: FieldErrors<ValidationSchema>;
   selectedPhoto: string | null;
   handlePhotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  data?: ProductsResponse;
+  data?: IProducts;
 }
 
 export default function FormLayout(props: PropTypes) {
@@ -117,6 +118,11 @@ export default function FormLayout(props: PropTypes) {
         error={errors.productCategoryId?.message}
       />
 
+      <SelectProductStatus
+        control={control}
+        errors={errors.product_status?.message}
+      />
+
       <FileInput
         label="Product Photo"
         {...register('product_photo')}
@@ -131,11 +137,11 @@ export default function FormLayout(props: PropTypes) {
       {selectedPhoto ? (
         <div className="mt-4">
           <Image
-            src={selectedPhoto}
+            src={`/${selectedPhoto}`}
             alt={'Product photo'}
             width={1000}
             height={1000}
-            className="h-96 w-96"
+            className="h-auto w-auto"
             priority
           />
         </div>
@@ -146,7 +152,7 @@ export default function FormLayout(props: PropTypes) {
             alt={'Existing product photo'}
             width={1000}
             height={1000}
-            className="h-96 w-96"
+            className="h-auto w-auto"
             priority
           />
         </div>

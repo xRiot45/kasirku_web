@@ -5,13 +5,13 @@ import EyeIcon from '@/components/icons/eye';
 import PencilIcon from '@/components/icons/pencil';
 import AvatarCard from '@/components/ui/avatar-card';
 import { routes } from '@/config/routes';
+import { IProducts } from '@/services/products/_models';
 import { formatToRupiah } from '@/utils/formatRupiah';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
-import { ProductsType } from '../../core/_models';
 
-const columnHelper = createColumnHelper<ProductsType>();
+const columnHelper = createColumnHelper<IProducts>();
 
 export const productsListColumns = [
   columnHelper.display({

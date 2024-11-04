@@ -1,12 +1,10 @@
 'use client';
 
 import { TableClassNameProps } from '@/components/table/table-types';
-import { ProductsResponse, ProductsType } from '../core/_models';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTanStackTable } from '@/components/table/custom/use-TanStack-Table';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { deleteProduct } from '../core/_requests';
 import WidgetCard from '@/components/cards/widget-card';
 import { Flex, Title } from 'rizzui';
 import Table from '@/components/table';
@@ -14,6 +12,8 @@ import TablePagination from '@/components/table/pagination';
 import cn from '@/utils/class-names';
 import { productsListColumns } from './partials/columns';
 import Filters from './partials/filters';
+import { IProducts } from '@/services/products/_models';
+import { deleteProduct } from '@/services/products/_requests';
 
 type SearchProps = {
   product_name: string;
@@ -21,7 +21,7 @@ type SearchProps = {
 };
 
 interface TableProps {
-  dataProducts: ProductsResponse[];
+  dataProducts: IProducts[];
   pageSize?: number;
   totalItems?: number;
   totalPages?: number;
@@ -64,7 +64,7 @@ export default function ProductsTable(props: TableProps) {
     },
   } = props;
 
-  const { table, setData } = useTanStackTable<ProductsType>({
+  const { table, setData } = useTanStackTable<IProducts>({
     tableData: dataProducts,
     columnConfig: productsListColumns,
     options: {

@@ -8,10 +8,12 @@ import { FormEventHandler, useState } from 'react';
 import toast from 'react-hot-toast';
 import { PiMinus, PiPlus, PiShoppingCartSimple } from 'react-icons/pi';
 import { Button, Radio, Text, Title } from 'rizzui';
-import { AddProductToCartRequest } from '../../shared/core/_models';
-import { addProductToCart, getProductById } from '../../shared/core/_requests';
+
 import { FaAnglesLeft } from 'react-icons/fa6';
 import PageHeader from '@/shared/page-header';
+import { getProductById } from '@/services/products/_requests';
+import { IAddProductToCartRequest } from '@/services/carts/_models';
+import { addProductToCart } from '@/services/carts/_requests';
 
 const pageHeader = {
   title: 'Kasir',
@@ -50,7 +52,7 @@ export default function ProductDetail() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: AddProductToCartRequest) => addProductToCart(data),
+    mutationFn: (data: IAddProductToCartRequest) => addProductToCart(data),
     onSuccess: () => {
       toast.success('Add product to cart successfully!');
       queryClient.invalidateQueries({ queryKey: ['cart'] }).then(() => {
@@ -65,7 +67,7 @@ export default function ProductDetail() {
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data: AddProductToCartRequest = {
+    const data: IAddProductToCartRequest = {
       productId: id ?? '',
       selected_variant: formData.get('selected_variant') as string,
       quantity: quantity,

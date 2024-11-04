@@ -10,13 +10,10 @@ import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { ProductsRequest } from '../shared/core/_models';
-import { createProduct } from '../shared/core/_requests';
-import FormLayout from '../shared/form';
-import {
-  validationSchema,
-  ValidationSchema,
-} from '../shared/form/validationSchema';
+import FormLayout from './form';
+import { validationSchema, ValidationSchema } from './form/validationSchema';
+import { IProductsRequest } from '@/services/products/_models';
+import { createProduct } from '@/services/products/_requests';
 
 const pageHeader = {
   title: 'Add Product',
@@ -39,7 +36,7 @@ export default function AddProductPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   const mutation = useMutation({
-    mutationFn: (data: ProductsRequest) => createProduct(data),
+    mutationFn: (data: IProductsRequest) => createProduct(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] }).then(() => {
         queryClient.refetchQueries({ queryKey: ['products'] });
@@ -68,7 +65,7 @@ export default function AddProductPage() {
   const onSubmit: SubmitHandler<ValidationSchema> = (
     formData: ValidationSchema
   ) => {
-    const addProductRequest: ProductsRequest = {
+    const addProductRequest: IProductsRequest = {
       ...formData,
       product_photo:
         formData.product_photo && formData.product_photo.length > 0
@@ -113,7 +110,7 @@ export default function AddProductPage() {
               <Button type="submit" size="lg">
                 Add Product
               </Button>
-              <Link href={routes.users.index}>
+              <Link href={routes.products.index}>
                 <Button
                   size="lg"
                   className="cursor-pointer bg-red-500 hover:bg-red-700"

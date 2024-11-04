@@ -10,13 +10,10 @@ import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { ProductsRequest } from '../../shared/core/_models';
-import { getProductById, updateProduct } from '../../shared/core/_requests';
-import FormLayout from '../../shared/form';
-import {
-  validationSchema,
-  ValidationSchema,
-} from '../../shared/form/validationSchema';
+import FormLayout from '../form';
+import { validationSchema, ValidationSchema } from '../form/validationSchema';
+import { getProductById, updateProduct } from '@/services/products/_requests';
+import { IProductsRequest } from '@/services/products/_models';
 
 const pageHeader = {
   title: 'Edit Product',
@@ -50,7 +47,7 @@ export default function EditProductPage() {
   );
 
   const mutation = useMutation({
-    mutationFn: (data: ProductsRequest) => updateProduct(id, data),
+    mutationFn: (data: IProductsRequest) => updateProduct(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] }).then(() => {
         queryClient.refetchQueries({ queryKey: ['products'] });
@@ -78,7 +75,7 @@ export default function EditProductPage() {
   const onSubmit: SubmitHandler<ValidationSchema> = (
     formData: ValidationSchema
   ) => {
-    const addProductRequest: ProductsRequest = {
+    const addProductRequest: IProductsRequest = {
       ...formData,
       product_photo:
         formData.product_photo && formData.product_photo.length > 0
@@ -107,6 +104,7 @@ export default function EditProductPage() {
               [],
             product_photo: data?.product_photo || null,
             productCategoryId: data?.product_category?.id || '',
+            product_status: data?.product_status || '',
           },
           mode: 'onChange',
         }}

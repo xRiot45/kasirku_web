@@ -1,12 +1,12 @@
+import { IProducts } from '@/services/products/_models';
 import cn from '@/utils/class-names';
 import { formatToRupiah } from '@/utils/formatRupiah';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button, Text, Title } from 'rizzui';
-import { ProductsResponse } from '../core/_models';
 
 interface PropTypes {
-  data: ProductsResponse[];
+  data: IProducts[];
 }
 
 export default function CardProducts(props: PropTypes) {

@@ -1,5 +1,5 @@
 import api, { updateData, uploadData } from '@/config/api';
-import { ProductsRequest, ProductsResponse } from './_models';
+import { IProductsRequest, IProducts } from './_models';
 
 const GET_PRODUCTS = `${process.env.API_URL}/api/products`;
 const CREATE_PRODUCT = `${process.env.API_URL}/api/products/create`;
@@ -18,7 +18,7 @@ export async function getAllProducts(
   limit?: number
 ) {
   const actualLimit = limit ?? 10;
-  const res = await api.get<IBaseResponse<ProductsResponse[]>>(GET_PRODUCTS, {
+  const res = await api.get<IBaseResponse<IProducts[]>>(GET_PRODUCTS, {
     params: {
       ...search,
       page,
@@ -29,13 +29,13 @@ export async function getAllProducts(
   return res.data;
 }
 
-export async function createProduct(data: ProductsRequest) {
+export async function createProduct(data: IProductsRequest) {
   const res = await uploadData(CREATE_PRODUCT, data);
   return res.data.data;
 }
 
 export async function getProductById(id: string | undefined) {
-  const res = await api.get<IBaseResponse<ProductsResponse>>(
+  const res = await api.get<IBaseResponse<IProducts>>(
     `${GET_PRODUCT_BY_ID}/${id}`
   );
 
@@ -44,12 +44,12 @@ export async function getProductById(id: string | undefined) {
 
 export async function updateProduct(
   id: string | undefined,
-  data: ProductsRequest
+  data: IProductsRequest
 ) {
   const res = await updateData(`${UPDATE_PRODUCT}/${id}`, data);
   return res.data.data;
 }
 
 export async function deleteProduct(id: string) {
-  await api.delete<IBaseResponse<ProductsResponse>>(`${DELETE_PRODUCT}/${id}`);
+  await api.delete<IBaseResponse<IProducts>>(`${DELETE_PRODUCT}/${id}`);
 }

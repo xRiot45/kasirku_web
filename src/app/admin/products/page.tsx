@@ -3,9 +3,9 @@
 import { useDebounce } from '@/hooks/use-debounce';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { getAllProducts } from './shared/core/_requests';
 import TableLayout from './shared/table/layouts/table-layout';
 import ProductsTable from './shared/table';
+import { getAllProducts } from '@/services/products/_requests';
 
 const pageHeader = {
   title: 'Products',
