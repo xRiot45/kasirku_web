@@ -1,4 +1,4 @@
-export interface OrdersType {
+export interface IOrders {
   id: string;
   product: {
     id: string;
@@ -16,7 +16,4 @@ export interface OrdersType {
   total_price: number;
 }
 
-export interface CheckoutOrdersRequest {
-  payment_amount: number;
-  seat_number: string;
-}
+

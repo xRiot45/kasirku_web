@@ -1,12 +1,18 @@
 import api from '@/config/api';
-import { ICheckout } from './_models';
+import { ICheckout, ICheckoutOrdersRequest } from './_models';
 
+const CHECKOUT_ORDERS = `${process.env.API_URL}/api/checkout/create`;
 const GET_CHECKOUT = `${process.env.API_URL}/api/checkout/all`;
 const CONFIRMED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/confirmed`;
 const PROCESSED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/processed`;
 const COMPLETED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/completed`;
 const CANCELLED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/cancelled`;
 const DETAIL_CHECKOUTS = `${process.env.API_URL}/api/checkout/show`;
+
+export async function checkout(data: ICheckoutOrdersRequest) {
+  const res = await api.post(CHECKOUT_ORDERS, data);
+  return res.data.data;
+}
 
 export async function getAllCheckouts(
   page: number = 1,

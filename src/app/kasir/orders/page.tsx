@@ -1,6 +1,10 @@
 'use client';
 
 import { Form } from '@/components/ui/form';
+import { ICheckoutOrdersRequest } from '@/services/checkouts/_models';
+import { checkout } from '@/services/checkouts/_requests';
+import { IOrders } from '@/services/orders/_models';
+import { getAllOrders } from '@/services/orders/_requests';
 import PageHeader from '@/shared/page-header';
 import { formatToRupiah } from '@/utils/formatRupiah';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,8 +16,6 @@ import { FaAnglesLeft } from 'react-icons/fa6';
 import { IoMdClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import { ActionIcon, Button, EmptyBoxIcon, Input, Modal, Title } from 'rizzui';
-import { CheckoutOrdersRequest, OrdersType } from './shared/core/_models';
-import { checkout, getAllOrders } from './shared/core/_requests';
 import TableOrders from './shared/partials/table';
 import {
   validationSchema,
@@ -51,7 +53,7 @@ export default function Orders() {
   const { data: ordersData } = ordersQueryResponse || {};
   const ordersList = ordersData || [];
 
-  const totalPriceItems = ordersList.map((item: OrdersType) => {
+  const totalPriceItems = ordersList.map((item: IOrders) => {
     return item?.total_price || 0;
   });
 
@@ -61,11 +63,9 @@ export default function Orders() {
   );
 
   const mutation = useMutation({
-    mutationFn: (data: CheckoutOrdersRequest) => checkout(data),
+    mutationFn: (data: ICheckoutOrdersRequest) => checkout(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['orders'] }).then(() => {
-        queryClient.refetchQueries({ queryKey: ['orders'] });
-      });
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
       toast.success('Checkout orders successfully!');
       setModalState(false);
     },

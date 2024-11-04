@@ -1,7 +1,8 @@
 import Table from '@/components/ui/table';
 import { columns } from './columns';
+import { IOrders } from '@/services/orders/_models';
 
-export default function TableOrders(props: any) {
+export default function TableOrders(props: { data: IOrders[] }) {
   const { data } = props;
   return (
     <>

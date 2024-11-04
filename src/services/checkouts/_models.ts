@@ -26,3 +26,8 @@ export interface ICheckout {
     total_price: number;
   }[];
 }
+
+export interface ICheckoutOrdersRequest {
+  payment_amount: number;
+  seat_number: string;
+}
