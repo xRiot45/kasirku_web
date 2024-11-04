@@ -187,12 +187,17 @@ export const checkoutListColumns = [
               <MdOutlineCancel className="me-2 text-red-600" />
               Order Dibatalkan
             </Dropdown.Item>
-            <Link href={`/kasir/invoice/${row.original.id}`}>
-              <Dropdown.Item className="p-3">
-                <TbFileInvoice className="me-2 text-gray-600" />
-                Invoice
-              </Dropdown.Item>
-            </Link>
+            {row.original.order_status === 'Order Selesai' ? (
+              <Link href={`/kasir/invoice/${row.original.id}`}>
+                <Dropdown.Item
+                  className="p-3"
+                  disabled={row.original.order_status !== 'Order Selesai'}
+                >
+                  <TbFileInvoice className="me-2 text-gray-600" />
+                  Invoice
+                </Dropdown.Item>
+              </Link>
+            ) : null}
           </Dropdown.Menu>
         </Dropdown>
       </Flex>

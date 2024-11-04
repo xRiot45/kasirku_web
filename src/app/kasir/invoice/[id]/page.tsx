@@ -93,7 +93,7 @@ export default function Invoice() {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
-          <PrintButton />
+          <PrintButton onClick={() => handlePrint()} />
         </div>
       </PageHeader>
 
@@ -102,7 +102,10 @@ export default function Invoice() {
         Back to previous page
       </Button>
 
-      <div className="w-full rounded-xl border border-muted p-5 text-sm sm:p-6 lg:p-8 2xl:p-10">
+      <div
+        className="w-full rounded-xl border border-muted p-5 text-sm sm:p-6 lg:p-8 2xl:p-10"
+        ref={printRef}
+      >
         <div className="mb-12 flex flex-col items-start justify-between md:mb-16 md:flex-row">
           <Image
             src={LogoImg}
