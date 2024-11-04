@@ -26,7 +26,6 @@ export async function getAllCheckouts(
 
 export async function confirmedCheckout(id: string) {
   const res = await api.put(`${CONFIRMED_CHECKOUT}/${id}`);
-  console.log(res);
   return res.data.data;
 }
 
