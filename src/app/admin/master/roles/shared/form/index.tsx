@@ -1,10 +1,10 @@
+import { IRoleRequest } from '@/services/roles/_models';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Input } from 'rizzui';
-import { RoleRequest } from '../core/_models';
 
 interface FormProps {
-  register: UseFormRegister<RoleRequest>;
-  errors: FieldErrors<RoleRequest>;
+  register: UseFormRegister<IRoleRequest>;
+  errors: FieldErrors<IRoleRequest>;
 }
 
 export default function FormLayout(props: FormProps) {

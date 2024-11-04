@@ -2,20 +2,20 @@
 
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
+import { IRoleRequest } from '@/services/roles/_models';
+import { getRoleById, updateRole } from '@/services/roles/_requests';
 import PageHeader from '@/shared/page-header';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { SubmitHandler } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { getRoleById, updateRole } from '../../shared/core/_requests';
 import FormLayout from '../../shared/form';
 import {
   validationSchema,
   ValidationSchema,
 } from '../../shared/form/validationSchema';
-import { RoleRequest } from '../../shared/core/_models';
-import toast from 'react-hot-toast';
-import { SubmitHandler } from 'react-hook-form';
 
 const pageHeader = {
   title: 'Edit Role',
@@ -41,7 +41,6 @@ export default function EditRolePage() {
   const queryClient = useQueryClient();
   const id: string | undefined = pathname.split('/').pop();
 
-  // Menggambil data berdasarkan id
   const { data } = useQuery({
     queryKey: ['role', id],
     queryFn: () => getRoleById(id),
@@ -49,11 +48,9 @@ export default function EditRolePage() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: RoleRequest) => updateRole(id, data),
+    mutationFn: (data: IRoleRequest) => updateRole(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] }).then(() => {
-        queryClient.refetchQueries({ queryKey: ['roles'] });
-      });
+      queryClient.invalidateQueries({ queryKey: ['roles'] });
       toast.success('Edit role successfully!');
       router.push(routes.roles.index);
     },

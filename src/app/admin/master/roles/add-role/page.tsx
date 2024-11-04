@@ -2,6 +2,8 @@
 
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
+import { IRoleRequest } from '@/services/roles/_models';
+import { createRole } from '@/services/roles/_requests';
 import PageHeader from '@/shared/page-header';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -9,8 +11,6 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { RoleRequest } from '../shared/core/_models';
-import { createRole } from '../shared/core/_requests';
 import FormLayout from '../shared/form';
 import {
   validationSchema,
@@ -27,7 +27,6 @@ const pageHeader = {
       name: 'Master Data',
     },
     {
-      href: '/admin/master/roles',
       name: 'Roles',
     },
     {
@@ -41,11 +40,9 @@ export default function AddRolePage() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (data: RoleRequest) => createRole(data),
+    mutationFn: (data: IRoleRequest) => createRole(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] }).then(() => {
-        queryClient.refetchQueries({ queryKey: ['roles'] });
-      });
+      queryClient.invalidateQueries({ queryKey: ['roles'] });
       toast.success('Add role successfully!');
       router.push(routes.roles.index);
     },

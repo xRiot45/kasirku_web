@@ -3,12 +3,12 @@
 import DeletePopover from '@/components/delete-popover';
 import PencilIcon from '@/components/icons/pencil';
 import { routes } from '@/config/routes';
+import { IRole } from '@/services/roles/_models';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
-import { RoleType } from '../../core/_models';
 
-const columnHelper = createColumnHelper<RoleType>();
+const columnHelper = createColumnHelper<IRole>();
 
 export const roleListColumns = [
   columnHelper.display({

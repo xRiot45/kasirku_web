@@ -11,12 +11,12 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
-import { RoleRespone, RoleType } from '../core/_models';
-import { deleteRole } from '../core/_requests';
 import { roleListColumns } from './partials/columns';
+import { IRole } from '@/services/roles/_models';
+import { deleteRole } from '@/services/roles/_requests';
 
 interface TableProps {
-  dataRole: RoleRespone[];
+  dataRole: IRole[];
   pageSize?: number;
   totalItems?: number;
   totalPages?: number;
@@ -59,7 +59,7 @@ export default function RolesTable(props: TableProps) {
     },
   } = props;
 
-  const { table, setData } = useTanStackTable<RoleType>({
+  const { table, setData } = useTanStackTable<IRole>({
     tableData: dataRole,
     columnConfig: roleListColumns,
     options: {
@@ -102,7 +102,6 @@ export default function RolesTable(props: TableProps) {
   return (
     <>
       <WidgetCard>
-        {/* <Filters table={table} /> */}
         <Flex
           direction="col"
           justify="between"

@@ -2,9 +2,9 @@
 
 import TableLayout from '@/app/admin/master/roles/shared/table/layouts/table-layout';
 import { useDebounce } from '@/hooks/use-debounce';
+import { getAllRoles } from '@/services/roles/_requests';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { getAllRoles } from './shared/core/_requests';
 import RolesTable from './shared/table';
 
 const pageHeader = {
