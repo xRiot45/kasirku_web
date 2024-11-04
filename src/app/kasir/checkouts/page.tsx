@@ -1,11 +1,14 @@
 'use client';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import TableLayout from './shared/table/layouts/table-layout';
-import { useState } from 'react';
 import { useDebounce } from '@/hooks/use-debounce';
 import { getAllCheckouts } from '@/services/checkouts/_requests';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { FaAnglesLeft } from 'react-icons/fa6';
+import { Button } from 'rizzui';
 import CheckoutsTable from './shared/table';
+import TableLayout from './shared/table/layouts/table-layout';
 
 const pageHeader = {
   title: 'Checkouts',
@@ -20,6 +23,7 @@ const pageHeader = {
 };
 
 export default function CheckoutsPage() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
@@ -68,6 +72,10 @@ export default function CheckoutsPage() {
         breadcrumb={pageHeader.breadcrumb}
         refresh={handleRefresh}
       >
+        <Button className="mb-6 h-11 w-64 gap-3" onClick={() => router.back()}>
+          <FaAnglesLeft />
+          Back to previous page
+        </Button>
         <CheckoutsTable
           dataCheckouts={checkoutsData || []}
           pageSize={limit}
