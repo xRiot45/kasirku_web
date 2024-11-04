@@ -1,10 +1,10 @@
+import { IProductCategoryRequest } from '@/services/product-category/_models';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Input } from 'rizzui';
-import { ProductCategoryRequest } from '../core/_models';
 
 interface FormProps {
-  register: UseFormRegister<ProductCategoryRequest>;
-  errors: FieldErrors<ProductCategoryRequest>;
+  register: UseFormRegister<IProductCategoryRequest>;
+  errors: FieldErrors<IProductCategoryRequest>;
 }
 
 export default function FormLayout(props: FormProps) {

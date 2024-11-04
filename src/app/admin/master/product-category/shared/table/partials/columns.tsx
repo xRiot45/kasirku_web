@@ -3,12 +3,12 @@
 import DeletePopover from '@/components/delete-popover';
 import PencilIcon from '@/components/icons/pencil';
 import { routes } from '@/config/routes';
+import { IProductCategory } from '@/services/product-category/_models';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Flex, Text, Tooltip } from 'rizzui';
-import { ProductCategoryType } from '../../core/_models';
 
-const columnHelper = createColumnHelper<ProductCategoryType>();
+const columnHelper = createColumnHelper<IProductCategory>();
 
 export const productCategoryListColumns = [
   columnHelper.display({

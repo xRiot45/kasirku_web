@@ -1,5 +1,5 @@
 import api from '@/config/api';
-import { ProductCategoryRequest, ProductCategoryResponse } from './_models';
+import { IProductCategoryRequest, IProductCategory } from './_models';
 
 const GET_PRODUCT_CATEGORY = `${process.env.API_URL}/api/product-category`;
 const CREATE_PRODUCT_CATEGORY = `${process.env.API_URL}/api/product-category/create`;
@@ -13,7 +13,7 @@ export async function getAllProductCategory(
   product_category_name?: string
 ) {
   const actualLimit = limit ?? 10;
-  const res = await api.get<IBaseResponse<ProductCategoryResponse[]>>(
+  const res = await api.get<IBaseResponse<IProductCategory[]>>(
     GET_PRODUCT_CATEGORY,
     {
       params: {
@@ -27,8 +27,8 @@ export async function getAllProductCategory(
   return res.data;
 }
 
-export async function createProductCategory(data: ProductCategoryRequest) {
-  const res = await api.post<IBaseResponse<ProductCategoryResponse>>(
+export async function createProductCategory(data: IProductCategoryRequest) {
+  const res = await api.post<IBaseResponse<IProductCategory>>(
     CREATE_PRODUCT_CATEGORY,
     data
   );
@@ -36,7 +36,7 @@ export async function createProductCategory(data: ProductCategoryRequest) {
 }
 
 export async function getProductCategoryById(id: string | undefined) {
-  const res = await api.get<IBaseResponse<ProductCategoryResponse>>(
+  const res = await api.get<IBaseResponse<IProductCategory>>(
     `${GET_PRODUCT_CATEGORY_BY_ID}/${id}`
   );
   return res.data.data;
@@ -44,9 +44,9 @@ export async function getProductCategoryById(id: string | undefined) {
 
 export async function updateProductCategory(
   id: string | undefined,
-  data: ProductCategoryRequest
+  data: IProductCategoryRequest
 ) {
-  const res = await api.put<IBaseResponse<ProductCategoryResponse>>(
+  const res = await api.put<IBaseResponse<IProductCategory>>(
     `${UPDATE_PRODUCT_CATEGORY}/${id}`,
     data
   );
@@ -54,7 +54,7 @@ export async function updateProductCategory(
 }
 
 export async function deleteProductCategory(id: string) {
-  await api.delete<IBaseResponse<ProductCategoryResponse>>(
+  await api.delete<IBaseResponse<IProductCategory>>(
     `${DELETE_PRODUCT_CATEGORY}/${id}`
   );
 }

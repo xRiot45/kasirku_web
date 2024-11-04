@@ -11,12 +11,12 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Flex, Input, Title } from 'rizzui';
-import { ProductCategoryResponse } from '../core/_models';
-import { deleteProductCategory } from '../core/_requests';
 import { productCategoryListColumns } from './partials/columns';
+import { IProductCategory } from '@/services/product-category/_models';
+import { deleteProductCategory } from '@/services/product-category/_requests';
 
 interface TableProps {
-  dataProductCategory: ProductCategoryResponse[];
+  dataProductCategory: IProductCategory[];
   pageSize?: number;
   totalItems?: number;
   totalPages?: number;
@@ -102,7 +102,6 @@ export default function ProductCategoryTables(props: TableProps) {
   return (
     <>
       <WidgetCard>
-        {/* <Filters table={table} /> */}
         <Flex
           direction="col"
           justify="between"

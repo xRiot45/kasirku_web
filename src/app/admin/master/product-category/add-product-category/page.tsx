@@ -9,13 +9,13 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { ProductCategoryRequest } from '../shared/core/_models';
-import { createProductCategory } from '../shared/core/_requests';
 import FormLayout from '../shared/form';
 import {
   validationSchema,
   ValidationSchema,
 } from '../shared/form/validationSchema';
+import { IProductCategoryRequest } from '@/services/product-category/_models';
+import { createProductCategory } from '@/services/product-category/_requests';
 
 const pageHeader = {
   title: 'Add Product Category',
@@ -40,13 +40,9 @@ export default function AddProductCategoryPage() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (data: ProductCategoryRequest) => createProductCategory(data),
+    mutationFn: (data: IProductCategoryRequest) => createProductCategory(data),
     onSuccess: () => {
-      queryClient
-        .invalidateQueries({ queryKey: ['product-category'] })
-        .then(() => {
-          queryClient.refetchQueries({ queryKey: ['product-category'] });
-        });
+      queryClient.invalidateQueries({ queryKey: ['product-category'] });
       toast.success('Add product category successfully!');
       router.push(routes.productCategory.index);
     },

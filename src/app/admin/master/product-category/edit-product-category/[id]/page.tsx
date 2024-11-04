@@ -10,16 +10,17 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Button } from 'rizzui';
-import { ProductCategoryRequest } from '../../shared/core/_models';
-import {
-  getProductCategoryById,
-  updateProductCategory,
-} from '../../shared/core/_requests';
+
 import FormLayout from '../../shared/form';
 import {
   validationSchema,
   ValidationSchema,
 } from '../../shared/form/validationSchema';
+import {
+  getProductCategoryById,
+  updateProductCategory,
+} from '@/services/product-category/_requests';
+import { IProductCategoryRequest } from '@/services/product-category/_models';
 
 const pageHeader = {
   title: 'Edit Product Category',
@@ -52,14 +53,13 @@ export default function EditProductCategoryPage() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: ProductCategoryRequest) =>
+    mutationFn: (data: IProductCategoryRequest) =>
       updateProductCategory(id, data),
     onSuccess: () => {
-      queryClient
-        .invalidateQueries({ queryKey: ['product-category'] })
-        .then(() => {
-          queryClient.refetchQueries({ queryKey: ['product-category'] });
-        });
+      queryClient.invalidateQueries({ queryKey: ['product-category'] });
+      // .then(() => {
+      //   queryClient.refetchQueries({ queryKey: ['product-category'] });
+      // });
       toast.success('Edit product category successfully!');
       router.push(routes.productCategory.index);
     },
