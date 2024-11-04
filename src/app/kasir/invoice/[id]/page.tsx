@@ -1,9 +1,15 @@
 'use client';
 
 import PrintButton from '@/components/print-button';
+import Table from '@/components/ui/table';
+import { getDetailCheckout } from '@/services/checkouts/_requests';
 import PageHeader from '@/shared/page-header';
+import { formatToRupiah } from '@/utils/formatRupiah';
 import LogoImg from '@public/images/logo.png';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { DefaultRecordType } from 'rc-table/lib/interface';
 import { useRef } from 'react';
 import { PiDownloadSimpleBold } from 'react-icons/pi';
 import { useReactToPrint } from 'react-to-print';
@@ -21,10 +27,57 @@ const pageHeader = {
   ],
 };
 
+const columns = [
+  {
+    title: 'Product Name',
+    dataIndex: 'product.product_name',
+    key: 'product.product_name',
+    render: (value: string, record: DefaultRecordType) => (
+      <Text className="font-medium">{record.product.product_name}</Text>
+    ),
+  },
+  {
+    title: 'Product Price',
+    dataIndex: 'product.product_price',
+    key: 'product.product_price',
+    render: (value: string, record: DefaultRecordType) => (
+      <Text className="font-medium">
+        {formatToRupiah(record.product.product_price)}
+      </Text>
+    ),
+  },
+  {
+    title: 'Quantity',
+    dataIndex: 'quantity',
+    key: 'quantity',
+    render: (value: string, record: DefaultRecordType) => (
+      <Text className="font-medium">{record.quantity}</Text>
+    ),
+  },
+  {
+    title: 'Total Price',
+    dataIndex: 'total_price',
+    key: 'total_price',
+    render: (value: string, record: DefaultRecordType) => (
+      <Text className="font-medium">
+        {formatToRupiah(record.product.product_price * record.quantity)}
+      </Text>
+    ),
+  },
+];
+
 export default function Invoice() {
   const printRef = useRef(null);
+  const pathname = usePathname();
+  const id: string | undefined = pathname.split('/').pop();
   const handlePrint = useReactToPrint({
     contentRef: printRef,
+  });
+
+  const { data } = useQuery({
+    queryKey: ['checkouts', id],
+    queryFn: () => getDetailCheckout(id),
+    enabled: !!id,
   });
 
   return (
@@ -40,14 +93,14 @@ export default function Invoice() {
       </PageHeader>
 
       <div className="w-full rounded-xl border border-muted p-5 text-sm sm:p-6 lg:p-8 2xl:p-10">
-        <div className="mb-12 flex flex-col-reverse items-start justify-between md:mb-16 md:flex-row">
+        <div className="mb-12 flex flex-col items-start justify-between md:mb-16 md:flex-row">
           <Image
             src={LogoImg}
             alt="Kasirku"
-            width={180}
-            height={180}
+            width={150}
+            height={150}
             priority
-            className=""
+            className="mb-6 lg:mb-0"
           />
           <div className="mb-4 md:mb-0">
             <Badge
@@ -58,92 +111,53 @@ export default function Invoice() {
             >
               Paid
             </Badge>
-            <Title as="h6">INV - #246098</Title>
+            <Title as="h6">{data?.invoice}</Title>
             <Text className="mt-0.5 text-gray-500">Invoice Number</Text>
           </div>
         </div>
 
-        {/* <div className="mb-12 grid gap-4 xs:grid-cols-2 sm:grid-cols-3 sm:grid-rows-1">
-          <div className="">
-            <Title as="h6" className="mb-3.5 font-semibold">
-              From
-            </Title>
-            <Text className="mb-1.5 text-sm font-semibold uppercase">
-              REDQ, INC
-            </Text>
-            <Text className="mb-1.5">Jerome Bell</Text>
-            <Text className="mb-1.5">
-              4140 Parker Rd. Allentown, <br /> New Mexico 31134
-            </Text>
-            <Text className="mb-4 sm:mb-6 md:mb-8">(302) 555-0107</Text>
-            <div>
-              <Text className="mb-2 text-sm font-semibold">Creation Date</Text>
-              <Text>Mar 22, 2013</Text>
-            </div>
-          </div>
+        <Table
+          data={data?.orders}
+          columns={columns}
+          variant="minimal"
+          rowKey={(record: any) => record.id}
+          scroll={{ x: 660 }}
+          className="mb-11"
+        />
 
-          <div className="mt-4 xs:mt-0">
-            <Title as="h6" className="mb-3.5 font-semibold">
-              Bill To
-            </Title>
-            <Text className="mb-1.5 text-sm font-semibold uppercase">
-              TRANSPORT LLC
-            </Text>
-            <Text className="mb-1.5">Albert Flores</Text>
-            <Text className="mb-1.5">
-              2715 Ash Dr. San Jose, <br />
-              South Dakota 83475
-            </Text>
-            <Text className="mb-4 sm:mb-6 md:mb-8">(671) 555-0110</Text>
-            <div>
-              <Text className="mb-2 text-sm font-semibold">Due Date</Text>
-              <Text>Mar 22, 2013</Text>
-            </div>
-          </div>
-        </div> */}
-
-        {/* <InvoiceDetailsListTable /> */}
-
-        <div className="flex flex-col-reverse items-start justify-between border-t border-muted pb-4 pt-8 xs:flex-row">
-          <div className="mt-6 max-w-md pe-4 xs:mt-0">
-            <Title
-              as="h6"
-              className="mb-1 text-xs font-semibold uppercase xs:mb-2 xs:text-sm"
-            >
-              Notes
-            </Title>
-            <Text className="leading-[1.7]">
-              We appreciate your business. Should you need us to add VAT or
-              extra notes let us know!
-            </Text>
-          </div>
+        <div className="flex flex-col-reverse items-start justify-end border-t border-muted pb-4 pt-8 xs:flex-row">
           <div className="w-full max-w-sm">
             <Text className="flex items-center justify-between border-b border-muted pb-3.5 lg:pb-5">
-              Subtotal:{' '}
+              Delivery{' '}
               <Text as="span" className="font-semibold">
-                $700
+                Free
               </Text>
             </Text>
+            <Text className="flex items-center justify-between border-b border-muted pb-3.5 lg:py-5">
+              Payment Method{' '}
+              <Text as="span" className="font-semibold">
+                {data?.payment_method}
+              </Text>
+            </Text>
+            <Text className="flex items-center justify-between border-b border-muted pb-3.5 lg:py-5">
+              Total{' '}
+              <Text as="span" className="font-semibold">
+                {formatToRupiah(data?.total_order_price ?? 0)}
+              </Text>
+            </Text>
+
             <Text className="flex items-center justify-between border-b border-muted py-3.5 lg:py-5">
-              Shipping:{' '}
+              Payment Amount{' '}
               <Text as="span" className="font-semibold">
-                $142
+                {formatToRupiah(data?.payment_amount ?? 0)}
               </Text>
             </Text>
+
             <Text className="flex items-center justify-between border-b border-muted py-3.5 lg:py-5">
-              Discount:{' '}
+              Change Returned{' '}
               <Text as="span" className="font-semibold">
-                $250
+                {formatToRupiah(data?.change_returned ?? 0)}
               </Text>
-            </Text>
-            <Text className="flex items-center justify-between border-b border-muted py-3.5 lg:py-5">
-              Taxes:
-              <Text as="span" className="font-semibold">
-                15%
-              </Text>
-            </Text>
-            <Text className="flex items-center justify-between pt-4 text-base font-semibold text-gray-900 lg:pt-5">
-              Total: <Text as="span">$659.5</Text>
             </Text>
           </div>
         </div>
@@ -151,16 +165,3 @@ export default function Invoice() {
     </>
   );
 }
-
-// function InvoiceDetailsListTable() {
-//   return (
-//     <Table
-//       data={invoiceItems}
-//       columns={columns}
-//       variant="minimal"
-//       rowKey={(record: any) => record.id}
-//       scroll={{ x: 660 }}
-//       className="mb-11"
-//     />
-//   );
-// }

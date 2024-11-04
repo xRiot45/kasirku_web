@@ -1,5 +1,6 @@
 export interface ICheckout {
   id: string;
+  invoice: string;
   total_order_price: number;
   checkout_date: Date;
   payment_amount: number;

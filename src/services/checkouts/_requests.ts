@@ -6,6 +6,7 @@ const CONFIRMED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/confirmed
 const PROCESSED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/processed`;
 const COMPLETED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/completed`;
 const CANCELLED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/cancelled`;
+const DETAIL_CHECKOUTS = `${process.env.API_URL}/api/checkout/show`;
 
 export async function getAllCheckouts(
   page: number = 1,
@@ -41,5 +42,13 @@ export async function completedCheckout(id: string) {
 
 export async function cancelledCheckout(id: string) {
   const res = await api.put(`${CANCELLED_CHECKOUT}/${id}`);
+  return res.data.data;
+}
+
+export async function getDetailCheckout(id: string | undefined) {
+  const res = await api.get<IBaseResponse<ICheckout>>(
+    `${DETAIL_CHECKOUTS}/${id}`
+  );
+
   return res.data.data;
 }
