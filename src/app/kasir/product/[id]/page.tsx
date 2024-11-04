@@ -86,9 +86,9 @@ export default function ProductDetail() {
           <FaAnglesLeft />
           Back to previous page
         </Button>
-        <div className="gap-6 3xl:grid 3xl:grid-cols-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* Kolom Gambar Produk */}
-          <div className="col-span-7 mb-7 lg:mb-10 3xl:pe-10">
+          <div className="col-span-6 mb-7 lg:mb-10 3xl:pe-10">
             <div className="relative mx-auto aspect-[4/4.65] w-full overflow-hidden rounded bg-gray-100 xl:rounded-md">
               <Image
                 fill
@@ -101,7 +101,7 @@ export default function ProductDetail() {
           </div>
 
           {/* Kolom Detail Produk */}
-          <div className="col-span-5 mb-7 lg:mb-10">
+          <div className="col-span-6 mb-7 lg:mb-10">
             <div className="flex items-center justify-between border-b">
               <div className="border-muted pb-6 lg:pb-8">
                 <Title as="h2" className="6xl:text-4xl mb-2.5 font-bold">

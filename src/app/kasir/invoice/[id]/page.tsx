@@ -63,7 +63,7 @@ export default function Invoice() {
           </div>
         </div>
 
-        <div className="mb-12 grid gap-4 xs:grid-cols-2 sm:grid-cols-3 sm:grid-rows-1">
+        {/* <div className="mb-12 grid gap-4 xs:grid-cols-2 sm:grid-cols-3 sm:grid-rows-1">
           <div className="">
             <Title as="h6" className="mb-3.5 font-semibold">
               From
@@ -100,14 +100,7 @@ export default function Invoice() {
               <Text>Mar 22, 2013</Text>
             </div>
           </div>
-
-          {/* <div className="mt-4 flex sm:mt-6 md:mt-0 md:justify-end">
-            <QRCodeSVG
-              value="https://reactjs.org/"
-              className="h-28 w-28 lg:h-32 lg:w-32"
-            />
-          </div> */}
-        </div>
+        </div> */}
 
         {/* <InvoiceDetailsListTable /> */}
 
@@ -158,3 +151,16 @@ export default function Invoice() {
     </>
   );
 }
+
+// function InvoiceDetailsListTable() {
+//   return (
+//     <Table
+//       data={invoiceItems}
+//       columns={columns}
+//       variant="minimal"
+//       rowKey={(record: any) => record.id}
+//       scroll={{ x: 660 }}
+//       className="mb-11"
+//     />
+//   );
+// }

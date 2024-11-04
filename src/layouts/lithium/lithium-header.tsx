@@ -47,7 +47,7 @@ export default function Header() {
       <div className="hidden items-center gap-3 xl:flex">
         <Link
           aria-label="Site Logo"
-          href={'/'}
+          href={'/kasir'}
           className="me-4 hidden w-[155px] shrink-0 text-gray-800 hover:text-gray-900 lg:me-5 xl:block"
         >
           <Image
@@ -68,7 +68,7 @@ export default function Header() {
           /> */}
           <Link
             aria-label="Site Logo"
-            href={'/'}
+            href={'/kasir'}
             className="me-4 w-9 shrink-0 text-gray-800 hover:text-gray-900 lg:me-5 xl:hidden"
           >
             <Image
