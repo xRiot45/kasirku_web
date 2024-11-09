@@ -17,7 +17,7 @@ function HeaderMenuRight() {
   return (
     <div className="ms-auto flex shrink-0 items-center gap-5 text-gray-700 xs:gap-3 xl:gap-4">
       <SettingsButton className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
-        <PiGearDuotone className="h-[22px] w-auto animate-spin-slow" />
+        <PiGearDuotone className="h-[22px] w-auto" />
       </SettingsButton>
 
       <Carts>
