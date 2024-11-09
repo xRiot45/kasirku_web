@@ -1,7 +1,7 @@
 'use client';
 
 import { useIsMounted } from '@/hooks/use-is-mounted';
-import LithiumLayout from '@/layouts/lithium/lithium-layout';
+import KasirLayouts from '@/layouts/kasir-layouts';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -18,5 +18,5 @@ function LayoutProvider({ children }: LayoutProps) {
     return null;
   }
 
-  return <LithiumLayout>{children}</LithiumLayout>;
+  return <KasirLayouts>{children}</KasirLayouts>;
 }

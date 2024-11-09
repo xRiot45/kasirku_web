@@ -50,7 +50,7 @@ import SocialMediaDashIcon from '@/components/icons/social-media-dash';
 import CrmDashTwoIcon from '@/components/icons/crm-icon-two';
 import AffiliateColoredIcon from '@/components/icons/affiliate-colored';
 
-export const lithiumMenuIcons = {
+export const MenuIcons = {
   FilesIcon,
   TruckIcon,
   ShopIcon,
@@ -104,4 +104,4 @@ export const lithiumMenuIcons = {
   AffiliateColoredIcon,
 };
 
-export type LithiumMenuIconType = keyof typeof lithiumMenuIcons;
+export type MenuIconType = keyof typeof MenuIcons;

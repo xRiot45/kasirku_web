@@ -1,5 +1,6 @@
-import Header from '@/layouts/lithium/lithium-header';
-export default function LithiumLayout({
+import Header from '@/layouts/kasir-layouts/header';
+
+export default function KasirLayouts({
   children,
 }: {
   children: React.ReactNode;

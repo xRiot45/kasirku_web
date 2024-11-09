@@ -5,16 +5,12 @@ import { PiCaretDownBold } from 'react-icons/pi';
 import cn from '@/utils/class-names';
 import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import BulletIcon from '@/layouts/lithium/bullet-icon';
+import BulletIcon from '@/components/icons/bullet-icon';
 import { AiFillCaretRight } from 'react-icons/ai';
-import NavMenu from '../nav-menu/nav-menu'
-import {
-  DropdownItemType,
-  LithiumMenuItemsKeys,
-  lithiumMenuItems,
-} from '@/layouts/lithium/lithium-menu-items';
+import NavMenu from '../nav-menu/nav-menu';
+import { DropdownItemType, MenuItemsKeys, menuItems } from './menu-items';
 import { usePathname } from 'next/navigation';
-import { LithiumMenuIconType, lithiumMenuIcons } from './lithium-menu-icons';
+import { MenuIconType, MenuIcons } from './menu-icons';
 import { useActivePathname } from './use-pathname-active';
 import { useDirection } from '@/hooks/use-direction';
 import { NavMenuDirection } from '../nav-menu/nav-menu-types';
@@ -120,7 +116,7 @@ export const EnhancedMenu = forwardRef(
       >
         <div className="col-span-3 flex w-[200px] flex-col gap-2 pe-0">
           {items.map((item, index) => {
-            const Icon = lithiumMenuIcons?.[item.icon as LithiumMenuIconType];
+            const Icon = MenuIcons?.[item.icon as MenuIconType];
             return (
               <button
                 role="div"
@@ -183,7 +179,7 @@ export function LinkMenu({
   return (
     <ul className={cn('w-full', className, 'bg-gray-0 dark:bg-gray-100')}>
       {items.map((item, index) => {
-        const Icon = lithiumMenuIcons?.[item.icon as LithiumMenuIconType];
+        const Icon = MenuIcons?.[item.icon as MenuIconType];
         const isActive = item.href === pathname;
         return (
           <li
@@ -224,7 +220,7 @@ export default function HeaderMenuLeft() {
             <div className="w-[420px]">
               <LinkMenu
                 className="grid grid-cols-2 gap-x-1 p-3 dark:bg-gray-100"
-                items={lithiumMenuItems.overview.dropdownItems ?? []}
+                items={menuItems.overview.dropdownItems ?? []}
               />
             </div>
           </NavMenu.Content>
@@ -237,7 +233,7 @@ export default function HeaderMenuLeft() {
             <div className="w-[670px]">
               <EnhancedMenu
                 className="min-h-[336px] w-[670px] bg-gray-50 dark:bg-gray-0"
-                items={lithiumMenuItems.appsKit.dropdownItems ?? []}
+                items={menuItems.appsKit.dropdownItems ?? []}
               />
             </div>
           </NavMenu.Content>
@@ -250,7 +246,7 @@ export default function HeaderMenuLeft() {
             <div className="w-[180px]">
               <LinkMenu
                 className="flex flex-col p-3 dark:bg-gray-100"
-                items={lithiumMenuItems.widgets.dropdownItems ?? []}
+                items={menuItems.widgets.dropdownItems ?? []}
               />
             </div>
           </NavMenu.Content>
@@ -263,7 +259,7 @@ export default function HeaderMenuLeft() {
             <div className="w-[460px]">
               <LinkMenu
                 className="grid grid-cols-2 gap-x-2 p-3 dark:bg-gray-100"
-                items={lithiumMenuItems.forms.dropdownItems ?? []}
+                items={menuItems.forms.dropdownItems ?? []}
               />
             </div>
           </NavMenu.Content>
@@ -276,7 +272,7 @@ export default function HeaderMenuLeft() {
             <div className="w-[670px]">
               <EnhancedMenu
                 className="min-h-[336px] w-[670px] bg-gray-50 dark:bg-gray-0"
-                items={lithiumMenuItems.tables.dropdownItems ?? []}
+                items={menuItems.tables.dropdownItems ?? []}
               />
             </div>
           </NavMenu.Content>
@@ -289,7 +285,7 @@ export default function HeaderMenuLeft() {
             <div className="w-[420px]">
               <LinkMenu
                 className="grid grid-cols-2 gap-x-1 p-3 dark:bg-gray-100"
-                items={lithiumMenuItems.pages.dropdownItems ?? []}
+                items={menuItems.pages.dropdownItems ?? []}
               />
             </div>
           </NavMenu.Content>
@@ -302,7 +298,7 @@ export default function HeaderMenuLeft() {
             <div className="w-[710px]">
               <EnhancedMenu
                 className="min-h-[280px] w-[710px] bg-gray-50 dark:bg-gray-0"
-                items={lithiumMenuItems.authentication.dropdownItems ?? []}
+                items={menuItems.authentication.dropdownItems ?? []}
               />
             </div>
           </NavMenu.Content>
@@ -312,24 +308,24 @@ export default function HeaderMenuLeft() {
   );
 }
 
-function MenuTriggerButton({ name }: { name: LithiumMenuItemsKeys }) {
+function MenuTriggerButton({ name }: { name: MenuItemsKeys }) {
   const { isActive } = useActivePathname();
   return (
     <>
       <span
         className={cn(
           'inline-block w-full overflow-hidden whitespace-nowrap pe-1.5 ps-0 text-sm font-medium leading-5 text-gray-900 transition-all duration-200',
-          isActive(lithiumMenuItems[name].dropdownItems)
+          isActive(menuItems[name].dropdownItems)
             ? 'text-primary'
             : 'group-hover:text-gray-900'
         )}
       >
-        {lithiumMenuItems[name].name}
+        {menuItems[name].name}
       </span>
       <span
         className={cn(
           'text-gray-900 duration-200',
-          isActive(lithiumMenuItems[name].dropdownItems!) && 'text-primary'
+          isActive(menuItems[name].dropdownItems!) && 'text-primary'
         )}
       >
         <PiCaretDownBold />

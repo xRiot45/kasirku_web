@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useIsMounted } from "@/hooks/use-is-mounted";
-import HydrogenLayout from "@/layouts/hydrogen/layout";
+import { useIsMounted } from '@/hooks/use-is-mounted';
+import AdminLayout from '@/layouts/admin-layouts';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -18,5 +18,5 @@ function LayoutProvider({ children }: LayoutProps) {
     return null;
   }
 
-  return <HydrogenLayout>{children}</HydrogenLayout>;
+  return <AdminLayout>{children}</AdminLayout>;
 }

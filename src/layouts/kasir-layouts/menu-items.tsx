@@ -14,7 +14,7 @@ export type DropdownItemType = {
   subMenuItems?: SubMenuItemType[];
 };
 
-export type LithiumMenuItem = {
+export type MenuItem = {
   [key: string]: {
     name: string;
     type: string;
@@ -22,7 +22,7 @@ export type LithiumMenuItem = {
   };
 };
 
-export const lithiumMenuItems: LithiumMenuItem = {
+export const menuItems: MenuItem = {
   overview: {
     name: 'Overview',
     type: 'link',
@@ -571,4 +571,4 @@ export const lithiumMenuItems: LithiumMenuItem = {
   },
 };
 
-export type LithiumMenuItemsKeys = keyof typeof lithiumMenuItems;
+export type MenuItemsKeys = keyof typeof menuItems;
