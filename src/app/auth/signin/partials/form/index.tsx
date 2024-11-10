@@ -34,6 +34,7 @@ export default function SignInForm() {
       const roleRoutes: { [key: string]: string } = {
         Admin: '/admin/dashboard',
         Kasir: '/kasir',
+        Koki: '/koki',
       };
 
       if (roleName && roleRoutes[roleName]) {
@@ -77,7 +78,7 @@ export default function SignInForm() {
               size="lg"
               label="Email"
               placeholder="Enter your email"
-              className="[&>label>span]:font-medium "
+              className="[&>label>span]:font-medium"
               inputClassName="text-sm"
               {...register('email')}
               error={errors.email?.message}
