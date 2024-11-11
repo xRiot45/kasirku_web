@@ -1,11 +1,11 @@
 'use client';
 
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { Select } from 'rizzui';
 
 interface PropTypes {
-  control: any;
-  errors: any;
+  control: Control;
+  errors: string;
 }
 
 export default function SelectProductStatus(props: PropTypes) {

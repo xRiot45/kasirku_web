@@ -1,11 +1,11 @@
 'use client';
 
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { Select } from 'rizzui';
 
 interface PropTypes {
   control: Control;
-  errors: any;
+  errors: string;
   label?: string;
 }
 

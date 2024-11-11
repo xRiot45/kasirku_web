@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import {
   Control,
   FieldErrors,
+  FieldValues,
   useFieldArray,
   UseFormRegister,
 } from 'react-hook-form';
@@ -113,8 +114,8 @@ export default function FormLayout(props: PropTypes) {
       />
 
       <SelectProductCategory
-        control={control}
-        error={errors.productCategoryId?.message}
+        control={control as unknown as Control<FieldValues>}
+        errors={errors.productCategoryId?.message ?? ''}
       />
 
       <FileInput
@@ -135,7 +136,7 @@ export default function FormLayout(props: PropTypes) {
             alt={'Product photo'}
             width={1000}
             height={1000}
-            className="h-96 w-96"
+            className="h-auto w-auto"
             priority
           />
         </div>
@@ -146,7 +147,7 @@ export default function FormLayout(props: PropTypes) {
             alt={'Existing product photo'}
             width={1000}
             height={1000}
-            className="h-96 w-96"
+            className="h-auto w-auto"
             priority
           />
         </div>

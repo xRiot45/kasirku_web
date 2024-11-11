@@ -1,6 +1,7 @@
 'use client';
 
 import { ICheckout } from '@/services/checkouts/_models';
+import { IOrders } from '@/services/orders/_models';
 import { formatToRupiah } from '@/utils/formatRupiah';
 import { createColumnHelper } from '@tanstack/react-table';
 import Image from 'next/image';
@@ -32,7 +33,7 @@ export const checkoutListColumns = [
       const checkoutData = row.original;
       return (
         <div>
-          {checkoutData.orders.map((order: any) => (
+          {checkoutData.orders.map((order: IOrders) => (
             <div key={order.id} className="mb-2 flex items-center">
               <div className="relative aspect-square w-12 overflow-hidden rounded-lg">
                 <Image

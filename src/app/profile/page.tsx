@@ -129,7 +129,6 @@ export default function ProfileSettingsView() {
                         onChange={onChange}
                         onBlur={onBlur}
                         selected={value}
-                        // value={data?.birthday_date}
                       />
                     )}
                   />
@@ -169,7 +168,7 @@ export default function ProfileSettingsView() {
                 >
                   <SelectGender
                     control={control as unknown as Control<FieldValues>}
-                    errors={errors.gender?.message}
+                    errors={errors.gender?.message ?? ''}
                   />
                 </FormGroup>
 

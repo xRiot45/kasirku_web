@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import {
   Control,
   FieldErrors,
+  FieldValues,
   useFieldArray,
   UseFormRegister,
 } from 'react-hook-form';
@@ -114,13 +115,13 @@ export default function FormLayout(props: PropTypes) {
       />
 
       <SelectProductCategory
-        control={control}
-        error={errors.productCategoryId?.message}
+        control={control as unknown as Control<FieldValues>}
+        errors={errors.productCategoryId?.message ?? ''}
       />
 
       <SelectProductStatus
-        control={control}
-        errors={errors.product_status?.message}
+        control={control as unknown as Control<FieldValues>}
+        errors={errors.product_status?.message ?? ''}
       />
 
       <FileInput

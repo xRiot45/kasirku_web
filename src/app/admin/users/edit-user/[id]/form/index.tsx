@@ -6,6 +6,7 @@ import {
   Control,
   Controller,
   FieldErrors,
+  FieldValues,
   UseFormRegister,
 } from 'react-hook-form';
 import { FileInput, Input } from 'rizzui';
@@ -74,8 +75,8 @@ export default function FormLayout(props: PropTypes) {
 
       <SelectGender
         label="Gender"
-        control={control}
-        errors={errors.gender?.message}
+        control={control as unknown as Control<FieldValues>}
+        errors={errors.gender?.message ?? ''}
       />
 
       <Input
@@ -89,7 +90,10 @@ export default function FormLayout(props: PropTypes) {
         error={errors.address?.message}
       />
 
-      <SelectRole control={control} error={errors.roleId?.message} />
+      <SelectRole
+        control={control as unknown as Control<FieldValues>}
+        errors={errors.roleId?.message ?? ''}
+      />
 
       <FileInput
         label="Photo"

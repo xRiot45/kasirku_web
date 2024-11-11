@@ -1,11 +1,16 @@
 import { IProductCategory } from '@/services/product-category/_models';
 import { getAllProductCategory } from '@/services/product-category/_requests';
 import { useQuery } from '@tanstack/react-query';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { Select } from 'rizzui';
 
-export default function SelectProductCategory(props: any) {
-  const { control, error } = props;
+interface PropTypes {
+  control: Control;
+  errors: string;
+}
+
+export default function SelectProductCategory(props: PropTypes) {
+  const { control, errors } = props;
   const currentPage = 1;
   const limit = 10;
 
@@ -42,7 +47,7 @@ export default function SelectProductCategory(props: any) {
               size="lg"
               label="Product Category"
               value={selectedOption || null}
-              error={error}
+              error={errors}
               placeholder="--- Select Product Category ---"
               dropdownClassName="!z-0"
               options={optionProductCategory}

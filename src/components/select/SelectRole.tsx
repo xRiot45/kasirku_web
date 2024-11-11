@@ -1,11 +1,16 @@
 import { IRole } from '@/services/roles/_models';
 import { getAllRoles } from '@/services/roles/_requests';
 import { useQuery } from '@tanstack/react-query';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { Select } from 'rizzui';
 
-export default function SelectRole(props: any) {
-  const { control, error } = props;
+interface PropTypes {
+  control: Control;
+  errors: string;
+}
+
+export default function SelectRole(props: PropTypes) {
+  const { control, errors } = props;
   const currentPage = 1;
   const limit = 10;
 
@@ -40,7 +45,7 @@ export default function SelectRole(props: any) {
               size="lg"
               label="Role"
               value={selectedOption || null}
-              error={error}
+              error={errors}
               placeholder="--- Select Role ---"
               dropdownClassName="!z-0"
               options={optionRole}
