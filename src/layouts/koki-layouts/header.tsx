@@ -1,9 +1,8 @@
 'use client';
 
-import SearchWidget from '@//shared/search/search';
 import HamburgerButton from '@/layouts/hamburger-button';
 import HeaderMenuRight from '@/layouts/header-menu-right';
-import Sidebar from '@/layouts/admin-layouts/sidebar';
+import Sidebar from '@/layouts/koki-layouts/sidebar';
 import StickyHeader from '@/layouts/sticky-header';
 import LogoIcon from '@public/images/logo-icon.png';
 import Image from 'next/image';
@@ -31,7 +30,7 @@ export default function Header() {
           />
         </Link>
 
-        <SearchWidget />
+        {/* <SearchWidget /> */}
       </div>
 
       <HeaderMenuRight />

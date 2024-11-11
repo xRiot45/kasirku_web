@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
-import { useDirection } from "@/hooks/use-direction";
-import CogSolidIcon from "@/components/icons/cog-solid";
-import { ActionIcon } from "rizzui";
-import cn from "@/utils/class-names";
-import DrawerHeader from "@/components/settings/drawer-header";
-import { usePresets } from "@/config/color-presets";
-import { useApplyColorPreset, useColorPresets } from "@/hooks/use-theme-color";
-import { useDrawer } from "@/shared/drawer-views/use-drawer";
+import { useEffect } from 'react';
+import { useTheme } from 'next-themes';
+import dynamic from 'next/dynamic';
+import { useDirection } from '@/hooks/use-direction';
+import CogSolidIcon from '@/components/icons/cog-solid';
+import { ActionIcon } from 'rizzui';
+import cn from '@/utils/class-names';
+import DrawerHeader from '@/components/settings/drawer-header';
+import { usePresets } from '@/config/color-presets';
+import { useApplyColorPreset, useColorPresets } from '@/hooks/use-theme-color';
+import { useDrawer } from '@/shared/drawer-views/use-drawer';
 
 const SettingsDrawer = dynamic(
-  () => import("@/components/settings/settings-drawer"),
+  () => import('@/components/settings/settings-drawer'),
   {
     ssr: false,
-  },
+  }
 );
 
 export default function SettingsButton({
@@ -35,7 +35,7 @@ export default function SettingsButton({
   // useApplyColorPreset<any>(applyColorPreset);
   useApplyColorPreset<any>(colorPresets ?? COLOR_PRESETS[0].colors);
   useEffect(() => {
-    document.documentElement.dir = direction ?? "ltr";
+    document.documentElement.dir = direction ?? 'ltr';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [direction]);
 
@@ -44,8 +44,8 @@ export default function SettingsButton({
       aria-label="Settings"
       variant="text"
       className={cn(
-        "relative h-[34px] w-[34px] shadow backdrop-blur-md dark:bg-gray-100 md:h-9 md:w-9",
-        className,
+        'relative h-[34px] w-[34px] shadow backdrop-blur-md dark:bg-gray-100 md:h-9 md:w-9',
+        className
       )}
       onClick={() =>
         openDrawer({
@@ -55,18 +55,15 @@ export default function SettingsButton({
               <SettingsDrawer />
             </>
           ),
-          placement: "right",
-          customSize: "420px",
+          placement: 'right',
+          // customSize: '420px',
         })
       }
     >
       {children ? (
         children
       ) : (
-        <CogSolidIcon
-          strokeWidth={1.8}
-          className="h-[22px] w-auto animate-spin-slow"
-        />
+        <CogSolidIcon strokeWidth={1.8} className="h-[22px] w-auto" />
       )}
     </ActionIcon>
   );

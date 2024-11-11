@@ -19,7 +19,7 @@ export default function StickyHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-[9999] flex items-center bg-white p-4 backdrop-blur-xl dark:bg-gray-950 md:px-5 lg:px-6',
+        'sticky top-0 z-[9999] flex items-center bg-white p-4 backdrop-blur-xl dark:bg-gray-50/50 md:px-5 lg:px-6',
         ((isMounted && windowScroll.y) as number) > offset ? 'card-shadow' : '',
         className
       )}
