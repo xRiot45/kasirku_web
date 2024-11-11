@@ -72,7 +72,11 @@ export default function FormLayout(props: PropTypes) {
         error={errors.phone_number?.message}
       />
 
-      <SelectGender control={control} errors={errors.gender?.message} />
+      <SelectGender
+        label="Gender"
+        control={control}
+        errors={errors.gender?.message}
+      />
 
       <Input
         type="text"

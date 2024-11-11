@@ -15,6 +15,7 @@ const REGISTER_USER = `${process.env.API_URL}/api/auth/register`;
 const DELETE_USER = `${process.env.API_URL}/api/users/delete`;
 const RESET_PASSWORD = `${process.env.API_URL}/api/users/reset-password`;
 const UPDATE_USER_BY_ADMIN = `${process.env.API_URL}/api/users/update-profile`;
+const UPDATE_DATA_USER = `${process.env.API_URL}/api/users/update-profile`;
 
 export async function getAllUsers(
   search: {
@@ -69,5 +70,10 @@ export async function updateProfileByAdmin(
   data: IUpdateProfileRequest
 ) {
   const res = await updateData(`${UPDATE_USER_BY_ADMIN}/${id}`, data);
+  return res.data.data;
+}
+
+export async function updateProfileUser(data: IUpdateProfileRequest) {
+  const res = await updateData(`${UPDATE_DATA_USER}`, data);
   return res.data.data;
 }

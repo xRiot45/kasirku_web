@@ -75,11 +75,7 @@ function ProfileMenuPopover({ children }: React.PropsWithChildren<{}>) {
 const menuItems = [
   {
     name: 'My Profile',
-    href: routes.profile,
-  },
-  {
-    name: 'Account Settings',
-    href: routes.forms.profileSettings,
+    href: '/profile',
   },
 ];
 

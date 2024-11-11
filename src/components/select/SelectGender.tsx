@@ -1,19 +1,20 @@
 'use client';
 
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { Select } from 'rizzui';
 
 interface PropTypes {
-  control: any;
+  control: Control;
   errors: any;
+  label?: string;
 }
 
 export default function SelectGender(props: PropTypes) {
-  const { control, errors } = props;
+  const { control, errors, label } = props;
   const genderOptions = [
     {
-      value: 'Laki-laki',
-      label: 'Laki-laki',
+      value: 'Laki-Laki',
+      label: 'Laki-Laki',
     },
     {
       value: 'Perempuan',
@@ -30,11 +31,12 @@ export default function SelectGender(props: PropTypes) {
           return (
             <Select
               size="lg"
-              label="Gender"
+              label={label}
               value={value}
               error={errors}
               placeholder="--- Select Gender ---"
               dropdownClassName="!z-0"
+              className="col-span-full"
               options={genderOptions}
               onChange={onChange}
               getOptionValue={(option) => option.value}

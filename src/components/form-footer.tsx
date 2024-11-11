@@ -1,5 +1,6 @@
 import { Button } from 'rizzui';
 import cn from '../utils/class-names';
+import { useRouter } from 'next/navigation';
 
 interface FormFooterProps {
   className?: string;
@@ -16,12 +17,13 @@ export default function FormFooter({
   altBtnText = 'Save as Draft',
   submitBtnText = 'Submit',
   className,
-  handleAltBtn,
 }: FormFooterProps) {
+  const router = useRouter();
+
   return (
     <div
       className={cn(
-        'sticky bottom-0 left-0 right-0 z-10 -mb-8 flex items-center justify-end gap-4 border-t bg-white px-4 py-4 md:px-5 lg:px-6 3xl:px-8 4xl:px-10 dark:bg-gray-50',
+        'sticky bottom-0 left-0 right-0 z-10 -mb-8 flex items-center justify-end gap-4 border-t bg-white px-10 py-4 dark:bg-gray-50',
         className,
         negMargin
       )}
@@ -29,11 +31,15 @@ export default function FormFooter({
       <Button
         variant="outline"
         className="w-full @xl:w-auto"
-        onClick={handleAltBtn}
+        onClick={() => router.back()}
       >
         {altBtnText}
       </Button>
-      <Button type="submit" isLoading={isLoading} className="w-full @xl:w-auto">
+      <Button
+        type="submit"
+        isLoading={isLoading}
+        className="w-full bg-amber-600 @xl:w-auto"
+      >
         {submitBtnText}
       </Button>
     </div>
