@@ -9,8 +9,8 @@ export const menuItems = [
   },
 
   {
-    name: 'Orders',
-    href: '/koki/orders',
+    name: 'Checkouts',
+    href: '/koki/checkouts',
     icon: <IoBagHandle />,
   },
 ];
