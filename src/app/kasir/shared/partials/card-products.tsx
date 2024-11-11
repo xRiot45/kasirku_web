@@ -13,7 +13,7 @@ export default function CardProducts(props: PropTypes) {
   const { data } = props;
 
   return (
-    <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-5">
+    <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
       {data.map((product) => (
         <div key={product.id} className={cn('pb-0.5')}>
           <div className="relative">
