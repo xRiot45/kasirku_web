@@ -2,8 +2,10 @@
 
 import { logoutRequest } from '@/app/auth/signin/core/_requests';
 import { routes } from '@/config/routes';
+import { IUsers } from '@/services/users/_models';
+import { getDataUser } from '@/services/users/_requests';
 import cn from '@/utils/class-names';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -12,13 +14,16 @@ import { Avatar, Button, Popover, Text, Title } from 'rizzui';
 
 export default function ProfileMenu({
   buttonClassName,
-  avatarClassName,
   username = false,
 }: {
   buttonClassName?: string;
-  avatarClassName?: string;
   username?: boolean;
 }) {
+  const { data } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => getDataUser(),
+  });
+
   return (
     <ProfileMenuPopover>
       <Popover.Trigger>
@@ -29,20 +34,19 @@ export default function ProfileMenu({
           )}
         >
           <Avatar
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-            name="John Doe"
-            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
+            src={`${process.env.API_URL}/${data?.photo ?? ''}`}
+            name={data?.full_name ?? '-'}
           />
           {!!username && (
             <span className="username hidden text-gray-200 dark:text-gray-700 md:inline-flex">
-              Hi, Andry
+              {data?.full_name ?? '-'}
             </span>
           )}
         </button>
       </Popover.Trigger>
 
       <Popover.Content className="z-[9999] p-0 dark:bg-gray-100 [&>svg]:dark:fill-gray-100">
-        <DropdownMenu />
+        <DropdownMenu data={data} />
       </Popover.Content>
     </ProfileMenuPopover>
   );
@@ -79,20 +83,20 @@ const menuItems = [
   },
 ];
 
-function DropdownMenu() {
+function DropdownMenu(props: { data: IUsers | undefined }) {
+  const { data } = props;
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const useLogout = () => {
-    const queryClient = useQueryClient();
 
+  const useLogout = () => {
     return useMutation({
       mutationFn: logoutRequest,
       onSuccess: () => {
-        // Membersihkan cache dan state setelah logout
         queryClient.clear();
         toast.success('Sign Out Successfully!');
         router.push('/auth/signin');
       },
-      onError: (error) => {
+      onError: () => {
         toast.error('Sign Out Failed!');
       },
     });
@@ -104,14 +108,14 @@ function DropdownMenu() {
     <div className="w-64 text-left rtl:text-right">
       <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
         <Avatar
-          src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-          name="Albert Flores"
+          src={`${process.env.API_URL}/${data?.photo ?? ''}`}
+          name={data?.full_name ?? '-'}
         />
         <div className="ms-3">
           <Title as="h6" className="font-semibold">
-            Albert Flores
+            {data?.full_name}
           </Title>
-          <Text className="text-gray-600">flores@doe.io</Text>
+          <Text className="text-xs text-gray-600">{data?.email}</Text>
         </div>
       </div>
       <div className="grid px-3.5 py-3.5 font-medium text-gray-700">

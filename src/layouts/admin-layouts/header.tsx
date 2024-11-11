@@ -2,11 +2,12 @@
 
 import Sidebar from '@/layouts/admin-layouts/sidebar';
 import HamburgerButton from '@/layouts/hamburger-button';
-import HeaderMenuRight from '@/layouts/header-menu-right';
 import StickyHeader from '@/layouts/sticky-header';
 import LogoIcon from '@public/images/logo-icon.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import ProfileMenu from '../profile-menu';
+import SettingsButton from '../settings-button';
 
 export default function Header() {
   return (
@@ -35,5 +36,14 @@ export default function Header() {
 
       <HeaderMenuRight />
     </StickyHeader>
+  );
+}
+
+function HeaderMenuRight() {
+  return (
+    <div className="ms-auto grid shrink-0 grid-cols-2 items-center gap-2 text-gray-700 xs:gap-3 xl:gap-4">
+      <SettingsButton />
+      <ProfileMenu />
+    </div>
   );
 }

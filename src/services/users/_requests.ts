@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import {
   IRegisterRequest,
   IRegisterResponse,
@@ -5,8 +6,10 @@ import {
   IUsers,
 } from './_models';
 import api, { updateData } from '@/config/api';
+import axios from 'axios';
 
 const GET_USERS = `${process.env.API_URL}/api/users`;
+const GET_DATA_USER = `${process.env.API_URL}/api/users/me`;
 const GET_USER_BY_ID = `${process.env.API_URL}/api/users/show`;
 const REGISTER_USER = `${process.env.API_URL}/api/auth/register`;
 const DELETE_USER = `${process.env.API_URL}/api/users/delete`;
@@ -36,6 +39,11 @@ export async function getAllUsers(
 
 export async function getUserById(id: string | undefined) {
   const res = await api.get<IBaseResponse<IUsers>>(`${GET_USER_BY_ID}/${id}`);
+  return res.data.data;
+}
+
+export async function getDataUser() {
+  const res = await api.get<IBaseResponse<IUsers>>(GET_DATA_USER);
   return res.data.data;
 }
 

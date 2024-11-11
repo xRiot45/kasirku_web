@@ -63,10 +63,7 @@ export default function SettingsButton({
       {children ? (
         children
       ) : (
-        <CogSolidIcon
-          strokeWidth={1.8}
-          className="h-[22px] w-auto animate-spin-slow"
-        />
+        <CogSolidIcon strokeWidth={1.8} className="h-[22px] w-auto" />
       )}
     </ActionIcon>
   );
