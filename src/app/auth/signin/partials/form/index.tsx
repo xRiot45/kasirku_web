@@ -10,8 +10,8 @@ import { SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { PiArrowRightBold } from 'react-icons/pi';
 import { Button, Input, Password } from 'rizzui';
-import { LoginRequest } from '../../core/_models';
-import { loginRequest } from '../../core/_requests';
+import { LoginRequest } from '../../../../../services/auth/_models';
+import { loginRequest } from '../../../../../services/auth/_requests';
 import { ValidationSchema, validationSchema } from './validationSchema';
 
 export default function SignInForm() {

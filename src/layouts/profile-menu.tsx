@@ -1,7 +1,6 @@
 'use client';
 
-import { logoutRequest } from '@/app/auth/signin/core/_requests';
-import { routes } from '@/config/routes';
+import { logoutRequest } from '@/services/auth/_requests';
 import { IUsers } from '@/services/users/_models';
 import { getDataUser } from '@/services/users/_requests';
 import cn from '@/utils/class-names';
