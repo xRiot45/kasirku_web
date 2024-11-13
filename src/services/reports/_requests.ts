@@ -10,7 +10,7 @@ export async function createReports(): Promise<IBaseResponse<IReports[]>> {
   return res.data.data;
 }
 
-export async function getAllDataReports(
+export async function getAllReports(
   search: {
     reporting_date?: string;
   },
