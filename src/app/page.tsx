@@ -1,13 +1,13 @@
-import SocialItems from "@/components/ui/social-shares";
-import { metaObject } from "@/config/site.config";
-import IconImg from "@public/images/welcome.png";
-import Image from "next/image";
-import Link from "next/link";
-import { MdLogin } from "react-icons/md";
-import { Button, Text, Title } from "rizzui";
+import SocialItems from '@/components/ui/social-shares';
+import { metaObject } from '@/config/site.config';
+import IconImg from '@public/images/welcome.png';
+import Image from 'next/image';
+import Link from 'next/link';
+import { MdLogin } from 'react-icons/md';
+import { Button, Text, Title } from 'rizzui';
 
 export const metadata = {
-  ...metaObject("Beranda"),
+  ...metaObject('Beranda'),
 };
 
 export default function WelcomePage() {
@@ -18,7 +18,7 @@ export default function WelcomePage() {
           <div className="mt-10 2xl:mt-0">
             <Title
               as="h2"
-              className="mb-3 text-[30px] font-black leading-snug  sm:text-2xl md:mb-5 md:text-3xl md:leading-snug xl:mb-7 xl:text-4xl xl:leading-normal 2xl:text-[42px] 3xl:text-5xl 3xl:leading-snug"
+              className="mb-3 text-[30px] font-black leading-snug sm:text-2xl md:mb-5 md:text-3xl md:leading-snug xl:mb-7 xl:text-4xl xl:leading-normal 2xl:text-[42px] 3xl:text-5xl 3xl:leading-snug"
             >
               Welcome To <span className="italic">Kasirku</span>
             </Title>
