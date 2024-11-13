@@ -7,6 +7,9 @@ import { TfiReload } from 'react-icons/tfi';
 import { Button, Flex, Modal, Text } from 'rizzui';
 import ReportsImage from '@public/images/reports.png';
 import Image from 'next/image';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createReports } from '@/services/reports/_requests';
+import toast from 'react-hot-toast';
 
 type TableLayoutProps = {
   data?: unknown[];
@@ -67,6 +70,33 @@ function ModalConfirmation({
   modalState: boolean;
   setModalState: (state: boolean) => void;
 }) {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: () => createReports(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['checkouts'] }).then(() => {
+        queryClient.refetchQueries({ queryKey: ['checkouts'] });
+      });
+      toast.success('Create reports successfully!');
+    },
+    onError: (error: any) => {
+      console.log(error);
+      if (error.response?.status === 404) {
+        toast.error('No checkouts data found!');
+      } else {
+        toast.error(
+          'An error occurred while create reports, please try again!'
+        );
+      }
+    },
+  });
+
+  const onSubmit = () => {
+    mutation.mutate();
+    setModalState(false);
+  };
+
   return (
     <>
       <Modal isOpen={modalState} onClose={() => setModalState(false)} size="lg">
@@ -92,6 +122,7 @@ function ModalConfirmation({
               <Button
                 variant="solid"
                 className="w-full bg-amber-600 text-white"
+                onClick={onSubmit}
               >
                 Confirm
               </Button>
