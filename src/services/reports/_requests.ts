@@ -29,9 +29,7 @@ export async function getAllReports(
   return res.data;
 }
 
-export async function getReportById(
-  id: string
-): Promise<IBaseResponse<IReports[]>> {
+export async function getReportById(id: string): Promise<IReports> {
   const res = await api.get(`${GET_REPORT_BY_ID}/${id}`);
   return res.data.data;
 }

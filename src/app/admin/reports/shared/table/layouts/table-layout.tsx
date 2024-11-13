@@ -1,9 +1,6 @@
 'use client';
 
-import { routes } from '@/config/routes';
 import PageHeader, { PageHeaderTypes } from '@/shared/page-header';
-import Link from 'next/link';
-import { FaPlus } from 'react-icons/fa';
 import { TfiReload } from 'react-icons/tfi';
 import { Button, Flex } from 'rizzui';
 
