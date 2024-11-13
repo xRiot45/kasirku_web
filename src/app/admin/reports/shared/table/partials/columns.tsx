@@ -121,6 +121,19 @@ export const reportsListColumns = [
   }),
 
   columnHelper.display({
+    id: 'reporting_date',
+    header: 'Reporting Date',
+    enableSorting: false,
+    cell: ({ row }) => (
+      <Text className="text-sm">
+        {row.original.reporting_date
+          ? new Date(row.original.reporting_date).toLocaleString()
+          : '-'}
+      </Text>
+    ),
+  }),
+
+  columnHelper.display({
     id: 'action',
     header: 'Action',
     cell: ({

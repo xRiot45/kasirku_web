@@ -1,7 +1,7 @@
 export interface IReports {
   id: string;
   invoice: string;
-  reporting_date: Date;
+  reporting_date: string;
   total_order_price: number;
   checkout_date: Date;
   payment_amount: number;

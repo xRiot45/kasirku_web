@@ -1,8 +1,10 @@
 'use client';
 
 import { FilterDrawerView } from '@/components/controlled-table/table-filter';
+import { DatePicker } from '@/components/ui/datepicker';
 import { type Table as ReactTableType } from '@tanstack/react-table';
 import { useState } from 'react';
+import { Controller } from 'react-hook-form';
 import { PiFunnel } from 'react-icons/pi';
 import { Button, Flex, Input } from 'rizzui';
 
@@ -30,15 +32,24 @@ export default function Filters<TData extends Record<string, any>>(
         setOpenDrawer={setOpenDrawer}
       >
         <div className="grid grid-cols-1 gap-6">
-          <Input
-            type="text"
-            size="lg"
-            label="Reporting Date"
-            placeholder="Search Reporting Date"
-            className="w-full [&>label>span]:font-medium"
-            inputClassName="text-sm"
-            value={search.reporting_date}
-            onChange={(e) => onSearchChange({ reporting_date: e.target.value })}
+          <DatePicker
+            inputProps={{ label: 'Reporting Date' }}
+            placeholderText="Select Date"
+            dateFormat="dd/MM/yyyy"
+            onChange={(date) => {
+              const selectedDate = Array.isArray(date) ? date[0] : date;
+              const newSearch = {
+                reporting_date: selectedDate
+                  ? `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`
+                  : '',
+              };
+              onSearchChange(newSearch);
+            }}
+            selected={
+              search.reporting_date
+                ? new Date(search.reporting_date.replace(/-/g, '/'))
+                : null
+            }
           />
         </div>
       </FilterDrawerView>
