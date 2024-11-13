@@ -128,7 +128,7 @@ export default function DetailReportsPage() {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
-          <PrintButton onClick={() => handlePrint()} title="Print Invoice" />
+          <PrintButton onClick={() => handlePrint()} title="Print Reports" />
         </div>
       </PageHeader>
 
