@@ -4,7 +4,7 @@ import MetricCard from '@/components/cards/metric-card';
 import { getCountData, getCountSaleByYear } from '@/services/charts/_requests';
 import PageHeader from '@/shared/page-header';
 import cn from '@/utils/class-names';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AiFillProduct } from 'react-icons/ai';
 import { FaUsers } from 'react-icons/fa';
 import { GrUserSettings } from 'react-icons/gr';
@@ -12,6 +12,8 @@ import { HiDocumentReport } from 'react-icons/hi';
 import SaleCharts from './partials/sale-charts';
 import { useState } from 'react';
 import { useDebounce } from '@/hooks/use-debounce';
+import { Button, Flex } from 'rizzui';
+import { TfiReload } from 'react-icons/tfi';
 
 const pageHeader = {
   title: 'Dashboard',
@@ -26,6 +28,7 @@ const pageHeader = {
 };
 
 export default function AdminDashboard() {
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState({
     year: '',
   });
@@ -82,9 +85,25 @@ export default function AdminDashboard() {
     },
   ];
 
+  const handleRefresh = () => {
+    setSearch({ year: '' });
+    queryClient.invalidateQueries({ queryKey: ['charts'] });
+  };
+
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
+      <div className="">
+        <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
+          <Button
+            onClick={handleRefresh}
+            className="flex w-full gap-3 bg-green-600 py-6 hover:bg-green-700 md:w-auto"
+          >
+            <TfiReload />
+            Refresh Page
+          </Button>
+        </PageHeader>
+      </div>
+
       <div className={cn('mb-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4')}>
         {mappingCountData?.map((item) => (
           <MetricCard
