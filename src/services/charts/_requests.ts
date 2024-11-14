@@ -1,5 +1,5 @@
 import api from '@/config/api';
-import { ICountData } from './_models';
+import { ICountData, IOrderStatusData, ISaleData } from './_models';
 
 const GET_COUNT_DATA = `${process.env.API_URL}/api/charts/count-data`;
 const GET_COUNT_SALE_BY_YEAR = `${process.env.API_URL}/api/charts/sale-by-year`;
@@ -13,7 +13,7 @@ export async function getCountData(): Promise<ICountData> {
 
 export async function getCountSaleByYear(search?: {
   year: string;
-}): Promise<IBaseResponse> {
+}): Promise<ISaleData> {
   const res = await api.get(GET_COUNT_SALE_BY_YEAR, {
     params: {
       ...search,
@@ -28,7 +28,7 @@ export async function getCountTotalProfit(): Promise<IBaseResponse> {
   return res.data.data;
 }
 
-export async function getCountOrderStatus(): Promise<IBaseResponse> {
+export async function getCountOrderStatus(): Promise<IOrderStatusData> {
   const res = await api.get(GET_COUNT_ORDER_STATUS);
   return res.data.data;
 }

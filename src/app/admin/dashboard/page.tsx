@@ -1,7 +1,11 @@
 'use client';
 
 import MetricCard from '@/components/cards/metric-card';
-import { getCountData, getCountSaleByYear } from '@/services/charts/_requests';
+import {
+  getCountData,
+  getCountOrderStatus,
+  getCountSaleByYear,
+} from '@/services/charts/_requests';
 import PageHeader from '@/shared/page-header';
 import cn from '@/utils/class-names';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,8 +16,9 @@ import { HiDocumentReport } from 'react-icons/hi';
 import SaleCharts from './partials/sale-charts';
 import { useState } from 'react';
 import { useDebounce } from '@/hooks/use-debounce';
-import { Button, Flex } from 'rizzui';
+import { Box, Button, Flex } from 'rizzui';
 import { TfiReload } from 'react-icons/tfi';
+import OrderStatusCharts from './partials/order-status-charts';
 
 const pageHeader = {
   title: 'Dashboard',
@@ -58,6 +63,13 @@ export default function AdminDashboard() {
     queryFn: () => getCountSaleByYear(searchParams),
   });
 
+  const { data: orderStatusData } = useQuery({
+    queryKey: ['charts'],
+    queryFn: () => getCountOrderStatus(),
+  });
+
+  console.log(orderStatusData);
+
   const mappingCountData = [
     {
       id: 1,
@@ -96,7 +108,7 @@ export default function AdminDashboard() {
         <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
           <Button
             onClick={handleRefresh}
-            className="flex w-full gap-3 bg-green-600 py-6 hover:bg-green-700 md:w-auto"
+            className="mt-3 flex w-full gap-3 bg-green-600 py-6 hover:bg-green-700 md:w-auto lg:mt-0"
           >
             <TfiReload />
             Refresh Page
@@ -115,7 +127,13 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      <SaleCharts saleData={saleData} handleSearchChange={handleSearchChange} />
+      <SaleCharts
+        saleData={saleData}
+        handleSearchChange={handleSearchChange}
+        className="mb-8"
+      />
+
+      <OrderStatusCharts orderStatusData={orderStatusData} />
     </>
   );
 }

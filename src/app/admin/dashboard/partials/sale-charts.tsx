@@ -2,22 +2,29 @@ import WidgetCard from '@/components/cards/widget-card';
 import { CustomTooltip } from '@/components/charts/custom-tooltip';
 import { CustomYAxisTick } from '@/components/charts/custom-yaxis-tick';
 import { DatePicker } from '@/components/ui/datepicker';
+import { ISaleData } from '@/services/charts/_models';
 import { formatToRupiah } from '@/utils/formatRupiah';
 import { useEffect, useState } from 'react';
 import useMedia from 'react-use/lib/useMedia';
 import {
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
   Area,
+  Bar,
+  CartesianGrid,
   ComposedChart,
   LabelList,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
 import { Badge } from 'rizzui';
 import SimpleBar from 'simplebar-react';
+
+interface PropTypes {
+  saleData: ISaleData | undefined;
+  handleSearchChange: (partialSearch: Partial<{ year: string }>) => void;
+  className?: string;
+}
 
 function convertApiData(apiData: { [x: string]: any }) {
   const monthNames = [
@@ -40,8 +47,8 @@ function convertApiData(apiData: { [x: string]: any }) {
   }));
 }
 
-export default function SaleCharts(props: any) {
-  const { saleData, handleSearchChange } = props;
+export default function SaleCharts(props: PropTypes) {
+  const { saleData, handleSearchChange, className } = props;
   const [data, setData] = useState<{ month: string; revenue: number }[]>([]);
   const isTablet = useMedia('(max-width: 820px)', false);
   const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -61,6 +68,7 @@ export default function SaleCharts(props: any) {
   return (
     <>
       <WidgetCard
+        className={className}
         title={'Sale Charts'}
         description={
           <>
