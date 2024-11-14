@@ -7,6 +7,7 @@ import { Text } from 'rizzui';
 import cn from '../../utils/class-names';
 import { addSpacesToCamelCase } from '../../utils/add-spaces-to-camel-case';
 import { formatNumber } from '../../utils/format-number';
+import { formatToRupiah } from '@/utils/formatRupiah';
 
 function isValidHexColor(colorCode: string) {
   const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -66,7 +67,7 @@ export function CustomTooltip({
                 className="font-medium text-gray-900 dark:text-gray-700"
               >
                 {prefix && prefix}
-                {formattedNumber ? formatNumber(item.value) : item.value}
+                {formatToRupiah(item.value)}
                 {postfix && postfix}
               </Text>
             </Text>

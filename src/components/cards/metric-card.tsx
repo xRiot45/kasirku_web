@@ -52,11 +52,11 @@ export default function MetricCard({
       )}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex items-center text-amber-600">
           {icon ? (
             <div
               className={cn(
-                'flex h-11 w-11 items-center justify-center rounded-lg bg-gray-100 lg:h-12 lg:w-12',
+                'flex h-11 w-11 items-center justify-center rounded-lg lg:h-12 lg:w-12',
                 iconClassName
               )}
             >
@@ -65,12 +65,14 @@ export default function MetricCard({
           ) : null}
 
           <div className={cn(icon && 'ps-3', contentClassName)}>
-            <Text className={cn('mb-0.5 text-gray-500', titleClassName)}>
+            <Text
+              className={cn('mb-0.5 font-medium text-gray-500', titleClassName)}
+            >
               {title}
             </Text>
             <Text
               className={cn(
-                'font-lexend text-lg font-semibold text-gray-900 2xl:xl:text-xl dark:text-gray-700',
+                'font-lexend text-lg font-semibold text-gray-900 dark:text-gray-700 2xl:xl:text-xl',
                 metricClassName
               )}
             >
