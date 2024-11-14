@@ -4,9 +4,8 @@ import { FilterDrawerView } from '@/components/controlled-table/table-filter';
 import { DatePicker } from '@/components/ui/datepicker';
 import { type Table as ReactTableType } from '@tanstack/react-table';
 import { useState } from 'react';
-import { Controller } from 'react-hook-form';
 import { PiFunnel } from 'react-icons/pi';
-import { Button, Flex, Input } from 'rizzui';
+import { Button, Flex } from 'rizzui';
 
 type SearchProps = {
   reporting_date: string;
