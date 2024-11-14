@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Input, InputProps } from 'rizzui';
 import cn from '@/utils/class-names';
 import { PiCalendarBlank, PiCaretDownBold } from 'react-icons/pi';
-import ReactDatePicker, { type ReactDatePickerProps } from 'react-datepicker';
+import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const calendarContainerClasses = {
@@ -30,7 +30,7 @@ const timeOnlyClasses = {
 };
 
 export interface DatePickerProps<selectsRange extends boolean | undefined>
-  extends Omit<ReactDatePickerProps, 'selectsRange' | 'onChange'> {
+  extends Omit<any, 'selectsRange' | 'onChange'> {
   /** Pass function in onChange prop to handle selecting value */
   onChange(
     date: selectsRange extends false | undefined
@@ -85,7 +85,7 @@ export const DatePicker = ({
         }
         showPopperArrow={showPopperArrow}
         dateFormat={dateFormat}
-        selectsRange={selectsRange}
+        // selectsRange={selectsRange}
         onCalendarOpen={onCalendarOpen || handleCalenderOpen}
         onCalendarClose={onCalendarClose || handleCalenderClose}
         calendarClassName={cn(

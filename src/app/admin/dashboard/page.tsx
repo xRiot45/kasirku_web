@@ -10,6 +10,8 @@ import { FaUsers } from 'react-icons/fa';
 import { GrUserSettings } from 'react-icons/gr';
 import { HiDocumentReport } from 'react-icons/hi';
 import SaleCharts from './partials/sale-charts';
+import { useState } from 'react';
+import { useDebounce } from '@/hooks/use-debounce';
 
 const pageHeader = {
   title: 'Dashboard',
@@ -24,17 +26,34 @@ const pageHeader = {
 };
 
 export default function AdminDashboard() {
+  const [search, setSearch] = useState({
+    year: '',
+  });
+
+  const debounceSearch = useDebounce(search, 1000);
+  const filteredSearch = Object.fromEntries(
+    Object.entries(debounceSearch).filter(([_, value]) => value !== '')
+  );
+
+  const searchParams = filteredSearch as { year: string };
+
+  const handleSearchChange = (
+    partialSearch: Partial<{
+      year: string;
+    }>
+  ) => {
+    setSearch((prevSearch) => ({ ...prevSearch, ...partialSearch }));
+  };
+
   const { data: countData } = useQuery({
     queryKey: ['reports'],
     queryFn: () => getCountData(),
   });
 
   const { data: saleData } = useQuery({
-    queryKey: ['charts'],
-    queryFn: () => getCountSaleByYear(),
+    queryKey: ['charts', searchParams],
+    queryFn: () => getCountSaleByYear(searchParams),
   });
-
-  console.log(saleData);
 
   const mappingCountData = [
     {
@@ -77,7 +96,7 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      <SaleCharts saleData={saleData} />
+      <SaleCharts saleData={saleData} handleSearchChange={handleSearchChange} />
     </>
   );
 }

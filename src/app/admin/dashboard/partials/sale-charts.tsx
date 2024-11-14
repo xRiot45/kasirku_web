@@ -41,10 +41,15 @@ function convertApiData(apiData: { [x: string]: any }) {
 }
 
 export default function SaleCharts(props: any) {
-  const { saleData } = props;
+  const { saleData, handleSearchChange } = props;
   const [data, setData] = useState<{ month: string; revenue: number }[]>([]);
   const isTablet = useMedia('(max-width: 820px)', false);
   const [startDate, setStartDate] = useState<Date | null>(new Date());
+
+  const handleDatePickerChange = (date: Date) => {
+    setStartDate(date);
+    handleSearchChange({ year: date.getFullYear().toString() });
+  };
 
   useEffect(() => {
     if (saleData) {
@@ -66,13 +71,13 @@ export default function SaleCharts(props: any) {
         action={
           <DatePicker
             selected={startDate}
-            onChange={(date: Date | null) => setStartDate(date)}
+            onChange={handleDatePickerChange}
             dateFormat="yyyy"
             placeholderText="Select Year"
             showYearPicker
             inputProps={{
               variant: 'text',
-              inputClassName: 'p-2  h-auto',
+              inputClassName: 'h-auto',
             }}
             popperPlacement="bottom-end"
             className="w-[150px] cursor-pointer"
