@@ -67,7 +67,7 @@ export default function Orders() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       toast.success('Checkout orders successfully!');
-      setModalState(false);
+      router.push('/kasir/checkouts');
     },
     onError: (error: any) => {
       if (error.response.status === 400) {
