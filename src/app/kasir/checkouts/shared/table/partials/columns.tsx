@@ -1,5 +1,6 @@
 'use client';
 
+import DeletePopover from '@/components/delete-popover';
 import { ICheckout } from '@/services/checkouts/_models';
 import { IOrders } from '@/services/orders/_models';
 import { formatToRupiah } from '@/utils/formatRupiah';
@@ -201,6 +202,15 @@ export const checkoutListColumns = [
             ) : null}
           </Dropdown.Menu>
         </Dropdown>
+        {row.original.order_status === 'Order Dibatalkan' ? (
+          <DeletePopover
+            title={`Delete the checkout`}
+            description={`Are you sure you want to delete this Checkout?`}
+            onDelete={() => {
+              meta?.handleDeleteRow?.(row.original);
+            }}
+          />
+        ) : null}
       </Flex>
     ),
   }),

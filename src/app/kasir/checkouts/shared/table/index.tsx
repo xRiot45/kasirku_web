@@ -11,6 +11,7 @@ import {
   cancelledCheckout,
   completedCheckout,
   confirmedCheckout,
+  deleteCheckout,
   processedCheckout,
 } from '@/services/checkouts/_requests';
 import cn from '@/utils/class-names';
@@ -88,6 +89,10 @@ export default function CheckoutsTable(props: TableProps) {
         handleCancelledRow(row) {
           handleCancelCheckout(row.id);
         },
+
+        handleDeleteRow(row) {
+          handleDeleteCheckout(row.id);
+        },
       },
       enableColumnResizing: false,
     },
@@ -123,6 +128,12 @@ export default function CheckoutsTable(props: TableProps) {
     'An error occurred while cancelling checkout, please try again!'
   );
 
+  const mutationDeleteCheckout = useMutationHooks(
+    deleteCheckout,
+    'Deleted checkout successfully!',
+    'An error occurred while cancelling checkout, please try again!'
+  );
+
   const handleConfirmCheckout = (id: string) => {
     mutationConfirmCheckout.mutate(id);
   };
@@ -137,6 +148,10 @@ export default function CheckoutsTable(props: TableProps) {
 
   const handleCancelCheckout = (id: string) => {
     mutationCancelCheckout.mutate(id);
+  };
+
+  const handleDeleteCheckout = (id: string) => {
+    mutationDeleteCheckout.mutate(id);
   };
 
   return (

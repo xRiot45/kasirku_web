@@ -8,6 +8,7 @@ const PROCESSED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/processed
 const COMPLETED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/completed`;
 const CANCELLED_CHECKOUT = `${process.env.API_URL}/api/checkout/status/cancelled`;
 const DETAIL_CHECKOUTS = `${process.env.API_URL}/api/checkout/show`;
+const DELETE_CHECKOUT = `${process.env.API_URL}/api/checkout/delete`;
 
 export async function checkout(data: ICheckoutOrdersRequest) {
   const res = await api.post(CHECKOUT_ORDERS, data);
@@ -57,4 +58,11 @@ export async function getDetailCheckout(id: string | undefined) {
   );
 
   return res.data.data;
+}
+
+export async function deleteCheckout(
+  id: string | undefined
+): Promise<WebResponse> {
+  const res = await api.delete(`${DELETE_CHECKOUT}/${id}`);
+  return res.data;
 }
