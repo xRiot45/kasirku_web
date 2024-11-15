@@ -93,17 +93,6 @@ export const reportsListColumns = [
   }),
 
   columnHelper.display({
-    id: 'seat_number',
-    header: 'Seat Number',
-    enableSorting: false,
-    cell: ({ row }) => (
-      <Text className="text-sm">
-        {row.original.seat_number ? row.original.seat_number : '-'}
-      </Text>
-    ),
-  }),
-
-  columnHelper.display({
     id: 'order_status',
     header: 'Order Status',
     enableSorting: false,
@@ -143,21 +132,21 @@ export const reportsListColumns = [
       },
     }) => (
       <Flex align="center" justify="start" gap="3" className="pe-4">
-        <Dropdown>
-          <Dropdown.Trigger as="button">
-            <Tooltip
-              size="sm"
-              content={'Action'}
-              placement="top"
-              color="invert"
-            >
-              <ActionIcon variant="outline" rounded="full" as="span">
-                <CiSliderHorizontal className="h-5 w-5" />
-              </ActionIcon>
-            </Tooltip>
-          </Dropdown.Trigger>
-          <Dropdown.Menu>
-            {row.original.order_status === 'Order Selesai' ? (
+        {row.original.order_status === 'Order Selesai' ? (
+          <Dropdown>
+            <Dropdown.Trigger as="button">
+              <Tooltip
+                size="sm"
+                content={'Action'}
+                placement="top"
+                color="invert"
+              >
+                <ActionIcon variant="outline" rounded="full" as="span">
+                  <CiSliderHorizontal className="h-5 w-5" />
+                </ActionIcon>
+              </Tooltip>
+            </Dropdown.Trigger>
+            <Dropdown.Menu>
               <Link href={`/admin/reports/detail/${row.original.id}`}>
                 <Dropdown.Item
                   className="p-3"
@@ -167,9 +156,9 @@ export const reportsListColumns = [
                   Detail Reports
                 </Dropdown.Item>
               </Link>
-            ) : null}
-          </Dropdown.Menu>
-        </Dropdown>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : null}
       </Flex>
     ),
   }),
