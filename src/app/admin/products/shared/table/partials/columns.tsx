@@ -1,7 +1,6 @@
 'use client';
 
 import DeletePopover from '@/components/delete-popover';
-import EyeIcon from '@/components/icons/eye';
 import PencilIcon from '@/components/icons/pencil';
 import AvatarCard from '@/components/ui/avatar-card';
 import { routes } from '@/config/routes';
@@ -89,19 +88,6 @@ export const productsListColumns = [
       });
 
       return <Text className="text-sm">{productVariants.join(', ')}</Text>;
-    },
-  }),
-
-  columnHelper.display({
-    id: 'product_description',
-    header: 'Description',
-    enableSorting: false,
-    cell: ({ row }) => {
-      const productDescription = row.original.product_description;
-      const words = productDescription.split(' ');
-      const limitedWords = words.slice(0, 20).join(' ');
-
-      return <Text className="text-sm">{limitedWords}</Text>;
     },
   }),
 

@@ -19,6 +19,7 @@ export const columns = [
             fill
             sizes="(max-width: 768px) 100vw"
             className="object-cover"
+            unoptimized={true}
           />
         </div>
         <div className="ms-4">

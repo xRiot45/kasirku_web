@@ -1,15 +1,22 @@
-import { useMemo, useState } from "react";
-import type { ReactNode } from "react";
-import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import type { Active, DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
+import { useMemo, useState, ReactNode } from 'react';
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  Active,
+  DragEndEvent,
+  UniqueIdentifier,
+} from '@dnd-kit/core';
 import {
   rectSortingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
   SortingStrategy,
-} from "@dnd-kit/sortable";
-import { SortableOverlay } from "./dnd-sortable-overly";
-import { DragHandle, SortableItem } from "./dnd-sortable-item";
+} from '@dnd-kit/sortable';
+import { SortableOverlay } from './dnd-sortable-overly';
+import { DragHandle, SortableItem } from './dnd-sortable-item';
 
 interface BaseItem {
   id: UniqueIdentifier;
@@ -31,7 +38,10 @@ export function SortableList<T extends BaseItem>({
   strategy = rectSortingStrategy,
 }: Props<T>) {
   const [active, setActive] = useState<Active | null>(null);
-  const activeItem = useMemo(() => items.find((item) => item.id === active?.id), [active, items]);
+  const activeItem = useMemo(
+    () => items.find((item) => item.id === active?.id),
+    [active, items]
+  );
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -53,10 +63,7 @@ export function SortableList<T extends BaseItem>({
         setActive(null);
       }}
     >
-      <SortableContext
-        items={items}
-        strategy={strategy}
-      >
+      <SortableContext items={items} strategy={strategy}>
         {children}
       </SortableContext>
     </DndContext>

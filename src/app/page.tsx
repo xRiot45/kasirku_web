@@ -41,9 +41,13 @@ export default function WelcomePage() {
           </div>
           <div className="relative">
             <Image
+              priority
               src={IconImg}
               alt="Late Img"
-              className="aspect-[632/630] max-w-[256px] sm:max-w-xs lg:max-w-lg 2xl:max-w-xl 3xl:max-w-[632px]"
+              width={632}
+              height={630}
+              className="max-w-[256px] sm:max-w-xs lg:max-w-lg 2xl:max-w-xl 3xl:max-w-[632px]"
+              layout="responsive"
             />
           </div>
         </div>

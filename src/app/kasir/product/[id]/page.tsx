@@ -9,11 +9,11 @@ import toast from 'react-hot-toast';
 import { PiMinus, PiPlus, PiShoppingCartSimple } from 'react-icons/pi';
 import { Button, Radio, Text, Title } from 'rizzui';
 
-import { FaAnglesLeft } from 'react-icons/fa6';
-import PageHeader from '@/shared/page-header';
-import { getProductById } from '@/services/products/_requests';
 import { IAddProductToCartRequest } from '@/services/carts/_models';
 import { addProductToCart } from '@/services/carts/_requests';
+import { getProductById } from '@/services/products/_requests';
+import PageHeader from '@/shared/page-header';
+import { FaAnglesLeft } from 'react-icons/fa6';
 
 const pageHeader = {
   title: 'Kasir',
@@ -88,7 +88,7 @@ export default function ProductDetail() {
           <FaAnglesLeft />
           Back to previous page
         </Button>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           {/* Kolom Gambar Produk */}
           <div className="col-span-6 mb-7 lg:mb-10 3xl:pe-10">
             <div className="relative mx-auto aspect-[4/4.65] w-full overflow-hidden rounded bg-gray-100 xl:rounded-md">
@@ -98,6 +98,7 @@ export default function ProductDetail() {
                 src={`${process.env.API_URL}/${data?.product_photo}`}
                 alt={'Product Gallery'}
                 className="h-full w-full object-cover"
+                unoptimized={true}
               />
             </div>
           </div>

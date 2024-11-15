@@ -96,7 +96,7 @@ export default function AdminDashboard() {
     {
       id: 4,
       icon: <FaMoneyBillWave className="mr-2 h-full w-full" />,
-      title: 'Total Profit',
+      title: 'Total Revenue',
       metric: formatToRupiah(totalProfit?.total_profit ?? 0),
     },
   ];
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
         </PageHeader>
       </div>
 
-      <div className={cn('mb-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4')}>
+      <div className={cn('mb-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4')}>
         {mappingCountData?.map((item) => (
           <MetricCard
             key={item.id}

@@ -41,7 +41,7 @@ export default function FormLayout(props: PropTypes) {
         control={control}
         render={({ field: { value, onChange, onBlur } }) => (
           <DatePicker
-            inputProps={{ label: 'Available date' }}
+            inputProps={{ label: 'Birthday Date' }}
             placeholderText="Select Date"
             dateFormat="dd/MM/yyyy"
             onChange={onChange}

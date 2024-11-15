@@ -33,7 +33,7 @@ function HeaderMenuRight() {
       </Link>
       <ProfileMenu
         buttonClassName="w-auto sm:w-auto p-1 border border-gray-300"
-        avatarClassName="!w-7 !h-7 sm:!h-8 sm:!w-8"
+        // avatarClassName="!w-7 !h-7 sm:!h-8 sm:!w-8"
       />
     </div>
   );

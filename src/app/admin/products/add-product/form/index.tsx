@@ -138,6 +138,7 @@ export default function FormLayout(props: PropTypes) {
             height={1000}
             className="h-auto w-auto"
             priority
+            unoptimized={true}
           />
         </div>
       ) : data?.product_photo ? (
@@ -149,6 +150,7 @@ export default function FormLayout(props: PropTypes) {
             height={1000}
             className="h-auto w-auto"
             priority
+            unoptimized={true}
           />
         </div>
       ) : null}

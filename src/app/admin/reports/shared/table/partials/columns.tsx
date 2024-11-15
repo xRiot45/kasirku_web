@@ -27,6 +27,7 @@ export const reportsListColumns = [
     size: 300,
     cell: ({ row }) => {
       const checkoutData = row.original;
+      console.log(checkoutData);
       return (
         <div>
           {checkoutData.orders.map((order: IOrders) => (
@@ -38,6 +39,7 @@ export const reportsListColumns = [
                   fill
                   sizes="(max-width: 768px) 100vw"
                   className="object-cover"
+                  unoptimized={true}
                 />
               </div>
               <div className="ms-4">

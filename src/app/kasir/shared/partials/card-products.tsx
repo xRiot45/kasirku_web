@@ -31,6 +31,7 @@ export default function CardProducts(props: PropTypes) {
                 quality={90}
                 sizes="(max-width: 768px) 100vw"
                 className="h-full w-full object-cover"
+                unoptimized={true}
               />
             </div>
           </div>

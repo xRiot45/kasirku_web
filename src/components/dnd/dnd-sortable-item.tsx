@@ -1,12 +1,20 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useMemo } from "react";
-import type { CSSProperties, PropsWithChildren } from "react";
-import type { DraggableSyntheticListeners, UniqueIdentifier } from "@dnd-kit/core";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { PiDotsSixVerticalBold } from "react-icons/pi";
-import cn from "../../utils/class-names";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  CSSProperties,
+  PropsWithChildren,
+} from 'react';
+import type {
+  DraggableSyntheticListeners,
+  UniqueIdentifier,
+} from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { PiDotsSixVerticalBold } from 'react-icons/pi';
+import cn from '../../utils/class-names';
 
 interface Props {
   as?: React.ElementType;
@@ -27,7 +35,13 @@ const SortableItemContext = createContext<Context>({
   ref() {},
 });
 
-export function SortableItem({ as, children, id, className, data }: PropsWithChildren<Props>) {
+export function SortableItem({
+  as,
+  children,
+  id,
+  className,
+  data,
+}: PropsWithChildren<Props>) {
   const {
     attributes,
     isDragging,
@@ -51,12 +65,12 @@ export function SortableItem({ as, children, id, className, data }: PropsWithChi
     transition,
   };
 
-  const Component = as || "li";
+  const Component = as || 'li';
 
   return (
     <SortableItemContext.Provider value={context}>
       <Component
-        className={cn("SortableItem", className)}
+        className={cn('SortableItem', className)}
         ref={setNodeRef}
         style={style}
       >
@@ -79,7 +93,7 @@ export function DragHandle({
   return (
     <button
       type="button"
-      className={cn("h-5 w-5 text-gray-900", className)}
+      className={cn('h-5 w-5 text-gray-900', className)}
       {...attributes}
       {...listeners}
       ref={ref}

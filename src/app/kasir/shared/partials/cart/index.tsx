@@ -133,6 +133,7 @@ export default function Carts(props: CartsProps) {
                                 priority
                                 sizes="(max-width: 768px) 100vw"
                                 className="h-full w-full object-cover"
+                                unoptimized={true}
                               />
                             </figure>
                             <div className="w-full truncate ps-3">

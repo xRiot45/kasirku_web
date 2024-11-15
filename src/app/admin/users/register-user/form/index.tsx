@@ -1,4 +1,9 @@
-import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
+import {
+  Control,
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+} from 'react-hook-form';
 import { Flex, Input } from 'rizzui';
 import SelectRole from '@/components/select/SelectRole';
 import { IRegisterRequest } from '@/services/users/_models';
@@ -37,7 +42,10 @@ export default function FormLayout(props: FormProps) {
         />
       </Flex>
 
-      <SelectRole control={control} error={errors.roleId?.message} />
+      <SelectRole
+        control={control as unknown as Control<FieldValues>}
+        errors={errors.roleId?.message ?? ''}
+      />
     </>
   );
 }

@@ -3,14 +3,14 @@
 import { RadioGroup } from 'rizzui';
 import { useLayout } from '@/hooks/use-layout';
 import { LAYOUT_OPTIONS } from '@/config/enums';
-import HydrogenIcon from '@/layouts/hydrogen-icon';
-import HeliumIcon from '@/layouts/helium-icon';
-import LithiumIcon from '@/layouts/lithium-icon';
-import BerylliumIcon from '@/layouts/beryllium-icon';
+import HydrogenIcon from '@/layouts/layout-icons/hydrogen-icon';
+import HeliumIcon from '@/layouts/layout-icons/helium-icon';
+import LithiumIcon from '@/layouts/layout-icons/lithium-icon';
+import BerylliumIcon from '@/layouts/layout-icons/beryllium-icon';
 import RadioBox from '@/components/settings/radio-box';
 import DrawerBlock from '@/components/settings/drawer-block';
-import BoronIcon from '@/layouts/boron-icon';
-import CarbonIcon from '@/layouts/carbon-icon';
+import BoronIcon from '@/layouts/layout-icons/boron-icon';
+import CarbonIcon from '@/layouts/layout-icons/carbon-icon';
 
 const layoutOptions = [
   {

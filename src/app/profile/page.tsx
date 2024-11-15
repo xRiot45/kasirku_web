@@ -231,7 +231,7 @@ export default function ProfileSettingsView() {
   );
 }
 
-export function ProfileHeader({
+function ProfileHeader({
   title,
   description,
   children,
