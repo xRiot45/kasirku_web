@@ -1,24 +1,25 @@
 'use client';
 
 import MetricCard from '@/components/cards/metric-card';
+import { useDebounce } from '@/hooks/use-debounce';
 import {
   getCountData,
   getCountOrderStatus,
   getCountSaleByYear,
+  getCountTotalProfit,
 } from '@/services/charts/_requests';
 import PageHeader from '@/shared/page-header';
 import cn from '@/utils/class-names';
+import { formatToRupiah } from '@/utils/formatRupiah';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { AiFillProduct } from 'react-icons/ai';
-import { FaUsers } from 'react-icons/fa';
-import { GrUserSettings } from 'react-icons/gr';
-import { HiDocumentReport } from 'react-icons/hi';
-import SaleCharts from './partials/sale-charts';
 import { useState } from 'react';
-import { useDebounce } from '@/hooks/use-debounce';
-import { Box, Button, Flex } from 'rizzui';
+import { AiFillProduct } from 'react-icons/ai';
+import { FaMoneyBillWave, FaUsers } from 'react-icons/fa';
+import { HiDocumentReport } from 'react-icons/hi';
 import { TfiReload } from 'react-icons/tfi';
+import { Button } from 'rizzui';
 import OrderStatusCharts from './partials/order-status-charts';
+import SaleCharts from './partials/sale-charts';
 
 const pageHeader = {
   title: 'Dashboard',
@@ -68,32 +69,37 @@ export default function AdminDashboard() {
     queryFn: () => getCountOrderStatus(),
   });
 
-  console.log(orderStatusData);
+  const { data: totalProfit } = useQuery({
+    queryKey: ['total-profit'],
+    queryFn: () => getCountTotalProfit(),
+  });
+
+  console.log(totalProfit);
 
   const mappingCountData = [
     {
       id: 1,
-      icon: <AiFillProduct className="h-full w-full" />,
+      icon: <AiFillProduct className="mr-2 h-full w-full" />,
       title: 'Total Products',
       metric: countData?.products,
     },
     {
       id: 2,
-      icon: <FaUsers className="h-full w-full" />,
+      icon: <FaUsers className="mr-2 h-full w-full" />,
       title: 'Total Users',
       metric: countData?.users,
     },
     {
       id: 3,
-      icon: <HiDocumentReport className="h-full w-full" />,
+      icon: <HiDocumentReport className="mr-2 h-full w-full" />,
       title: 'Total Reports',
       metric: countData?.reports,
     },
     {
       id: 4,
-      icon: <GrUserSettings className="h-full w-full" />,
-      title: 'Total Roles',
-      metric: countData?.roles,
+      icon: <FaMoneyBillWave className="mr-2 h-full w-full" />,
+      title: 'Total Profit',
+      metric: formatToRupiah(totalProfit?.total_profit ?? 0),
     },
   ];
 

@@ -26,3 +26,7 @@ export interface IOrderStatusData {
   order_selesai: number;
   order_dibatalkan: number;
 }
+
+export interface ITotalProfit {
+  total_profit: number;
+}
