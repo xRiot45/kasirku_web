@@ -74,8 +74,6 @@ export default function AdminDashboard() {
     queryFn: () => getCountTotalProfit(),
   });
 
-  console.log(totalProfit);
-
   const mappingCountData = [
     {
       id: 1,

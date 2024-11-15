@@ -29,9 +29,7 @@ componentFiles.forEach((filePath) => {
   }
 });
 
-// Print the icons names and their file paths
-// console.log('Icons Data');
-// console.log(iconsData);
+
 
 const outputData = `export const iconsData = ${JSON.stringify(iconsData, null, 2)};\n`;
 

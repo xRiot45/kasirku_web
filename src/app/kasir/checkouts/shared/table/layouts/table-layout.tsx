@@ -81,7 +81,6 @@ function ModalConfirmation({
       toast.success('Create reports successfully!');
     },
     onError: (error: any) => {
-      console.log(error);
       if (error.response?.status === 404) {
         toast.error('No checkouts data found!');
       } else {

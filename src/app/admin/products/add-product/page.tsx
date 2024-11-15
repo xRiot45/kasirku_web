@@ -45,7 +45,6 @@ export default function AddProductPage() {
       router.push(routes.products.index);
     },
     onError: (error: any) => {
-      console.log(error);
       if (error.response?.status === 409) {
         toast.error('Product Already Exists!');
       } else {

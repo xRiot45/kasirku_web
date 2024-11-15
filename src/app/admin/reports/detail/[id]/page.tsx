@@ -44,7 +44,6 @@ const columns = [
     dataIndex: 'product.product_name',
     key: 'product.product_name',
     render: (value: string, record: DefaultRecordType) => {
-      console.log(record);
       return (
         <Flex align="center">
           <div className="relative aspect-square w-12 overflow-hidden rounded-lg">
