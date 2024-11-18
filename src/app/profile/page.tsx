@@ -256,6 +256,7 @@ function ProfileHeader({
               fill
               sizes="(max-width: 768px) 100vw"
               className="aspect-auto object-cover"
+              unoptimized={true}
             />
           ) : (
             <Image
@@ -264,6 +265,7 @@ function ProfileHeader({
               fill
               sizes="(max-width: 768px) 100vw"
               className="aspect-auto object-cover"
+              unoptimized={true}
             />
           )}
         </div>
