@@ -13,7 +13,7 @@ import { DefaultRecordType } from 'rc-table/lib/interface';
 import { useRef } from 'react';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useReactToPrint } from 'react-to-print';
-import { Badge, Button, Text, Title } from 'rizzui';
+import { Badge, Button, Flex, Text, Title } from 'rizzui';
 
 const pageHeader = {
   title: 'Kasir',
@@ -40,9 +40,23 @@ const columns = [
     title: 'Item',
     dataIndex: 'product.product_name',
     key: 'product.product_name',
-    render: (value: string, record: DefaultRecordType) => (
-      <Text className="font-medium">{record.product.product_name}</Text>
-    ),
+    render: (value: string, record: DefaultRecordType) => {
+      return (
+        <Flex align="center">
+          <div className="relative aspect-square w-12 overflow-hidden rounded-lg">
+            <Image
+              alt={record.product.product_name}
+              src={`${process.env.API_URL}/${record.product.product_photo}`}
+              fill
+              sizes="(max-width: 768px) 100vw"
+              className="object-cover"
+              unoptimized={true}
+            />
+          </div>
+          <Text className="font-medium">{record.product.product_name}</Text>
+        </Flex>
+      );
+    },
   },
   {
     title: 'Price',
@@ -55,11 +69,29 @@ const columns = [
     ),
   },
   {
+    title: 'Category',
+    dataIndex: 'product.product_category.product_category_name',
+    key: 'product.product_category.product_category_name',
+    render: (value: string, record: DefaultRecordType) => (
+      <Text className="font-medium">
+        {record.product.product_category.product_category_name}
+      </Text>
+    ),
+  },
+  {
     title: 'Quantity',
     dataIndex: 'quantity',
     key: 'quantity',
     render: (value: string, record: DefaultRecordType) => (
       <Text className="font-medium">{record.quantity}</Text>
+    ),
+  },
+  {
+    title: 'Selected Variant',
+    dataIndex: 'selected_variant',
+    key: 'selected_variant',
+    render: (value: string, record: DefaultRecordType) => (
+      <Text className="font-medium">{record.selected_variant}</Text>
     ),
   },
   {
@@ -93,7 +125,7 @@ export default function Invoice() {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
-          <PrintButton onClick={() => handlePrint()} title="Print Invoice" />
+          <PrintButton onClick={() => handlePrint()} title="Print Reports" />
         </div>
       </PageHeader>
 
@@ -118,13 +150,13 @@ export default function Invoice() {
           <div className="mb-4 md:mb-0">
             <Badge
               variant="flat"
-              color="success"
               rounded="md"
-              className="mb-3 md:mb-2"
+              className="mb-3 bg-green-600 text-white md:mb-2"
             >
-              Paid
+              {data?.order_status}
             </Badge>
             <Title as="h6">{data?.invoice}</Title>
+
             <Text className="mt-0.5 text-gray-500">Invoice Number</Text>
           </div>
         </div>
@@ -144,6 +176,12 @@ export default function Invoice() {
               Checkout Date{' '}
               <Text as="span" className="font-semibold">
                 {new Date(data?.checkout_date ?? '').toLocaleString()}
+              </Text>
+            </Text>
+            <Text className="flex w-full items-center justify-between border-b border-muted py-3.5 lg:py-5">
+              Seat Number{' '}
+              <Text as="span" className="font-semibold">
+                {data?.seat_number}
               </Text>
             </Text>
             <Text className="flex w-full items-center justify-between border-b border-muted py-3.5 lg:py-5">
