@@ -3,8 +3,9 @@ import { formatToRupiah } from '@/utils/formatRupiah';
 import Image from 'next/image';
 import { Text, Title } from 'rizzui';
 import { DefaultRecordType } from 'rc-table/lib/interface';
+import DeletePopover from '@/components/delete-popover';
 
-export const columns = [
+export const columns = (handleDeleteOrderById: (id: string) => void) => [
   {
     title: <HeaderCell title="Product" />,
     dataIndex: 'product_photo',
@@ -42,24 +43,22 @@ export const columns = [
     ),
   },
   {
-    title: <HeaderCell title="Quantity" align="center" />,
+    title: <HeaderCell title="Quantity" align="right" />,
     dataIndex: 'quantity',
     key: 'quantity',
     width: 150,
     render: (quantity: number) => (
-      <Text className="text-center text-sm font-semibold">{quantity}</Text>
+      <Text className="text-end text-sm font-semibold">{quantity}</Text>
     ),
   },
 
   {
-    title: <HeaderCell title="Selected Variant" align="center" />,
+    title: <HeaderCell title="Selected Variant" align="right" />,
     dataIndex: 'selected_variant',
     key: 'selected_variant',
     width: 150,
     render: (selected_variant: string) => (
-      <Text className="text-center text-sm font-semibold">
-        {selected_variant}
-      </Text>
+      <Text className="text-end text-sm font-semibold">{selected_variant}</Text>
     ),
   },
 
@@ -70,6 +69,22 @@ export const columns = [
     width: 200,
     render: (total_price: number) => (
       <Text className="text-end text-sm">{formatToRupiah(total_price)}</Text>
+    ),
+  },
+
+  {
+    title: <HeaderCell title="Action" align="right" />,
+    dataIndex: 'action',
+    key: 'action',
+    width: 100,
+    render: (_: any, row: DefaultRecordType) => (
+      <div className="text-end">
+        <DeletePopover
+          title={`Delete the order`}
+          description={`Are you sure you want to delete this order?`}
+          onDelete={() => handleDeleteOrderById(row.id)}
+        />
+      </div>
     ),
   },
 ];
