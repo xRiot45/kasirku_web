@@ -40,3 +40,10 @@ export interface IUpdateProfileRequest {
   address: string;
   photo: string;
 }
+
+export interface IChangePasswordRequest {
+  email: string;
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+}
