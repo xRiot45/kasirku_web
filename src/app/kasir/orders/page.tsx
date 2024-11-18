@@ -4,7 +4,7 @@ import { Form } from '@/components/ui/form';
 import { ICheckoutOrdersRequest } from '@/services/checkouts/_models';
 import { checkout } from '@/services/checkouts/_requests';
 import { IOrders } from '@/services/orders/_models';
-import { getAllOrders } from '@/services/orders/_requests';
+import { deleteAllOrders, getAllOrders } from '@/services/orders/_requests';
 import PageHeader from '@/shared/page-header';
 import { formatToRupiah } from '@/utils/formatRupiah';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -15,12 +15,26 @@ import toast from 'react-hot-toast';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { IoMdClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
-import { ActionIcon, Button, EmptyBoxIcon, Input, Modal, Title } from 'rizzui';
+import {
+  ActionIcon,
+  Button,
+  EmptyBoxIcon,
+  Flex,
+  Input,
+  Modal,
+  Text,
+  Title,
+} from 'rizzui';
 import TableOrders from './shared/partials/table';
 import {
   validationSchema,
   ValidationSchema,
 } from './shared/partials/validationSchema';
+import Image from 'next/image';
+import DeleteImage from '@public/images/delete.png';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import ModalCheckout from './shared/partials/modals/modal-checkout';
+import ModalDelete from './shared/partials/modals/modal-delete';
 
 const pageHeader = {
   title: 'Kasirku',
@@ -37,7 +51,8 @@ const pageHeader = {
 export default function Orders() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [modalState, setModalState] = useState<boolean>(false);
+  const [modalCheckoutState, setModalCheckoutState] = useState<boolean>(false);
+  const [modalDeleteState, setModalDeleteState] = useState<boolean>(false);
 
   const {
     data: ordersQueryResponse,
@@ -62,7 +77,7 @@ export default function Orders() {
     0
   );
 
-  const mutation = useMutation({
+  const checkoutMutation = useMutation({
     mutationFn: (data: ICheckoutOrdersRequest) => checkout(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
@@ -80,8 +95,23 @@ export default function Orders() {
     },
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    mutation.mutate(data);
+  const deleteAllOrdersMutation = useMutation({
+    mutationFn: () => deleteAllOrders(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      toast.success('Delete all order successfully!');
+    },
+    onError: () => {
+      toast.error('An error occurred while deleting data, please try again!');
+    },
+  });
+
+  const handleCheckoutOrders: SubmitHandler<ValidationSchema> = (data) => {
+    checkoutMutation.mutate(data);
+  };
+
+  const handleDeleteAllOrders = () => {
+    deleteAllOrdersMutation.mutate();
   };
 
   if (isLoading) return 'Loading...';
@@ -131,76 +161,40 @@ export default function Orders() {
                       </div>
 
                       <Button
-                        onClick={() => setModalState(true)}
-                        className="mb-6 h-11 w-full gap-3 bg-green-600 hover:bg-green-700"
+                        size="lg"
+                        onClick={() => setModalCheckoutState(true)}
+                        className="w-full gap-3 bg-green-600 hover:bg-green-700"
                       >
                         <IoBagCheckOutline />
                         Checkout Orders
                       </Button>
+
+                      <Button
+                        size="lg"
+                        className="w-full gap-3 bg-red-600 hover:bg-red-700"
+                        onClick={() => setModalDeleteState(true)}
+                      >
+                        <FaRegTrashAlt />
+                        Delete All Orders
+                      </Button>
                     </div>
                   </div>
 
-                  {/* Pindahkan Form ke dalam Modal untuk memastikan konteks yang benar */}
-                  <Modal
-                    isOpen={modalState}
-                    onClose={() => setModalState(false)}
-                  >
-                    <Form
-                      onSubmit={onSubmit}
-                      validationSchema={validationSchema as any}
-                    >
-                      {({ register, formState: { errors } }) => (
-                        <div className="m-auto px-7 pb-8 pt-6">
-                          <div className="mb-7 flex items-center justify-between">
-                            <Title as="h5" className="font-semibold">
-                              Checkout Orders
-                            </Title>
-                            <ActionIcon
-                              size="sm"
-                              variant="text"
-                              onClick={() => setModalState(false)}
-                            >
-                              <IoMdClose
-                                className="h-auto w-6"
-                                strokeWidth={1.8}
-                              />
-                            </ActionIcon>
-                          </div>
-                          <div>
-                            <Input
-                              type="number"
-                              size="lg"
-                              label="Payment Amount *"
-                              placeholder="Input payment amount..."
-                              className="[&>label>span]:font-medium"
-                              inputClassName="text-sm"
-                              {...register('payment_amount')}
-                              error={errors.payment_amount?.message}
-                            />
+                  {/* Modal Checkout Orders Start */}
+                  <ModalCheckout
+                    handleCheckoutOrders={handleCheckoutOrders}
+                    modalCheckoutState={modalCheckoutState}
+                    setModalCheckoutState={setModalCheckoutState}
+                  />
+                  {/* Modal Checkout Orders End */}
 
-                            <Input
-                              type="text"
-                              size="lg"
-                              label="Seat Number *"
-                              placeholder="Input seat number..."
-                              className="mt-3 [&>label>span]:font-medium"
-                              inputClassName="text-sm"
-                              {...register('seat_number')}
-                              error={errors.seat_number?.message}
-                            />
-
-                            <Button
-                              type="submit"
-                              size="lg"
-                              className="col-span-2 mt-5 w-full"
-                            >
-                              Checkout Orders
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </Form>
-                  </Modal>
+                  {/* Modal Delete Orders Start */}
+                  <ModalDelete
+                    handleDeleteAllOrders={handleDeleteAllOrders}
+                    modalDeleteState={modalDeleteState}
+                    setModalDeleteState={setModalDeleteState}
+                  />
+                  {/* Moodal Delete Orders End */}
                 </div>
               )}
             </div>

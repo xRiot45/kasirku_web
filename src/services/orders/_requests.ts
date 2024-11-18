@@ -3,6 +3,7 @@ import api from '@/config/api';
 const CREATE_ORDERS = `${process.env.API_URL}/api/orders/create`;
 const GET_ORDERS = `${process.env.API_URL}/api/orders/all`;
 const DELETE_ORDER_BY_ID = `${process.env.API_URL}/api/orders/delete`;
+const DELETE_ALL_ORDERS = `${process.env.API_URL}/api/orders/delete/all`;
 
 export async function createOrders() {
   const res = await api.post(CREATE_ORDERS);
@@ -16,4 +17,8 @@ export async function getAllOrders() {
 
 export async function deleteOrderById(id: string) {
   await api.delete(`${DELETE_ORDER_BY_ID}/${id}`);
+}
+
+export async function deleteAllOrders() {
+  await api.delete(DELETE_ALL_ORDERS);
 }

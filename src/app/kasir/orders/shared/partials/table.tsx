@@ -1,16 +1,15 @@
 import Table from '@/components/ui/table';
-import { columns } from './columns';
 import { IOrders } from '@/services/orders/_models';
-import { useMutationHooks } from '@/hooks/use-mutation';
 import { deleteOrderById } from '@/services/orders/_requests';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { columns } from './columns';
 
 export default function TableOrders(props: { data: IOrders[] }) {
   const { data } = props;
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  const deleteOrderByIdmutation = useMutation({
     mutationFn: (id: string) => deleteOrderById(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
@@ -22,7 +21,7 @@ export default function TableOrders(props: { data: IOrders[] }) {
   });
 
   const handleDeleteOrderById = (id: string) => {
-    mutation.mutate(id);
+    deleteOrderByIdmutation.mutate(id);
   };
 
   return (
