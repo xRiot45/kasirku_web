@@ -47,7 +47,7 @@ export default function Carts(props: CartsProps) {
       queryClient.invalidateQueries({ queryKey: ['cart'] });
       closeDrawer();
     },
-    onError: (error) => {
+    onError: () => {
       toast.error('An error occurred while deleting data, please try again!');
     },
   });
@@ -59,7 +59,7 @@ export default function Carts(props: CartsProps) {
       queryClient.invalidateQueries({ queryKey: ['cart'] });
       closeDrawer();
     },
-    onError: (error) => {
+    onError: () => {
       toast.error('An error occurred while deleting data, please try again!');
     },
   });
@@ -73,7 +73,7 @@ export default function Carts(props: CartsProps) {
       closeDrawer();
       router.push('/kasir/orders');
     },
-    onError: (error) => {
+    onError: () => {
       toast.error('An error occurred while create orders, please try again!');
     },
   });
