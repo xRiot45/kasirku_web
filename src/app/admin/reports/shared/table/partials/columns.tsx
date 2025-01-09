@@ -27,7 +27,6 @@ export const reportsListColumns = [
     size: 300,
     cell: ({ row }) => {
       const checkoutData = row.original;
-      console.log(checkoutData);
       return (
         <div>
           {checkoutData.orders.map((order: IOrders) => (
